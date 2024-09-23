@@ -1,0 +1,1 @@
+# plugins-zettle-pos-integration
