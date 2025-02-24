@@ -11,7 +11,7 @@ use Throwable;
 
 class MaximumVariantOptionNameCharacterLengthException extends Exception implements ValidatorException
 {
-    public function __construct(string $variantOptionName, int $maxLength, Throwable $previous = null)
+    public function __construct(string $variantOptionName, int $maxLength, ?Throwable $previous = null)
     {
         parent::__construct(
             "The given VariantOption {$variantOptionName} is too long,

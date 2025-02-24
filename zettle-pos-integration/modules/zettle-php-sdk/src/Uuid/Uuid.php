@@ -81,7 +81,7 @@ class Uuid
         /**
          * @psalm-suppress PossiblyFalseArgument
          */
-        return sprintf(
+        return (string) sprintf(
             '%08s-%04s-1%03s-%04x-%012s',
             // 32 bits for "time_low"
             substr($identifier, -8),

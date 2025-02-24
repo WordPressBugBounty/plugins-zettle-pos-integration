@@ -81,6 +81,7 @@ class VariantBarcodeSaveHandler
             return null;
         }
 
+        /** @psalm-suppress PossiblyInvalidCast */
         return $this->sanitizeText((string) $barcodes[$variantIndex]);
     }
 

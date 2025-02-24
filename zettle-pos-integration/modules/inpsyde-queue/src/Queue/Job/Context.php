@@ -76,9 +76,9 @@ class Context implements ContextInterface
 
     public static function fromArray(
         array $data,
-        int $siteId = null,
+        ?int $siteId = null,
         int $retryCount = 0,
-        DateTime $created = null,
+        ?DateTime $created = null,
         int $id = 0
     ): ContextInterface {
 

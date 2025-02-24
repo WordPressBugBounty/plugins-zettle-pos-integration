@@ -24,7 +24,7 @@ class Guard implements GuardInterface
 
     public function __construct(
         string $transitionName,
-        string $fromState = null,
+        ?string $fromState = null,
         callable ...$callables
     ) {
         $this->transitionName = $transitionName;

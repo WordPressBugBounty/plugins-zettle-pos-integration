@@ -11,6 +11,7 @@ use Dhii\Container\Exception\NotFoundException;
 use Dhii\Container\Util\StringTranslatingTrait;
 use IteratorAggregate;
 use RangeException;
+use Traversable;
 
 /**
  * A simple mutable dictionary, i.e. an enumerable key-value map.
@@ -53,6 +54,8 @@ class Dictionary implements
      */
     public function has($key)
     {
+        $key = (string) $key;
+
         $isHas = array_key_exists($key, $this->data);
 
         return $isHas;
@@ -61,7 +64,7 @@ class Dictionary implements
     /**
      * {@inheritDoc}
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->data);
     }

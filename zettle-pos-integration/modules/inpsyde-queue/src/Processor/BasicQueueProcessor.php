@@ -67,7 +67,7 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
         QueueWalker $walker,
         LoggerInterface $logger,
         int $maxRetriesCount,
-        callable $exceptionHandler = null
+        ?callable $exceptionHandler = null
     ) {
 
         $this->jobRepository = $jobRepository;
@@ -151,6 +151,10 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
                 )
             );
         } catch (Throwable $exception) {
+            /**
+             * @psalm-suppress PossiblyInvalidArgument
+             * getCode type
+             */
             ($this->exceptionHandler)(
                 new QueueRuntimeException(
                     sprintf(

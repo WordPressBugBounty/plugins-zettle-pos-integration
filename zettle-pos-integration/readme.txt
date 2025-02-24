@@ -2,9 +2,9 @@
 Contributors: zettle, syde, biont, bschaeffner, alexp11223, danielhuesken
 Tags: payments, point-of-sale, woocommerce, zettle
 Requires at least: 5.4
-Tested up to: 6.6
-Requires PHP: 7.2
-Stable tag: 1.5.9
+Tested up to: 6.7
+Requires PHP: 7.4
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ To install and use the PayPal Zettle POS for WooCommerce you will need:
 
 - An installed version of WordPress >= 5.4
 - An installed and activated version of WooCommerce >= 4.3
-- PHP version >= 7.2
+- PHP version >= 7.4
 
 = Automatic Installation =
 
@@ -66,6 +66,13 @@ Go to *Plugins => Installed plugins* and click *Activate* on *Zettle POS Integra
 8. Exclude product from sync
 
 == Changelog ==
+= 1.6.0 =
+- Prevent error when WooCommerce Product meta contains corrupted data.
+- WP 6.7 deprecation warnings for translation loading.
+- Early Initialization of wptexturize().
+- Minimum required PHP version raised to PHP 7.4.
+- Support latest WordPress 6.7 & WooCommerce 9.4.
+
 = 1.5.9 =
 - Support latest WP, WC.
 

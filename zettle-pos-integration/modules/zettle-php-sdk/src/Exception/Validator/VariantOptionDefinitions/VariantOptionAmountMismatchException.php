@@ -12,7 +12,7 @@ use Throwable;
 class VariantOptionAmountMismatchException extends Exception implements ValidatorException
 {
 
-    public function __construct(int $expected, int $amount, Throwable $previous = null)
+    public function __construct(int $expected, int $amount, ?Throwable $previous = null)
     {
         parent::__construct(
             "Expected {$expected} VariantOptions but found {$amount}",

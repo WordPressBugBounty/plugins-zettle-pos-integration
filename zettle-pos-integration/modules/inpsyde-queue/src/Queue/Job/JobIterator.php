@@ -52,7 +52,7 @@ class JobIterator implements Iterator
      * @param array $types
      * @param callable|null $sortCallback
      */
-    public function __construct(JobRepository $repo, array $types = [], callable $sortCallback = null)
+    public function __construct(JobRepository $repo, array $types = [], ?callable $sortCallback = null)
     {
         $this->repo = $repo;
         $this->types = $types;

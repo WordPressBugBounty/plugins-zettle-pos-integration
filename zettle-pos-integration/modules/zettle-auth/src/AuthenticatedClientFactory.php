@@ -87,7 +87,7 @@ class AuthenticatedClientFactory
      */
     public function withApiToken(
         string $token,
-        AuthSuccessHandler $successHandler = null
+        ?AuthSuccessHandler $successHandler = null
     ): ClientInterface {
         $authentication = new ZettleOAuthHeader(new EphemeralTokenStorage());
 
@@ -144,7 +144,7 @@ class AuthenticatedClientFactory
      * @return AuthSuccessHandler
      */
     private function ensureSuccessHandler(
-        AuthSuccessHandler $successHandler = null
+        ?AuthSuccessHandler $successHandler = null
     ): AuthSuccessHandler {
         return $successHandler ?? new class implements AuthSuccessHandler {
 

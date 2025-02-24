@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Inpsyde\Zettle\PhpSdk\DAL\Provider\Organization;
 
+use DateTime;
+use DateTimeZone;
 use Inpsyde\Zettle\PhpSdk\DAL\Entity\Organization\Organization;
+use Inpsyde\Zettle\PhpSdk\DAL\Entity\Vat\Vat;
 use Inpsyde\Zettle\PhpSdk\Exception\ZettleRestException;
 
 use function get_transient;
@@ -74,7 +77,12 @@ class TransientCachingOrganizationProvider implements OrganizationProvider
 
         $unSerialized = unserialize(
             $serialized,
-            [Organization::class]
+            ['allowed_classes' => [
+                Organization::class,
+                Vat::class,
+                DateTimeZone::class,
+                DateTime::class,
+            ], ]
         );
         if ($unSerialized instanceof Organization) {
             $this->cache = $unSerialized;

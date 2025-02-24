@@ -40,9 +40,13 @@ trait ButtonRendererTrait
         $value = $params['value'] ?? __('Save changes', 'woocommerce');
         $attributes = $params['attributes'] ?? [];
 
-        $attributesHtml = implode(' ', array_map(static function (string $key) use ($attributes): string {
-            return sprintf('%1$s="%2$s"', esc_html($key), esc_attr($attributes[$key]));
-        }, array_keys($attributes)));
+        $attributesHtml = implode(' ', array_map(
+            /** @psalm-suppress ReservedWord psalm bug? */
+            static function (string $key) use ($attributes): string {
+                return sprintf('%1$s="%2$s"', esc_html($key), esc_attr($attributes[$key]));
+            },
+            array_keys($attributes)
+        ));
 
         ob_start(); ?>
 

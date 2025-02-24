@@ -231,7 +231,7 @@ class ExportProductJob implements Job
         ProductTransferInterface $product,
         int $localProductId,
         LoggerInterface $logger,
-        callable $onCreate = null
+        ?callable $onCreate = null
     ): void {
         /**
          * LazyProducts have no entry in our ID map, but can 'auto-sync' by touching their uuid.
@@ -393,7 +393,7 @@ class ExportProductJob implements Job
     private function attemptCreate(
         LazyProduct $product,
         LoggerInterface $logger,
-        callable $onSuccess = null
+        ?callable $onSuccess = null
     ): void {
 
         try {
@@ -449,7 +449,7 @@ class ExportProductJob implements Job
         }
         $logger->info(
             sprintf(
-                'Dispatching cleanup job for remote product %s and its mapping to local product %i',
+                'Dispatching cleanup job for remote product %s and its mapping to local product %d',
                 $remoteId,
                 $productId
             )

@@ -16,7 +16,7 @@ final class DifferentVariantVatException extends Exception implements ValidatorE
         string $productName,
         array $vatValues,
         int $code = 0,
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
         $vatStr = implode(', ', $vatValues);
 

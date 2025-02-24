@@ -16,7 +16,7 @@ final class MaximumVariantsException extends Exception implements ValidatorExcep
         string $productName,
         int $variantsAmount,
         int $code = 0,
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
         $maxVariants = ProductValidator::MAXIMUM_VARIANTS_AMOUNT;
 

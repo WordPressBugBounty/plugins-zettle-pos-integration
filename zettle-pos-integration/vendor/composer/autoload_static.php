@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97
+class ComposerStaticInitdd59f7383f1416f3c69d5f2e4209470b
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -139,8 +139,8 @@ class ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -479,6 +479,7 @@ class ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97
         'Dhii\\Container\\SegmentingContainer' => __DIR__ . '/..' . '/dhii/containers/src/SegmentingContainer.php',
         'Dhii\\Container\\ServiceProvider' => __DIR__ . '/..' . '/dhii/containers/src/ServiceProvider.php',
         'Dhii\\Container\\SimpleCacheContainer' => __DIR__ . '/..' . '/dhii/containers/src/SimpleCacheContainer.php',
+        'Dhii\\Container\\TaggingServiceProvider' => __DIR__ . '/..' . '/dhii/containers/src/TaggingServiceProvider.php',
         'Dhii\\Container\\Util\\StringTranslatingTrait' => __DIR__ . '/..' . '/dhii/containers/src/Util/StringTranslatingTrait.php',
         'Dhii\\Events\\Dispatcher\\EventDispatcherInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Dispatcher/EventDispatcherInterface.php',
         'Dhii\\Events\\Event\\IsPropagationStoppedCapableInterface' => __DIR__ . '/..' . '/dhii/event-dispatcher-interface/src/Event/IsPropagationStoppedCapableInterface.php',
@@ -1009,8 +1010,6 @@ class ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Finance\\BalanceInfoBuilderInterface' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Finance/BalanceInfoBuilderInterface.php',
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Finance\\PayoutInfoBuilder' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Finance/PayoutInfoBuilder.php',
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Finance\\PayoutInfoBuilderInterface' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Finance/PayoutInfoBuilderInterface.php',
-        'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Library\\LibraryBuilder' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Library/LibraryBuilder.php',
-        'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Library\\LibraryBuilderInterface' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Library/LibraryBuilderInterface.php',
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Payment\\CardOnlinePaymentBuilder' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Payment/CardOnlinePaymentBuilder.php',
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Payment\\CardOnlinePaymentBuilderInterface' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Payment/CardOnlinePaymentBuilderInterface.php',
         'Inpsyde\\Zettle\\PhpSdk\\DAL\\Builder\\Payment\\CardPaymentBuilder' => __DIR__ . '/../..' . '/modules/zettle-php-sdk/src/DAL/Builder/Payment/CardPaymentBuilder.php',
@@ -1471,9 +1470,9 @@ class ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit68240b30940fc3b4648dfc5eac0e8e97::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdd59f7383f1416f3c69d5f2e4209470b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdd59f7383f1416f3c69d5f2e4209470b::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitdd59f7383f1416f3c69d5f2e4209470b::$classMap;
 
         }, null, ClassLoader::class);
     }

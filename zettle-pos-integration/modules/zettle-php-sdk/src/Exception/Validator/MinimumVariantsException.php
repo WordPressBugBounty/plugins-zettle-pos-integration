@@ -11,7 +11,7 @@ use Throwable;
 
 final class MinimumVariantsException extends Exception implements ValidatorException
 {
-    public function __construct(string $productName, int $code = 0, Throwable $previous = null)
+    public function __construct(string $productName, int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct(
             "The Product should have at least one variant: {$productName}",

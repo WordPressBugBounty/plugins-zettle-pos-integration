@@ -11,7 +11,7 @@ use Throwable;
 
 class EmptyVariantOptionCollectionException extends Exception implements ValidatorException
 {
-    public function __construct(array $emptyOptions, Throwable $previous = null)
+    public function __construct(array $emptyOptions, ?Throwable $previous = null)
     {
         $emptyOptionsFormatted = implode(', ', $emptyOptions);
 

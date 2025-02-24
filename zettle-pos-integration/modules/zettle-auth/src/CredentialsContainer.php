@@ -41,7 +41,7 @@ class CredentialsContainer implements ContainerInterface
     public function __construct(
         ParserInterface $tokenDecoder,
         array $data,
-        ContainerInterface $inner = null
+        ?ContainerInterface $inner = null
     ) {
         $this->tokenDecoder = $tokenDecoder;
         $this->data = $data;

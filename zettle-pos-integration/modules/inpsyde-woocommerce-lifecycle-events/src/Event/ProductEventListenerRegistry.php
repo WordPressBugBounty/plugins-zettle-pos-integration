@@ -66,7 +66,7 @@ class ProductEventListenerRegistry
     /**
      * Registers a list of listeners that fire whenever any change happens to a product.
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      */
     public function onChange(callable ...$callables): void
     {
@@ -79,7 +79,7 @@ class ProductEventListenerRegistry
      * Inspects the change event and fires listeners only if the specified property has changed
      *
      * @param string $property
-     * @param array<callable(WC_Product,WC_Product=):void>  ...$callables
+     * @param array<callable(WC_Product,WC_Product):void>  ...$callables
      */
     public function onPropertyChange(string $property, callable ...$callables): void
     {
@@ -96,7 +96,7 @@ class ProductEventListenerRegistry
      * transitioned to the specified status.
      *
      * @param string $status
-     * @param array<callable(WC_Product,WC_Product=):void>  ...$callables
+     * @param array<callable(WC_Product,WC_Product):void>  ...$callables
      */
     public function onStatusChange(string $status, callable ...$callables): void
     {
@@ -108,7 +108,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onStatusChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -120,7 +120,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onStatusChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -132,7 +132,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onStatusChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -144,7 +144,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onStatusChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -156,7 +156,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onStatusChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -170,7 +170,7 @@ class ProductEventListenerRegistry
      * catalog_visibility changed to the specified value.
      *
      * @param string $visibility
-     * @param array<callable(WC_Product,WC_Product=):void>  ...$callables
+     * @param array<callable(WC_Product,WC_Product):void>  ...$callables
      */
     public function onCatalogVisibilityChange(string $visibility, callable ...$callables): void
     {
@@ -185,7 +185,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onCatalogVisibilityChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -197,7 +197,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onCatalogVisibilityChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -209,7 +209,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onCatalogVisibilityChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -221,7 +221,7 @@ class ProductEventListenerRegistry
     /**
      * Sugar for onCatalogVisibilityChange
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      *
      * @see ProductEventListenerRegistry::onStatusChange()
      */
@@ -231,7 +231,7 @@ class ProductEventListenerRegistry
     }
 
     /**
-     * @param array<callable(WC_Product,WC_Product=):void>  ...$callables
+     * @param array<callable(WC_Product,WC_Product):void>  ...$callables
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
      */
     public function onDelete(callable ...$callables): void
@@ -250,7 +250,7 @@ class ProductEventListenerRegistry
      * Inspects the change event and fires listeners only if a product has been
      * turned into a different type of product.
      *
-     * @param array<callable(WC_Product,WC_Product=):void> ...$callables
+     * @param array<callable(WC_Product,WC_Product):void> ...$callables
      */
     public function onTypeChange(callable ...$callables): void
     {
@@ -270,7 +270,7 @@ class ProductEventListenerRegistry
      *
      * This will
      *
-     * @param callable(WC_Product,WC_Product=):void $callable
+     * @param callable(WC_Product,WC_Product):void $callable
      *
      * @return callable(WC_Product,WC_Product):void
      * phpcs:disable Generic.Metrics.NestingLevel.TooHigh
@@ -292,6 +292,7 @@ class ProductEventListenerRegistry
                 }
                 $callable($new, $old);
             } catch (InvalidArgumentException $exception) {
+                /** @psalm-suppress TooFewArguments */
                 $callable($new);
             }
         };
@@ -301,7 +302,7 @@ class ProductEventListenerRegistry
      * Fires the $listener only if the specified property has changed.
      *
      * @param string $property
-     * @param callable(WC_Product,WC_Product=):void $callable
+     * @param callable(WC_Product,WC_Product):void $callable
      *
      * @return callable(WC_Product,WC_Product):void
      */
@@ -331,7 +332,7 @@ class ProductEventListenerRegistry
      * Fires the $listener only if the WC_Product has transitioned to the specified status.
      *
      * @param string $status
-     * @param callable(WC_Product,WC_Product=):void $callable
+     * @param callable(WC_Product,WC_Product):void $callable
      *
      * @return callable(WC_Product,WC_Product)
      */
@@ -362,7 +363,7 @@ class ProductEventListenerRegistry
      * Similar to createStatusGuard
      *
      * @param string $visibility
-     * @param callable(WC_Product,WC_Product=):void $callable
+     * @param callable(WC_Product,WC_Product):void $callable
      *
      * @return callable(WC_Product,WC_Product)
      */

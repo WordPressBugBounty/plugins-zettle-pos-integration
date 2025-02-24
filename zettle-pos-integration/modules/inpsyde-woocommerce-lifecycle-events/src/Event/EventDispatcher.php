@@ -45,7 +45,7 @@ class EventDispatcher
      */
     public function __construct(
         ProductEventListenerRegistry $listenerProvider,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->listenerProvider = $listenerProvider;
         $this->logger = $logger;

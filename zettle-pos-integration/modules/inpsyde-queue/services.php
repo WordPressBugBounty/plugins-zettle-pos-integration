@@ -256,7 +256,7 @@ return [
     'inpsyde.queue.add-job-record' => static function (C $container): callable {
         return static function (
             JobRecord $jobRecord,
-            JobRepository $repository = null
+            ?JobRepository $repository = null
         ) use ($container) {
             /**
              * @var JobRepository $jobRepository
@@ -271,7 +271,7 @@ return [
             string $type,
             array $args = [],
             ?int $siteId = null,
-            JobRepository $repository = null
+            ?JobRepository $repository = null
         ) use ($container): void {
             $createJobRecord = $container->get('inpsyde.queue.create-job-record');
             $jobRecord = $createJobRecord($type, $args, $siteId);

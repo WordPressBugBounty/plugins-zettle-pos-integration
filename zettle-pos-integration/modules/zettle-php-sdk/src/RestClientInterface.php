@@ -18,7 +18,7 @@ interface RestClientInterface
      *
      * @throws ZettleRestException
      */
-    public function get(string $url, array $payload, callable $modifyRequest = null): array;
+    public function get(string $url, array $payload, ?callable $modifyRequest = null): array;
 
     /**
      * @param string $url
@@ -29,7 +29,7 @@ interface RestClientInterface
      *
      * @throws ZettleRestException
      */
-    public function post(string $url, array $payload, callable $modifyRequest = null): array;
+    public function post(string $url, array $payload, ?callable $modifyRequest = null): array;
 
     /**
      * @param string $url
@@ -40,7 +40,7 @@ interface RestClientInterface
      *
      * @throws ZettleRestException
      */
-    public function put(string $url, array $payload, callable $modifyRequest = null): array;
+    public function put(string $url, array $payload, ?callable $modifyRequest = null): array;
 
     /**
      * @param string $url
@@ -51,5 +51,5 @@ interface RestClientInterface
      *
      * @throws ZettleRestException
      */
-    public function delete(string $url, array $payload, callable $modifyRequest = null): array;
+    public function delete(string $url, array $payload, ?callable $modifyRequest = null): array;
 }

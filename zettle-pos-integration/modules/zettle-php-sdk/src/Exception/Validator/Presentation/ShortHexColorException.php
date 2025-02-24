@@ -11,7 +11,7 @@ use Throwable;
 
 class ShortHexColorException extends Exception implements ValidatorException
 {
-    public function __construct(string $color, string $context, Throwable $previous = null)
+    public function __construct(string $color, string $context, ?Throwable $previous = null)
     {
         parent::__construct(
             "{$context} contains short hex color {$color}",

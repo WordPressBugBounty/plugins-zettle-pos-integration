@@ -56,7 +56,7 @@ class StateMachine implements StateMachineInterface
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        callable $updateStateHandler = null
+        ?callable $updateStateHandler = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->stateHandler = $updateStateHandler;

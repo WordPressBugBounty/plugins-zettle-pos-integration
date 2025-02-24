@@ -11,7 +11,7 @@ use Throwable;
 
 class MinimumVariantOptionNameCharacterLengthException extends Exception implements ValidatorException
 {
-    public function __construct(string $variantOptionName, int $minLength, Throwable $previous = null)
+    public function __construct(string $variantOptionName, int $minLength, ?Throwable $previous = null)
     {
         parent::__construct(
             "The given VariantOption {$variantOptionName} is too short,

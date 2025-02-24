@@ -76,7 +76,7 @@ class Psr18RestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function post(string $url, array $payload, callable $modifyRequest = null): array
+    public function post(string $url, array $payload, ?callable $modifyRequest = null): array
     {
         return $this->sendRequest('POST', $url, $payload, $modifyRequest);
     }
@@ -84,7 +84,7 @@ class Psr18RestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function get(string $url, array $payload, callable $modifyRequest = null): array
+    public function get(string $url, array $payload, ?callable $modifyRequest = null): array
     {
         return $this->sendRequest('GET', $url, $payload, $modifyRequest);
     }
@@ -92,7 +92,7 @@ class Psr18RestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function put(string $url, array $payload, callable $modifyRequest = null): array
+    public function put(string $url, array $payload, ?callable $modifyRequest = null): array
     {
         return $this->sendRequest(
             'PUT',
@@ -105,7 +105,7 @@ class Psr18RestClient implements RestClientInterface
     /**
      * @inheritDoc
      */
-    public function delete(string $url, array $payload, callable $modifyRequest = null): array
+    public function delete(string $url, array $payload, ?callable $modifyRequest = null): array
     {
         return $this->sendRequest('DELETE', $url, $payload, $modifyRequest);
     }
@@ -126,7 +126,7 @@ class Psr18RestClient implements RestClientInterface
         string $method,
         string $url,
         array $payload,
-        callable $modifyRequest = null
+        ?callable $modifyRequest = null
     ): array {
         $body = json_encode($payload) ?: '';
         if (in_array($method, ['GET', 'HEAD', 'TRACE'], true)) {

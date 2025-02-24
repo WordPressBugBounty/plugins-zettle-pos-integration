@@ -203,6 +203,7 @@ class WpDbJobRepository implements JobRepository
             ? $result
             : [];
 
+        /** @psalm-suppress PossiblyInvalidArgument */
         return array_map(
             [$this, 'castJobRecord'],
             $result
@@ -224,6 +225,8 @@ class WpDbJobRepository implements JobRepository
         );
 
         $result = $this->database->query($sql);
+        assert(is_int($result));
+
         $this->logger->debug(
             sprintf('Removed %d jobs from the queue', $result)
         );
@@ -238,18 +241,18 @@ class WpDbJobRepository implements JobRepository
         $where = $this->whereTypes($types);
         /** @lang sql */
         $sql = "
-            SELECT 
-                `ID` as `id`, 
-                `type`, 
-                `args`, 
-                `site_id`, 
-                `created`, 
+            SELECT
+                `ID` as `id`,
+                `type`,
+                `args`,
+                `site_id`,
+                `created`,
                 `retry_count`
-            FROM 
+            FROM
                 {$this->database->prefix}{$this->queueTable->name()}
-            WHERE 
+            WHERE
                 {$where}
-            LIMIT 0,%d         
+            LIMIT 0,%d
         ";
 
         $result = $this->database->get_results(
@@ -263,6 +266,7 @@ class WpDbJobRepository implements JobRepository
             return [];
         }
 
+        /** @psalm-suppress PossiblyInvalidArgument */
         return array_map(
             [$this, 'castJobRecord'],
             $result

@@ -11,7 +11,7 @@ use Throwable;
 
 class InvalidHexColorException extends Exception implements ValidatorException
 {
-    public function __construct(string $color, Throwable $previous = null)
+    public function __construct(string $color, ?Throwable $previous = null)
     {
         parent::__construct(
             "Presentation contains invalid hex color {$color}",

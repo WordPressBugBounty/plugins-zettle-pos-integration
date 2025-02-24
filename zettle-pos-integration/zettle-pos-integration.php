@@ -7,12 +7,12 @@ declare(strict_types=1);
  * Plugin Name: PayPal Zettle POS
  * Plugin URI:  https://zettle.inpsyde.com/
  * Description: PayPal Zettle Point-Of-Sale Integration for WooCommerce
- * Version:     1.5.9
+ * Version:     1.6.0
  * Requires at least: 5.4
- * Requires PHP: 7.2
+ * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  * WC requires at least: 4.3
- * WC tested up to: 9.1
+ * WC tested up to: 9.4
  * Author:      PayPal
  * Author URI:  https://www.paypal.com/us/business/pos
  * License:     GPL-2.0
@@ -53,7 +53,7 @@ use Psr\Container\ContainerInterface;
         );
     }
 
-    $requiresAtLeast = '7.2';
+    $requiresAtLeast = '7.4';
     if (version_compare(PHP_VERSION, $requiresAtLeast, '<')) {
         errorNotice(
             sprintf(

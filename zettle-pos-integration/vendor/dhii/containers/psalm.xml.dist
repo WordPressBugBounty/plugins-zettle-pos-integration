@@ -4,12 +4,10 @@
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
         xmlns:xi="http://www.w3.org/2001/XInclude"
-        totallyTyped="false"
         useDocblockTypes="true"
         usePhpDocMethodsWithoutMagicCall="false"
         strictBinaryOperands="true"
         rememberPropertyAssignmentsAfterCall="true"
-        allowPhpStormGenerics="true"
         allowStringToStandInForClass="false"
         memoizeMethodCallResults="false"
         hoistConstants="false"
@@ -21,13 +19,14 @@
         throwExceptionOnError="false"
         hideExternalErrors="true"
         allowFileIncludes="true"
+        errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
     </projectFiles>
 
     <extraFiles>
-        <ignoreFiles>
+        <ignoreFiles allowMissingFiles="true">
             <directory name="vendor/phpspec/prophecy"/>
         </ignoreFiles>
     </extraFiles>
@@ -45,7 +44,6 @@
         <FalsableReturnStatement errorLevel="error"/>
         <FalseOperand errorLevel="error"/>
         <ForbiddenCode errorLevel="error"/>
-        <ForbiddenEcho errorLevel="error"/>
         <InaccessibleClassConstant errorLevel="error"/>
         <InaccessibleMethod errorLevel="error"/>
         <InterfaceInstantiation errorLevel="error"/>

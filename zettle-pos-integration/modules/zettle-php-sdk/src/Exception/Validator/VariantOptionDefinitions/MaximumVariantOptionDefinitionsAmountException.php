@@ -18,7 +18,7 @@ class MaximumVariantOptionDefinitionsAmountException extends Exception implement
      * @param int $amount               VariantOptionDefinitions amount provided
      * @param Throwable|null $previous
      */
-    public function __construct(int $limit, int $amount, Throwable $previous = null)
+    public function __construct(int $limit, int $amount, ?Throwable $previous = null)
     {
         parent::__construct(
             "Maximum amount of {$limit} VariantOptionDefinitions expected, {$amount} found",

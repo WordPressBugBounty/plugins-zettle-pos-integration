@@ -44,6 +44,7 @@ trait ParameterDeriverTrait
                     break;
                 case $this->isFunctionCallable($callable):
                 case $this->isClosureCallable($callable):
+                    /** @psalm-suppress ArgumentTypeCoercion */
                     $reflect = new ReflectionFunction($callable);
                     $params = $reflect->getParameters();
                     break;

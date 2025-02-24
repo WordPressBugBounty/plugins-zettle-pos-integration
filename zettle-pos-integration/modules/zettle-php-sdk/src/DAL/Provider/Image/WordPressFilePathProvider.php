@@ -18,7 +18,7 @@ class WordPressFilePathProvider implements UrlProviderInterface
     public function provide(string $imageId): string
     {
         return utf8_uri_encode(
-            get_attached_file($imageId)
+            get_attached_file((int) $imageId)
         );
     }
 }

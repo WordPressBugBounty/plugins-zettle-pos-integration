@@ -186,16 +186,22 @@ class ProductHooks
         $hook = $this->createAfterSaveHook($old);
         $this->registerAfterHooks($hook);
 
-        /**
-         * WooCommerce will call wc_deferred_product_sync() for the parent,
-         * but that is running too late. So we grab the parent manually.
-         */
-        $parentId = $old->get_parent_id();
-        if ($parentId) {
-            $this->beforeSave(wc_get_product($parentId));
+        if ($old instanceof WC_Product_Variable) {
+            /**
+             * WooCommerce will call wc_deferred_product_sync() for the parent,
+             * but that is running too late. So we grab the parent manually.
+             */
+            $parentId = $old->get_parent_id();
+            if ($parentId) {
+                $parentProduct = wc_get_product($parentId);
+                if ($parentProduct instanceof WC_Product) {
+                    $this->beforeSave($parentProduct);
+                }
+            }
         }
 
         $this->preWarmCaches($old);
+        /** @psalm-suppress UndefinedMethod */
         $this->snapshots[$id][$hookName][] = $hook;
     }
 
@@ -217,6 +223,7 @@ class ProductHooks
                  * checking outside application state (->doing_action('foo')?)
                  * To supply the ListenerProvider with this missing piece of information,
                  * we inject a little meta flag into the product, so it can later be checked against
+                 * @psalm-suppress InvalidArgument
                  */
                 $new->update_meta_data(ProductEventListenerRegistry::DELETE_FLAG, true);
             }
@@ -224,7 +231,10 @@ class ProductHooks
             $this->afterSave($new, $old);
         };
 
-        /** @noinspection PhpUnnecessaryLocalVariableInspection */
+        /**
+         * @noinspection PhpUnnecessaryLocalVariableInspection
+         * @psalm-suppress UndefinedVariable
+         */
         $hook = $this->createWcProductGuard(
             function (WC_Product $new) use (&$hook, $innerFunction, $old): void {
                 /**

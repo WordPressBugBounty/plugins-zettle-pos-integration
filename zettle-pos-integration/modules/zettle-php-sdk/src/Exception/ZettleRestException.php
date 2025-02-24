@@ -30,7 +30,7 @@ class ZettleRestException extends Exception
         int $code = 0,
         array $json = [],
         array $payload = [],
-        Throwable $previous = null
+        ?Throwable $previous = null
     ) {
 
         parent::__construct($message, $code, $previous);

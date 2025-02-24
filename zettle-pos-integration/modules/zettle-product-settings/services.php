@@ -163,6 +163,7 @@ return [
     'zettle.product-settings.product-editor.product-from-url' =>
         static function (C $container): callable {
             return static function (int $method = INPUT_GET): int {
+                /** @psalm-suppress ArgumentTypeCoercion */
                 return (int) filter_input($method, 'post', FILTER_VALIDATE_INT);
             };
         },

@@ -86,7 +86,7 @@ class PluginProperties
             require_once  ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
-        $this->data = get_plugin_data($pluginFile);
+        $this->data = get_plugin_data($pluginFile, false, false);
         $this->debug = defined('WP_DEBUG') && WP_DEBUG;
         $this->shortName = $shortName;
 

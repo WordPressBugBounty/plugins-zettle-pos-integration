@@ -24,7 +24,7 @@ class InvalidBuilderPayloadException extends Exception implements BuilderExcepti
     /**
      * @param string[] $errorCodes Values of ValidationErrorCodes.
      */
-    public function __construct(string $className, $payload, array $errorCodes, Throwable $previous = null)
+    public function __construct(string $className, $payload, array $errorCodes, ?Throwable $previous = null)
     {
         $this->payload = $payload;
         $this->errorCodes = $errorCodes;

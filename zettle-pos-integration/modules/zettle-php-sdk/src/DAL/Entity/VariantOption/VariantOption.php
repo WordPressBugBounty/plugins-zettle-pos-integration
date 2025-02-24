@@ -31,7 +31,7 @@ class VariantOption
      * @param string $value
      * @param ImageInterface|null $image
      */
-    public function __construct(string $name, string $value, ImageInterface $image = null)
+    public function __construct(string $name, string $value, ?ImageInterface $image = null)
     {
         $this->name = $name;
         $this->value = $value;

@@ -24,11 +24,11 @@ class CategoryFactory
      */
     public function create(
         string $name,
-        string $uuid = null,
-        string $etag = null,
-        string $createdAt = null,
-        string $updatedAt = null,
-        string $updatedBy = null
+        ?string $uuid = null,
+        ?string $etag = null,
+        ?string $createdAt = null,
+        ?string $updatedAt = null,
+        ?string $updatedBy = null
     ): Category {
         $createdAt = $createdAt
             ? DateTime::createFromFormat('Y-m-d', $createdAt)
@@ -62,10 +62,10 @@ class CategoryFactory
     public function createFromUuid(
         string $name,
         string $uuid,
-        string $etag = null,
-        string $createdAt = null,
-        string $updatedAt = null,
-        string $updatedBy = null
+        ?string $etag = null,
+        ?string $createdAt = null,
+        ?string $updatedAt = null,
+        ?string $updatedBy = null
     ): Category {
         return new Category(
             $name,
