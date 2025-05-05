@@ -2,9 +2,9 @@
 Contributors: zettle, syde, biont, bschaeffner, alexp11223, danielhuesken
 Tags: payments, point-of-sale, woocommerce, zettle
 Requires at least: 5.4
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ Go to *Plugins => Installed plugins* and click *Activate* on *Zettle POS Integra
 8. Exclude product from sync
 
 == Changelog ==
+= 1.6.1 =
+- Support latest WordPress 6.8 & WooCommerce 9.8.
+
 = 1.6.0 =
 - Prevent error when WooCommerce Product meta contains corrupted data.
 - WP 6.7 deprecation warnings for translation loading.

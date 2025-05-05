@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'inpsyde/zettle-pos-integration',
-        'pretty_version' => '1.6.0',
-        'version' => '1.6.0.0',
-        'reference' => '116714f3c2c053383bb79ff213bb80b93468aa43',
+        'pretty_version' => '1.6.1',
+        'version' => '1.6.1.0',
+        'reference' => '49bb295d6b5eed980ceb5ce1953375b4d9286bc9',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -263,9 +263,9 @@
             'dev_requirement' => false,
         ),
         'inpsyde/zettle-pos-integration' => array(
-            'pretty_version' => '1.6.0',
-            'version' => '1.6.0.0',
-            'reference' => '116714f3c2c053383bb79ff213bb80b93468aa43',
+            'pretty_version' => '1.6.1',
+            'version' => '1.6.1.0',
+            'reference' => '49bb295d6b5eed980ceb5ce1953375b4d9286bc9',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
