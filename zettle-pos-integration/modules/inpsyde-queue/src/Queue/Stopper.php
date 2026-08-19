@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 /**
  * Interface Stopper
@@ -16,7 +15,6 @@ namespace Inpsyde\Queue\Queue;
  */
 interface Stopper
 {
-
     /**
      * This method can be used to perform initialization logic ie. storing a timestamp
      * It will be called whenever a "stoppable" process starts
@@ -24,7 +22,6 @@ interface Stopper
      * @return bool
      */
     public function start(): bool;
-
     /**
      * Whether or not this stopper has finished already. Expect this to be called frequently,
      * so this method should not perform expensive calculations.

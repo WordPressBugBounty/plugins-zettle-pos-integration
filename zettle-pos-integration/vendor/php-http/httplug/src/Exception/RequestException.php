@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Client\Exception;
+namespace Syde\Vendor\Zettle\Http\Client\Exception;
 
-use Psr\Http\Client\RequestExceptionInterface as PsrRequestException;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\RequestExceptionInterface as PsrRequestException;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Exception for when a request failed, providing access to the failed request.
  *
@@ -16,14 +15,12 @@ use Psr\Http\Message\RequestInterface;
 class RequestException extends TransferException implements PsrRequestException
 {
     use RequestAwareTrait;
-
     /**
      * @param string $message
      */
     public function __construct($message, RequestInterface $request, ?\Exception $previous = null)
     {
         $this->setRequest($request);
-
         parent::__construct($message, 0, $previous);
     }
 }

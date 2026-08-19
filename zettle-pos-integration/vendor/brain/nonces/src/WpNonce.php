@@ -1,4 +1,6 @@
-<?php # -*- coding: utf-8 -*-
+<?php
+
+# -*- coding: utf-8 -*-
 /*
  * This file is part of the Brain Nonces package.
  *
@@ -7,8 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Brain\Nonces;
+namespace Syde\Vendor\Zettle\Brain\Nonces;
 
 /**
  * WordPress-specific nonce implementation.
@@ -19,17 +20,14 @@ namespace Brain\Nonces;
  */
 final class WpNonce implements NonceInterface
 {
-
     /**
      * @var string
      */
     private $action;
-
     /**
      * @var int
      */
     private $life;
-
     /**
      * Constructor. Save properties as instance variables.
      *
@@ -42,9 +40,8 @@ final class WpNonce implements NonceInterface
     public function __construct($action = '', $life = 1800)
     {
         $this->action = is_string($action) ? $action : '';
-        $this->life = is_numeric($life) ? (int)$life : 1800;
+        $this->life = is_numeric($life) ? (int) $life : 1800;
     }
-
     /**
      * @inheritdoc
      */
@@ -52,7 +49,6 @@ final class WpNonce implements NonceInterface
     {
         return $this->action;
     }
-
     /**
      * Validates the nonce against given context.
      *
@@ -62,27 +58,22 @@ final class WpNonce implements NonceInterface
      * We need to filter the nonce life and remove the filter afterwards, because WP does not
      * allow to filter nonce by action (yet? @link https://core.trac.wordpress.org/ticket/35188)
      *
-     * @param NonceContextInterface $context
+     * @param NonceContextInterface|null $context
      * @return bool
      */
-    public function validate(NonceContextInterface $context = null)
+    public function validate(?NonceContextInterface $context = null)
     {
         $context or $context = new RequestGlobalsContext();
-
         $value = $context->offsetExists($this->action) ? $context[$this->action] : '';
         if (!$value || !is_string($value)) {
-            return false;
+            return \false;
         }
-
         $lifeFilter = $this->lifeFilter();
-
         add_filter('nonce_life', $lifeFilter);
         $valid = wp_verify_nonce($value, $this->hashedAction());
         remove_filter('nonce_life', $lifeFilter);
-
-        return (bool)$valid;
+        return (bool) $valid;
     }
-
     /**
      * Returns the nonce string built with WordPress core function.
      *
@@ -94,14 +85,11 @@ final class WpNonce implements NonceInterface
     public function __toString()
     {
         $lifeFilter = $this->lifeFilter();
-
         add_filter('nonce_life', $lifeFilter);
         $value = wp_create_nonce($this->hashedAction());
         remove_filter('nonce_life', $lifeFilter);
-
         return $value;
     }
-
     /**
      * Returns the callback that will be used to filter nonce life.
      *
@@ -113,7 +101,6 @@ final class WpNonce implements NonceInterface
             return $this->life;
         };
     }
-
     /**
      * Returns an hashed version of the action.
      *

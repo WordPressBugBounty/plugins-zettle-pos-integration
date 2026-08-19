@@ -1,32 +1,21 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
-namespace Inpsyde\StateMachine;
-
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Interop\Container\ServiceProviderInterface;
-use Psr\Container\ContainerInterface;
-
-class StateMachineModule implements ModuleInterface
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ExecutableModule;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+class StateMachineModule implements ServiceModule, ExecutableModule
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function setup(): ServiceProviderInterface
+    use ModuleClassNameIdTrait;
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
+        return require __DIR__ . '/../services.php';
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
+    public function run(ContainerInterface $container): bool
     {
+        return \true;
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Discovery;
+namespace Syde\Vendor\Zettle\Http\Discovery;
 
-use Http\Discovery\Exception\NotFoundException as RealNotFoundException;
-
+use Syde\Vendor\Zettle\Http\Discovery\Exception\NotFoundException as RealNotFoundException;
 /**
  * Thrown when a discovery does not find any matches.
  *

@@ -1,14 +1,13 @@
 <?php
 
-namespace Http\Discovery\Strategy;
+namespace Syde\Vendor\Zettle\Http\Discovery\Strategy;
 
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UploadedFileFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ServerRequestFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UploadedFileFactoryInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriFactoryInterface;
 /**
  * @internal
  *
@@ -21,75 +20,7 @@ final class CommonPsr17ClassesStrategy implements DiscoveryStrategy
     /**
      * @var array
      */
-    private static $classes = [
-        RequestFactoryInterface::class => [
-            'Phalcon\Http\Message\RequestFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\RequestFactory',
-            'Http\Factory\Guzzle\RequestFactory',
-            'Http\Factory\Slim\RequestFactory',
-            'Laminas\Diactoros\RequestFactory',
-            'Slim\Psr7\Factory\RequestFactory',
-            'HttpSoft\Message\RequestFactory',
-        ],
-        ResponseFactoryInterface::class => [
-            'Phalcon\Http\Message\ResponseFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\ResponseFactory',
-            'Http\Factory\Guzzle\ResponseFactory',
-            'Http\Factory\Slim\ResponseFactory',
-            'Laminas\Diactoros\ResponseFactory',
-            'Slim\Psr7\Factory\ResponseFactory',
-            'HttpSoft\Message\ResponseFactory',
-        ],
-        ServerRequestFactoryInterface::class => [
-            'Phalcon\Http\Message\ServerRequestFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\ServerRequestFactory',
-            'Http\Factory\Guzzle\ServerRequestFactory',
-            'Http\Factory\Slim\ServerRequestFactory',
-            'Laminas\Diactoros\ServerRequestFactory',
-            'Slim\Psr7\Factory\ServerRequestFactory',
-            'HttpSoft\Message\ServerRequestFactory',
-        ],
-        StreamFactoryInterface::class => [
-            'Phalcon\Http\Message\StreamFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\StreamFactory',
-            'Http\Factory\Guzzle\StreamFactory',
-            'Http\Factory\Slim\StreamFactory',
-            'Laminas\Diactoros\StreamFactory',
-            'Slim\Psr7\Factory\StreamFactory',
-            'HttpSoft\Message\StreamFactory',
-        ],
-        UploadedFileFactoryInterface::class => [
-            'Phalcon\Http\Message\UploadedFileFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\UploadedFileFactory',
-            'Http\Factory\Guzzle\UploadedFileFactory',
-            'Http\Factory\Slim\UploadedFileFactory',
-            'Laminas\Diactoros\UploadedFileFactory',
-            'Slim\Psr7\Factory\UploadedFileFactory',
-            'HttpSoft\Message\UploadedFileFactory',
-        ],
-        UriFactoryInterface::class => [
-            'Phalcon\Http\Message\UriFactory',
-            'Nyholm\Psr7\Factory\Psr17Factory',
-            'GuzzleHttp\Psr7\HttpFactory',
-            'Http\Factory\Diactoros\UriFactory',
-            'Http\Factory\Guzzle\UriFactory',
-            'Http\Factory\Slim\UriFactory',
-            'Laminas\Diactoros\UriFactory',
-            'Slim\Psr7\Factory\UriFactory',
-            'HttpSoft\Message\UriFactory',
-        ],
-    ];
-
+    private static $classes = [RequestFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\RequestFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\RequestFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\RequestFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\RequestFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\RequestFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\RequestFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\RequestFactory'], ResponseFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\ResponseFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\ResponseFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\ResponseFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\ResponseFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\ResponseFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\ResponseFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\ResponseFactory'], ServerRequestFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\ServerRequestFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\ServerRequestFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\ServerRequestFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\ServerRequestFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\ServerRequestFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\ServerRequestFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\ServerRequestFactory'], StreamFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\StreamFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\StreamFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\StreamFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\StreamFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\StreamFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\StreamFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\StreamFactory'], UploadedFileFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\UploadedFileFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\UploadedFileFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\UploadedFileFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\UploadedFileFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\UploadedFileFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\UploadedFileFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\UploadedFileFactory'], UriFactoryInterface::class => ['Syde\Vendor\Zettle\Phalcon\Http\Message\UriFactory', 'Syde\Vendor\Zettle\Nyholm\Psr7\Factory\Psr17Factory', 'Syde\Vendor\Zettle\GuzzleHttp\Psr7\HttpFactory', 'Syde\Vendor\Zettle\Http\Factory\Diactoros\UriFactory', 'Syde\Vendor\Zettle\Http\Factory\Guzzle\UriFactory', 'Syde\Vendor\Zettle\Http\Factory\Slim\UriFactory', 'Syde\Vendor\Zettle\Laminas\Diactoros\UriFactory', 'Syde\Vendor\Zettle\Slim\Psr7\Factory\UriFactory', 'Syde\Vendor\Zettle\HttpSoft\Message\UriFactory']];
     public static function getCandidates($type)
     {
         $candidates = [];
@@ -98,7 +29,6 @@ final class CommonPsr17ClassesStrategy implements DiscoveryStrategy
                 $candidates[] = ['class' => $class, 'condition' => [$class]];
             }
         }
-
         return $candidates;
     }
 }

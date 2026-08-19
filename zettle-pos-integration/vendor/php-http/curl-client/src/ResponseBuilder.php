@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Curl;
 
-namespace Http\Client\Curl;
-
-use Http\Message\Builder\ResponseBuilder as OriginalResponseBuilder;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Builder\ResponseBuilder as OriginalResponseBuilder;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Extended response builder.
  */

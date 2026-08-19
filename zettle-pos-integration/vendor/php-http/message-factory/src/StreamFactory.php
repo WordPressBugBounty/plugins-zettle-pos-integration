@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\StreamInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
 /**
  * Factory for PSR-7 Stream.
  *

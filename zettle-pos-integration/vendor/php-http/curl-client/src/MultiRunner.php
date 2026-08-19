@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Curl;
 
-namespace Http\Client\Curl;
-
-use Http\Client\Exception\RequestException;
-
+use Syde\Vendor\Zettle\Http\Client\Exception\RequestException;
 /**
  * Simultaneous requests runner.
  *
@@ -20,14 +18,12 @@ class MultiRunner
      * @var resource|null
      */
     private $multiHandle;
-
     /**
      * Awaiting cores.
      *
      * @var PromiseCore[]
      */
     private $cores = [];
-
     /**
      * Release resources if still active.
      */
@@ -37,7 +33,6 @@ class MultiRunner
             curl_multi_close($this->multiHandle);
         }
     }
-
     /**
      * Add promise to runner.
      *
@@ -50,15 +45,12 @@ class MultiRunner
                 return;
             }
         }
-
         $this->cores[] = $core;
-
         if (null === $this->multiHandle) {
             $this->multiHandle = curl_multi_init();
         }
         curl_multi_add_handle($this->multiHandle, $core->getHandle());
     }
-
     /**
      * Remove promise from runner.
      *
@@ -70,12 +62,10 @@ class MultiRunner
             if ($existed === $core) {
                 curl_multi_remove_handle($this->multiHandle, $core->getHandle());
                 unset($this->cores[$index]);
-
                 return;
             }
         }
     }
-
     /**
      * Wait for request(s) to be completed.
      *
@@ -86,31 +76,27 @@ class MultiRunner
         do {
             $status = curl_multi_exec($this->multiHandle, $active);
             $info = curl_multi_info_read($this->multiHandle);
-            if (false !== $info) {
+            if (\false !== $info) {
                 $core = $this->findCoreByHandle($info['handle']);
-
                 if (null === $core) {
                     // We have no promise for this handle. Drop it.
                     curl_multi_remove_handle($this->multiHandle, $info['handle']);
                     continue;
                 }
-
-                if (CURLE_OK === $info['result']) {
+                if (\CURLE_OK === $info['result']) {
                     $core->fulfill();
                 } else {
                     $error = curl_error($core->getHandle());
                     $core->reject(new RequestException($error, $core->getRequest()));
                 }
                 $this->remove($core);
-
                 // This is a promise we are waited for. So exiting wait().
                 if ($core === $targetCore) {
                     return;
                 }
             }
-        } while ($status === CURLM_CALL_MULTI_PERFORM || $active);
+        } while ($status === \CURLM_CALL_MULTI_PERFORM || $active);
     }
-
     /**
      * Find core by handle.
      *
@@ -125,7 +111,6 @@ class MultiRunner
                 return $core;
             }
         }
-
         return null;
     }
 }

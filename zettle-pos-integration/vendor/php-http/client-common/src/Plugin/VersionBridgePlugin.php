@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * A plugin that helps you migrate from php-http/client-common 1.x to 2.x. This
  * will also help you to support PHP5 at the same time you support 2.x.
@@ -16,7 +14,6 @@ use Psr\Http\Message\RequestInterface;
 trait VersionBridgePlugin
 {
     abstract protected function doHandleRequest(RequestInterface $request, callable $next, callable $first);
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         return $this->doHandleRequest($request, $next, $first);

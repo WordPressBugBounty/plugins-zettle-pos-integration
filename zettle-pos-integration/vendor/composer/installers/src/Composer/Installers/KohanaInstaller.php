@@ -2,10 +2,8 @@
 
 namespace Composer\Installers;
 
-class KohanaInstaller extends BaseInstaller
+class KohanaInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'modules/{$name}/',
-    );
+    protected $locations = array('module' => 'modules/{$name}/');
 }

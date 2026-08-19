@@ -1,14 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
-namespace Inpsyde\Queue\Processor;
-
-use Inpsyde\Queue\Exception\QueueException;
-use Inpsyde\Queue\Logger\LoggerProviderInterface;
-use Inpsyde\Queue\Queue\Job\JobRepository;
-use Psr\Log\LoggerInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 /**
  * Class NetworkQueueProcessor
  *
@@ -20,32 +17,22 @@ use Psr\Log\LoggerInterface;
 class NetworkQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
     use DecoratingLoggingProviderTrait;
-
-    /**
-     * @var QueueProcessor
-     */
-    private $inner;
-
+    private QueueProcessor $inner;
     /**
      * @var callable The function returning NetworkState object
      */
     private $networkStateFactory;
-
     /**
      * NetworkQueueProcessor constructor.
      *
      * @param QueueProcessor $inner
      * @param callable $networkStateFactory The function returning NetworkState object
      */
-    public function __construct(
-        QueueProcessor $inner,
-        callable $networkStateFactory
-    ) {
-
+    public function __construct(QueueProcessor $inner, callable $networkStateFactory)
+    {
         $this->inner = $inner;
         $this->networkStateFactory = $networkStateFactory;
     }
-
     /**
      * @inheritDoc
      */
@@ -53,7 +40,6 @@ class NetworkQueueProcessor implements QueueProcessor, LoggerProviderInterface
     {
         return $this->inner->repository();
     }
-
     /**
      * Lock the queue, walk over all available jobs, unlock again
      *
@@ -65,10 +51,8 @@ class NetworkQueueProcessor implements QueueProcessor, LoggerProviderInterface
         $networkState = ($this->networkStateFactory)();
         $result = $this->inner->process();
         $networkState->restore();
-
         return $result;
     }
-
     protected function inner(): QueueProcessor
     {
         return $this->inner;

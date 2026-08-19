@@ -2,11 +2,8 @@
 
 namespace Composer\Installers;
 
-class Redaxo5Installer extends BaseInstaller
+class Redaxo5Installer extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'addon'          => 'redaxo/src/addons/{$name}/',
-        'bestyle-plugin' => 'redaxo/src/addons/be_style/plugins/{$name}/'
-    );
+    protected $locations = array('addon' => 'redaxo/src/addons/{$name}/', 'bestyle-plugin' => 'redaxo/src/addons/be_style/plugins/{$name}/');
 }

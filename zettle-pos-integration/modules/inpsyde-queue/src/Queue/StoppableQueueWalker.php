@@ -8,13 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 use Iterator;
-
 /**
  * Class TimeoutQueueWalker
  *
@@ -24,17 +21,8 @@ use Iterator;
  */
 class StoppableQueueWalker implements QueueWalker
 {
-
-    /**
-     * @var Iterator
-     */
-    private $iterator;
-
-    /**
-     * @var Stopper
-     */
-    private $stopper;
-
+    private Iterator $iterator;
+    private Stopper $stopper;
     /**
      * TimeoutQueueWalker constructor.
      *
@@ -46,28 +34,21 @@ class StoppableQueueWalker implements QueueWalker
         $this->iterator = $iterator;
         $this->stopper = $stopper;
     }
-
     /**
      * @inheritdoc
      */
     public function walk(callable $callback): int
     {
         $this->stopper->start();
-
         $count = 0;
-
         foreach ($this->iterator as $current) {
             $callback($current);
-
             $count++;
-
             if ($this->stopper->isStopped()) {
                 break;
             }
         }
-
         $this->iterator->rewind();
-
         return $count;
     }
 }

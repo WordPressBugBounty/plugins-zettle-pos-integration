@@ -1,15 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-namespace Inpsyde\StateMachine\Event;
-
-use Inpsyde\StateMachine\Transition\TransitionInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 interface Transitioning
 {
-
     public function fromState(): string;
-
     public function transition(): TransitionInterface;
 }

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 use Iterator;
-
 /**
  * Class TimeoutQueueWalker
  *
@@ -15,12 +13,7 @@ use Iterator;
  */
 class UnstoppableQueueWalker implements QueueWalker
 {
-
-    /**
-     * @var Iterator
-     */
-    private $iterator;
-
+    private Iterator $iterator;
     /**
      * UnstoppableQueueWalker constructor.
      *
@@ -30,7 +23,6 @@ class UnstoppableQueueWalker implements QueueWalker
     {
         $this->iterator = $iterator;
     }
-
     /**
      * @inheritdoc
      */
@@ -41,7 +33,6 @@ class UnstoppableQueueWalker implements QueueWalker
             $callback($current);
         }
         $this->iterator->rewind();
-
         return $count;
     }
 }

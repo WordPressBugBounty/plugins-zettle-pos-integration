@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Discovery\Strategy;
+namespace Syde\Vendor\Zettle\Http\Discovery\Strategy;
 
-use Http\Discovery\Exception\StrategyUnavailableException;
-
+use Syde\Vendor\Zettle\Http\Discovery\Exception\StrategyUnavailableException;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */

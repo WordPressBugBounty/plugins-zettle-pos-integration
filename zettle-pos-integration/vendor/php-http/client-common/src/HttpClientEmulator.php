@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Emulates an HTTP Client in an HTTP Async Client.
  *
@@ -20,10 +18,8 @@ trait HttpClientEmulator
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $promise = $this->sendAsyncRequest($request);
-
         return $promise->wait();
     }
-
     /**
      * @see HttpAsyncClient::sendAsyncRequest
      */

@@ -8,10 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 /**
  * Class Timer
@@ -23,47 +21,32 @@ namespace Inpsyde\Queue\Queue;
  */
 class TimeStopper implements Stopper
 {
-    /**
-     * @var int
-     */
-    private $startedAt;
-
-    /**
-     * @var int
-     */
-    private $stopAfter;
-
-    /**
-     * Timer constructor.
-     * @param float $seconds
-     */
+    private ?float $startedAt = null;
+    private float $stopAfter;
     public function __construct(float $seconds)
     {
         $this->stopAfter = $seconds * 1000;
     }
-
     /**
      * @return bool
      */
     public function start(): bool
     {
         $this->startedAt = $this->timestamp();
-        return $this->startedAt !== null;
+        return \true;
     }
-
     /**
      * @return bool
      */
     public function isStopped(): bool
     {
-        return ($this->timestamp() - $this->startedAt) > $this->stopAfter;
+        return $this->timestamp() - $this->startedAt > $this->stopAfter;
     }
-
     /**
      * @return float
      */
     private function timestamp(): float
     {
-        return round(microtime(true) * 1000);
+        return round(microtime(\true) * 1000);
     }
 }

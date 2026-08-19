@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue\Job;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 /**
  * Interface JobRepository
@@ -11,7 +10,6 @@ namespace Inpsyde\Queue\Queue\Job;
  */
 interface JobRepository
 {
-
     /**
      * Adds a QueueJob to the repository
      *
@@ -20,7 +18,6 @@ interface JobRepository
      * @return bool
      */
     public function add(JobRecord ...$jobRecords): bool;
-
     /**
      * Deletes a QueueJob from the repository
      *
@@ -29,7 +26,6 @@ interface JobRepository
      * @return bool
      */
     public function delete(JobRecord $jobRecord): bool;
-
     /**
      * Returns a number of QueueJobs
      *
@@ -40,14 +36,12 @@ interface JobRepository
      * @return JobRecord[]
      */
     public function fetch(int $limit = 1, array $types = []): array;
-
     /**
      * Delete all records in the repository
      *
      * @return bool Whether or not the operation was successful
      */
     public function flush(): bool;
-
     /**
      * Returns an amount of jobs
      *

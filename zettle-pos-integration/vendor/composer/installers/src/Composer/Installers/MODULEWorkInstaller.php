@@ -2,10 +2,8 @@
 
 namespace Composer\Installers;
 
-class MODULEWorkInstaller extends BaseInstaller
+class MODULEWorkInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module'    => 'modules/{$name}/',
-    );
+    protected $locations = array('module' => 'modules/{$name}/');
 }

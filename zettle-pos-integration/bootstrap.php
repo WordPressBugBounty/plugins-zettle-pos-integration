@@ -1,49 +1,27 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
-namespace Inpsyde\Zettle;
-
-use Dhii\Container\CachingContainer;
-use Dhii\Container\CompositeCachingServiceProvider;
-use Dhii\Container\DelegatingContainer;
-use Dhii\Container\ProxyContainer;
-use Dhii\Modular\Module\ModuleInterface;
-use Dhii\Validation\ValidatorInterface;
-use Psr\Container\ContainerInterface;
-
-return static function (string $appDir, bool $validate = false): ContainerInterface {
-    $modules = [];
-    $classNames = require $appDir . '/modules.php';
-    array_walk(
-        $classNames,
-        static function (string $className) use (&$modules): void {
-            $modules[] = new $className();
-        }
-    );
-
-    $providers = [];
-    foreach ($modules as $module) {
-        assert($module instanceof ModuleInterface);
-        $providers[] = $module->setup();
+use Syde\Vendor\Zettle\Syde\PayPal\PointOfSale\Validation\ValidatorInterface;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\Module;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Package;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Properties\PluginProperties;
+return static function (string $pluginFile, bool $validate = \false): Package {
+    $properties = PluginProperties::new($pluginFile);
+    $package = Package::new($properties);
+    $classNames = require dirname($pluginFile) . '/modules.php';
+    foreach ($classNames as $className) {
+        $module = new $className();
+        assert($module instanceof Module);
+        $package->addModule($module);
     }
-
-    $proxy = new ProxyContainer();
-    $provider = new CompositeCachingServiceProvider($providers);
-    $container = new CachingContainer(new DelegatingContainer($provider, $proxy));
-    $proxy->setInnerContainer($container);
-
+    $package->build();
     if ($validate) {
-        $requirementsValidator = $container->get('zettle.requirements.validator');
+        $requirementsValidator = $package->container()->get('paypal-pos.requirements.validator');
         assert($requirementsValidator instanceof ValidatorInterface);
-
         $requirementsValidator->validate(null);
     }
-
-    foreach ($modules as $module) {
-        assert($module instanceof ModuleInterface);
-        $module->run($proxy);
-    }
-
-    return $proxy;
+    $package->boot();
+    return $package;
 };

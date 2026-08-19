@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Client;
+namespace Syde\Vendor\Zettle\Http\Client;
 
-use Psr\Http\Client\ClientExceptionInterface as PsrClientException;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface as PsrClientException;
 /**
  * Every HTTP Client related Exception must implement this interface.
  *

@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer;
 
-namespace Inpsyde\StateMachine\Initializer;
-
-use Inpsyde\StateMachine\State\StateInterface;
-use Inpsyde\StateMachine\StateMachineInterface;
-use Psr\Container\ContainerInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
+// phpcs:disable Generic.PHP.DiscourageGoto
 /**
  * Class ContainerInitializer
  *
@@ -18,36 +17,17 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerInitializer implements InitializerInterface
 {
-
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var InitializerInterface
-     */
-    private $childInitializer;
-
-    public function __construct(
-        string $namespace,
-        ContainerInterface $container,
-        InitializerInterface $childInitializer
-    ) {
+    private string $namespace;
+    private ContainerInterface $container;
+    private InitializerInterface $childInitializer;
+    public function __construct(string $namespace, ContainerInterface $container, InitializerInterface $childInitializer)
+    {
         $this->namespace = $namespace;
         $this->container = $container;
         $this->childInitializer = $childInitializer;
     }
-
-    public function initialize(
-        StateMachineInterface $stateMachine,
-        StateInterface ...$states
-    ): StateInterface {
+    public function initialize(StateMachineInterface $stateMachine, StateInterface ...$states): StateInterface
+    {
         $key = "{$this->namespace}.initial-state";
         if (!$this->container->has($key)) {
             goto child;
@@ -59,12 +39,10 @@ class ContainerInitializer implements InitializerInterface
         foreach ($states as $state) {
             if ($state->name() === $currentState) {
                 $stateMachine->initialize($state->name());
-
                 return $state;
             }
         }
         child:
-
         return $this->childInitializer->initialize($stateMachine, ...$states);
     }
 }

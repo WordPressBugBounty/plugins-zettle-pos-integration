@@ -1,12 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcEvents\Event;
-
-use Inpsyde\WcEvents\DispatchDecider;
-use Inpsyde\WcEvents\Toggle;
-use Psr\Log\LoggerInterface;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcEvents\Event;
 
 /**
  * This looks like PSR-14, but currently isn't
@@ -14,43 +9,11 @@ use Psr\Log\LoggerInterface;
  */
 class EventDispatcher
 {
-
-    /**
-     * @var ProductEventListenerRegistry
-     */
-    private $listenerProvider;
-
-    /**
-     * @var Toggle
-     */
-    private $switch;
-
-    /**
-     * @var DispatchDecider
-     */
-    private $decider;
-
-    /**
-     * @var LoggerInterface|null
-     */
-    private $logger;
-
-    /**
-     * EventDispatcher constructor.
-     *
-     * @param ProductEventListenerRegistry $listenerProvider
-     * @param Toggle $switch
-     * @param DispatchDecider $decider
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct(
-        ProductEventListenerRegistry $listenerProvider,
-        ?LoggerInterface $logger = null
-    ) {
+    private ProductEventListenerRegistry $listenerProvider;
+    public function __construct(ProductEventListenerRegistry $listenerProvider)
+    {
         $this->listenerProvider = $listenerProvider;
-        $this->logger = $logger;
     }
-
     /**
      * Retrieves listeners for the current event from the $listenerProvider
      * and calls them.

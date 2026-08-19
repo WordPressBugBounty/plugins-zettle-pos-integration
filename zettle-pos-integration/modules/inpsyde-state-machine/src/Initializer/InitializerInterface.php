@@ -1,17 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer;
 
-namespace Inpsyde\StateMachine\Initializer;
-
-use Inpsyde\StateMachine\State\StateInterface;
-use Inpsyde\StateMachine\StateMachineInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 interface InitializerInterface
 {
-
-    public function initialize(
-        StateMachineInterface $stateMachine,
-        StateInterface ...$states
-    ): StateInterface;
+    public function initialize(StateMachineInterface $stateMachine, StateInterface ...$states): StateInterface;
 }

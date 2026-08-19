@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Client\Exception;
+namespace Syde\Vendor\Zettle\Http\Client\Exception;
 
-use Http\Client\Exception;
-
+use Syde\Vendor\Zettle\Http\Client\Exception;
 /**
  * Base exception for transfer related exceptions.
  *

@@ -1,54 +1,33 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
-namespace Inpsyde\Debug;
-
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 use Throwable;
-
 class LogExceptionHandler implements ExceptionHandler
 {
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var ExceptionFormatter
-     */
-    private $formatter;
-
+    private LoggerInterface $logger;
+    private ExceptionFormatter $formatter;
     /**
      * @var string[]
      */
-    private $levels;
-
-    public function __construct(
-        LoggerInterface $logger,
-        ExceptionFormatter $formatter,
-        array $levels
-    ) {
-
+    private array $levels;
+    public function __construct(LoggerInterface $logger, ExceptionFormatter $formatter, array $levels)
+    {
         $this->logger = $logger;
         $this->formatter = $formatter;
         $this->levels = $levels;
     }
-
     public function handle(Throwable $exception): void
     {
         $this->logger->log($this->determineLogLevel($exception), $this->formatter->format($exception));
     }
-
     private function determineLogLevel(Throwable $exception): string
     {
-        return $this->pluckLevel(class_parents($exception), $this->levels)
-            ?? $this->pluckLevel(class_implements($exception), $this->levels)
-            ?? LogLevel::INFO;
+        return $this->pluckLevel(class_parents($exception), $this->levels) ?? $this->pluckLevel(class_implements($exception), $this->levels) ?? LogLevel::INFO;
     }
-
     private function pluckLevel(array $keys, array $levels): ?string
     {
         foreach ($keys as $key) {
@@ -56,7 +35,6 @@ class LogExceptionHandler implements ExceptionHandler
                 return $levels[$key];
             }
         }
-
         return null;
     }
 }

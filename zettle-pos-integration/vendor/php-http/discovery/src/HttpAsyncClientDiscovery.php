@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Discovery;
+namespace Syde\Vendor\Zettle\Http\Discovery;
 
-use Http\Client\HttpAsyncClient;
-use Http\Discovery\Exception\DiscoveryFailedException;
-
+use Syde\Vendor\Zettle\Http\Client\HttpAsyncClient;
+use Syde\Vendor\Zettle\Http\Discovery\Exception\DiscoveryFailedException;
 /**
  * Finds an HTTP Asynchronous Client.
  *
@@ -26,7 +25,6 @@ final class HttpAsyncClientDiscovery extends ClassDiscovery
         } catch (DiscoveryFailedException $e) {
             throw new NotFoundException('No HTTPlug async clients found. Make sure to install a package providing "php-http/async-client-implementation". Example: "php-http/guzzle6-adapter".', 0, $e);
         }
-
         return static::instantiateClass($asyncClient);
     }
 }

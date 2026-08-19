@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Records history of HTTP calls.
  *
@@ -22,7 +20,6 @@ interface Journal
      * @param ResponseInterface $response Response returned by the call
      */
     public function addSuccess(RequestInterface $request, ResponseInterface $response);
-
     /**
      * Record a failed call.
      *

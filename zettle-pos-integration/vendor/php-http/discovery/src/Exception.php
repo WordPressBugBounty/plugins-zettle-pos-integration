@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Discovery;
+namespace Syde\Vendor\Zettle\Http\Discovery;
 
 /**
  * An interface implemented by all discovery related exceptions.

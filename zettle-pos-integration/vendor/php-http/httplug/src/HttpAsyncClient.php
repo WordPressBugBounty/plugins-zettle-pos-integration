@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Client;
+namespace Syde\Vendor\Zettle\Http\Client;
 
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Sends a PSR-7 Request in an asynchronous way by returning a Promise.
  *

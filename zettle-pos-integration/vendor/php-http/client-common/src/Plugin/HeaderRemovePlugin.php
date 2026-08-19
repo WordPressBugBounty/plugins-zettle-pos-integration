@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Removes headers from the request.
  *
@@ -19,7 +17,6 @@ final class HeaderRemovePlugin implements Plugin
      * @var array
      */
     private $headers = [];
-
     /**
      * @param array $headers List of header names to remove from the request
      */
@@ -27,7 +24,6 @@ final class HeaderRemovePlugin implements Plugin
     {
         $this->headers = $headers;
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         foreach ($this->headers as $header) {
@@ -35,7 +31,6 @@ final class HeaderRemovePlugin implements Plugin
                 $request = $request->withoutHeader($header);
             }
         }
-
         return $next($request);
     }
 }

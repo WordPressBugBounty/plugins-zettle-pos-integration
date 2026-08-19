@@ -2,14 +2,10 @@
 
 namespace Composer\Installers;
 
-class SiteDirectInstaller extends BaseInstaller
+class SiteDirectInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'modules/{$vendor}/{$name}/',
-        'plugin' => 'plugins/{$vendor}/{$name}/'
-    );
-
+    protected $locations = array('module' => 'modules/{$vendor}/{$name}/', 'plugin' => 'plugins/{$vendor}/{$name}/');
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -18,7 +14,6 @@ class SiteDirectInstaller extends BaseInstaller
     {
         return $this->parseVars($vars);
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -28,7 +23,6 @@ class SiteDirectInstaller extends BaseInstaller
         $vars['vendor'] = strtolower($vars['vendor']) == 'sitedirect' ? 'SiteDirect' : $vars['vendor'];
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
 }

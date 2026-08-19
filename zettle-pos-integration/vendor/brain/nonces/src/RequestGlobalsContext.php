@@ -1,4 +1,6 @@
-<?php # -*- coding: utf-8 -*-
+<?php
+
+# -*- coding: utf-8 -*-
 /*
  * This file is part of the Nonces package.
  *
@@ -7,8 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Brain\Nonces;
+namespace Syde\Vendor\Zettle\Brain\Nonces;
 
 /**
  * A nonce context that populates its internal storage with values coming from `$_GET` and `$_POSt`
@@ -24,12 +25,10 @@ namespace Brain\Nonces;
  */
 final class RequestGlobalsContext implements NonceContextInterface
 {
-
     /**
      * @var ArrayContext context
      */
     private $context;
-
     /**
      * We don't use `$_REQUEST` because, by default, in PHP it gives precedence to `$_GET` over
      * `$_POST` in POST requests, and being dependant on `request_order` / `variables_order` ini
@@ -40,10 +39,8 @@ final class RequestGlobalsContext implements NonceContextInterface
         $http_method = empty($_SERVER['REQUEST_METHOD']) ? null : $_SERVER['REQUEST_METHOD'];
         $is_post = is_string($http_method) && strtoupper($http_method) === 'POST';
         $request = $is_post ? array_merge($_GET, $_POST) : $_REQUEST;
-
         $this->context = new ArrayContext($request);
     }
-
     /**
      * Delegates to encapsulated context.
      *
@@ -55,7 +52,6 @@ final class RequestGlobalsContext implements NonceContextInterface
     {
         return $this->context->offsetExists($offset);
     }
-
     /**
      * Delegates to encapsulated context.
      *
@@ -67,7 +63,6 @@ final class RequestGlobalsContext implements NonceContextInterface
     {
         return $this->context->offsetGet($offset);
     }
-
     /**
      * Delegates to encapsulated context.
      *
@@ -79,7 +74,6 @@ final class RequestGlobalsContext implements NonceContextInterface
     {
         $this->context->offsetSet($offset, $value);
     }
-
     /**
      * DDelegates to encapsulated context.
      *

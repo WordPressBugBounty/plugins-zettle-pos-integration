@@ -2,15 +2,10 @@
 
 namespace Composer\Installers;
 
-class MediaWikiInstaller extends BaseInstaller
+class MediaWikiInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'core' => 'core/',
-        'extension' => 'extensions/{$name}/',
-        'skin' => 'skins/{$name}/',
-    );
-
+    protected $locations = array('core' => 'core/', 'extension' => 'extensions/{$name}/', 'skin' => 'skins/{$name}/');
     /**
      * Format package name.
      *
@@ -24,14 +19,11 @@ class MediaWikiInstaller extends BaseInstaller
         if ($vars['type'] === 'mediawiki-extension') {
             return $this->inflectExtensionVars($vars);
         }
-
         if ($vars['type'] === 'mediawiki-skin') {
             return $this->inflectSkinVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -41,10 +33,8 @@ class MediaWikiInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-extension$/', '', $vars['name']);
         $vars['name'] = str_replace('-', ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -52,7 +42,6 @@ class MediaWikiInstaller extends BaseInstaller
     protected function inflectSkinVars(array $vars): array
     {
         $vars['name'] = $this->pregReplace('/-skin$/', '', $vars['name']);
-
         return $vars;
     }
 }

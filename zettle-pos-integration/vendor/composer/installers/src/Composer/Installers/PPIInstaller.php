@@ -2,10 +2,8 @@
 
 namespace Composer\Installers;
 
-class PPIInstaller extends BaseInstaller
+class PPIInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'modules/{$name}/',
-    );
+    protected $locations = array('module' => 'modules/{$name}/');
 }

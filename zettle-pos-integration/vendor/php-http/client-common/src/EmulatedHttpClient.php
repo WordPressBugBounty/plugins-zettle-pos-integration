@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\HttpAsyncClient;
-use Http\Client\HttpClient;
-
+use Syde\Vendor\Zettle\Http\Client\HttpAsyncClient;
+use Syde\Vendor\Zettle\Http\Client\HttpClient;
 /**
  * Emulates a synchronous HTTP client with the help of an asynchronous client.
  *
@@ -16,7 +14,6 @@ final class EmulatedHttpClient implements HttpClient, HttpAsyncClient
 {
     use HttpAsyncClientDecorator;
     use HttpClientEmulator;
-
     public function __construct(HttpAsyncClient $httpAsyncClient)
     {
         $this->httpAsyncClient = $httpAsyncClient;

@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\UriInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 /**
  * Factory for PSR-7 URI.
  *

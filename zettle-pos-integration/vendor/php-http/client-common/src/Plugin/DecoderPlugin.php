@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Message\Encoding;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Message\Encoding;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
+use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Allow to decode response body with a chunk, deflate, compress or gzip encoding.
  *
@@ -29,7 +27,6 @@ final class DecoderPlugin implements Plugin
      * If set to false only the Transfer-Encoding header will be used
      */
     private $useContentEncoding;
-
     /**
      * @param array{'use_content_encoding'?: bool} $config
      *
@@ -39,44 +36,34 @@ final class DecoderPlugin implements Plugin
     public function __construct(array $config = [])
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefaults([
-            'use_content_encoding' => true,
-        ]);
+        $resolver->setDefaults(['use_content_encoding' => \true]);
         $resolver->setAllowedTypes('use_content_encoding', 'bool');
         $options = $resolver->resolve($config);
-
         $this->useContentEncoding = $options['use_content_encoding'];
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         $encodings = extension_loaded('zlib') ? ['gzip', 'deflate'] : ['identity'];
-
         if ($this->useContentEncoding) {
             $request = $request->withHeader('Accept-Encoding', $encodings);
         }
         $encodings[] = 'chunked';
         $request = $request->withHeader('TE', $encodings);
-
         return $next($request)->then(function (ResponseInterface $response) {
             return $this->decodeResponse($response);
         });
     }
-
     /**
      * Decode a response body given its Transfer-Encoding or Content-Encoding value.
      */
     private function decodeResponse(ResponseInterface $response): ResponseInterface
     {
         $response = $this->decodeOnEncodingHeader('Transfer-Encoding', $response);
-
         if ($this->useContentEncoding) {
             $response = $this->decodeOnEncodingHeader('Content-Encoding', $response);
         }
-
         return $response;
     }
-
     /**
      * Decode a response on a specific header (content encoding or transfer encoding mainly).
      */
@@ -85,29 +72,22 @@ final class DecoderPlugin implements Plugin
         if ($response->hasHeader($headerName)) {
             $encodings = $response->getHeader($headerName);
             $newEncodings = [];
-
             while ($encoding = array_pop($encodings)) {
                 $stream = $this->decorateStream($encoding, $response->getBody());
-
-                if (false === $stream) {
+                if (\false === $stream) {
                     array_unshift($newEncodings, $encoding);
-
                     continue;
                 }
-
                 $response = $response->withBody($stream);
             }
-
             if (\count($newEncodings) > 0) {
                 $response = $response->withHeader($headerName, $newEncodings);
             } else {
                 $response = $response->withoutHeader($headerName);
             }
         }
-
         return $response;
     }
-
     /**
      * Decorate a stream given an encoding.
      *
@@ -118,15 +98,12 @@ final class DecoderPlugin implements Plugin
         if ('chunked' === strtolower($encoding)) {
             return new Encoding\DechunkStream($stream);
         }
-
         if ('deflate' === strtolower($encoding)) {
             return new Encoding\DecompressStream($stream);
         }
-
         if ('gzip' === strtolower($encoding)) {
             return new Encoding\GzipDecodeStream($stream);
         }
-
-        return false;
+        return \false;
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace Http\Message\Formatter;
+namespace Syde\Vendor\Zettle\Http\Message\Formatter;
 
-use Http\Message\Formatter;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Formatter;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Normalize a request or a response into a string or an array.
  *
@@ -16,24 +15,12 @@ class SimpleFormatter implements Formatter
 {
     public function formatRequest(RequestInterface $request)
     {
-        return sprintf(
-            '%s %s %s',
-            $request->getMethod(),
-            $request->getUri()->__toString(),
-            $request->getProtocolVersion()
-        );
+        return sprintf('%s %s %s', $request->getMethod(), $request->getUri()->__toString(), $request->getProtocolVersion());
     }
-
     public function formatResponse(ResponseInterface $response)
     {
-        return sprintf(
-            '%s %s %s',
-            $response->getStatusCode(),
-            $response->getReasonPhrase(),
-            $response->getProtocolVersion()
-        );
+        return sprintf('%s %s %s', $response->getStatusCode(), $response->getReasonPhrase(), $response->getProtocolVersion());
     }
-
     /**
      * Formats a response in context of its request.
      *

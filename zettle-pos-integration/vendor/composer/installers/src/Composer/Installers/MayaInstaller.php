@@ -2,13 +2,10 @@
 
 namespace Composer\Installers;
 
-class MayaInstaller extends BaseInstaller
+class MayaInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'modules/{$name}/',
-    );
-
+    protected $locations = array('module' => 'modules/{$name}/');
     /**
      * Format package name.
      *
@@ -19,10 +16,8 @@ class MayaInstaller extends BaseInstaller
         if ($vars['type'] === 'maya-module') {
             return $this->inflectModuleVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -32,7 +27,6 @@ class MayaInstaller extends BaseInstaller
         $vars['name'] = $this->pregReplace('/-module$/', '', $vars['name']);
         $vars['name'] = str_replace(array('-', '_'), ' ', $vars['name']);
         $vars['name'] = str_replace(' ', '', ucwords($vars['name']));
-
         return $vars;
     }
 }

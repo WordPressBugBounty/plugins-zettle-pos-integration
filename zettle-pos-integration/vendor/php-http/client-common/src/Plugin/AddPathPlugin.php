@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 /**
  * Prepend a base path to the request URI. Useful for base API URLs like http://domain.com/api.
  *
@@ -20,20 +18,16 @@ final class AddPathPlugin implements Plugin
      * @var UriInterface
      */
     private $uri;
-
     public function __construct(UriInterface $uri)
     {
         if ('' === $uri->getPath()) {
             throw new \LogicException('URI path cannot be empty');
         }
-
         if ('/' === substr($uri->getPath(), -1)) {
             $uri = $uri->withPath(rtrim($uri->getPath(), '/'));
         }
-
         $this->uri = $uri;
     }
-
     /**
      * Adds a prefix in the beginning of the URL's path.
      *
@@ -66,13 +60,9 @@ final class AddPathPlugin implements Plugin
     {
         $prepend = $this->uri->getPath();
         $path = $request->getUri()->getPath();
-
         if (substr($path, 0, strlen($prepend)) !== $prepend) {
-            $request = $request->withUri($request->getUri()
-                 ->withPath($prepend.$path)
-            );
+            $request = $request->withUri($request->getUri()->withPath($prepend . $path));
         }
-
         return $next($request);
     }
 }

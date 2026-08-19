@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Message\RequestMatcher;
+namespace Syde\Vendor\Zettle\Http\Message\RequestMatcher;
 
-use Http\Message\RequestMatcher as RequestMatcherInterface;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Message\RequestMatcher as RequestMatcherInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * A port of the Symfony RequestMatcher for PSR-7.
  *
@@ -17,22 +16,18 @@ final class RequestMatcher implements RequestMatcherInterface
      * @var string
      */
     private $path;
-
     /**
      * @var string
      */
     private $host;
-
     /**
      * @var array
      */
     private $methods = [];
-
     /**
      * @var string[]
      */
     private $schemes = [];
-
     /**
      * The regular expressions used for path or host must be specified without delimiter.
      * You do not need to escape the forward slash / to match it.
@@ -49,28 +44,23 @@ final class RequestMatcher implements RequestMatcherInterface
         $this->methods = array_map('strtoupper', (array) $methods);
         $this->schemes = array_map('strtolower', (array) $schemes);
     }
-
     /**
      * @api
      */
     public function matches(RequestInterface $request)
     {
         if ($this->schemes && !in_array($request->getUri()->getScheme(), $this->schemes)) {
-            return false;
+            return \false;
         }
-
         if ($this->methods && !in_array($request->getMethod(), $this->methods)) {
-            return false;
+            return \false;
         }
-
-        if (null !== $this->path && !preg_match('{'.$this->path.'}', rawurldecode($request->getUri()->getPath()))) {
-            return false;
+        if (null !== $this->path && !preg_match('{' . $this->path . '}', rawurldecode($request->getUri()->getPath()))) {
+            return \false;
         }
-
-        if (null !== $this->host && !preg_match('{'.$this->host.'}i', $request->getUri()->getHost())) {
-            return false;
+        if (null !== $this->host && !preg_match('{' . $this->host . '}i', $request->getUri()->getHost())) {
+            return \false;
         }
-
-        return true;
+        return \true;
     }
 }

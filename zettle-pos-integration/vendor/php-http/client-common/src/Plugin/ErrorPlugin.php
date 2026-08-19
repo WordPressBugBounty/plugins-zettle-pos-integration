@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Exception\ClientErrorException;
-use Http\Client\Common\Exception\ServerErrorException;
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Exception\ClientErrorException;
+use Syde\Vendor\Zettle\Http\Client\Common\Exception\ServerErrorException;
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
+use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Throw exception when the response of a request is not acceptable.
  *
@@ -35,7 +33,6 @@ final class ErrorPlugin implements Plugin
      * If set to true 4XX Responses code will never throw an exception
      */
     private $onlyServerException;
-
     /**
      * @param array{'only_server_exception'?: bool} $config
      *
@@ -45,24 +42,18 @@ final class ErrorPlugin implements Plugin
     public function __construct(array $config = [])
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefaults([
-            'only_server_exception' => false,
-        ]);
+        $resolver->setDefaults(['only_server_exception' => \false]);
         $resolver->setAllowedTypes('only_server_exception', 'bool');
         $options = $resolver->resolve($config);
-
         $this->onlyServerException = $options['only_server_exception'];
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         $promise = $next($request);
-
         return $promise->then(function (ResponseInterface $response) use ($request) {
             return $this->transformResponseToException($request, $response);
         });
     }
-
     /**
      * Transform response to an error if possible.
      *
@@ -79,11 +70,9 @@ final class ErrorPlugin implements Plugin
         if (!$this->onlyServerException && $response->getStatusCode() >= 400 && $response->getStatusCode() < 500) {
             throw new ClientErrorException($response->getReasonPhrase(), $request, $response);
         }
-
         if ($response->getStatusCode() >= 500 && $response->getStatusCode() < 600) {
             throw new ServerErrorException($response->getReasonPhrase(), $request, $response);
         }
-
         return $response;
     }
 }

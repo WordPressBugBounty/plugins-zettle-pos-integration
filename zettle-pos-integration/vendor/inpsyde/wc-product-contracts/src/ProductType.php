@@ -1,6 +1,6 @@
 <?php
 
-namespace Inpsyde\WcProductContracts;
+namespace Syde\Vendor\Zettle\Inpsyde\WcProductContracts;
 
 interface ProductType
 {
@@ -8,12 +8,10 @@ interface ProductType
      * Type string for Simple Product
      */
     public const SIMPLE = 'simple';
-
     /**
      * Type string for Variable Product
      */
     public const VARIABLE = 'variable';
-
     /**
      * Type string for Product Variation
      */

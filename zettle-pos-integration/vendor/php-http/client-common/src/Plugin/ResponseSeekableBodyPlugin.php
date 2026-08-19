@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Message\Stream\BufferedStream;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Stream\BufferedStream;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Allow body used in response to be always seekable.
  *
@@ -22,7 +20,6 @@ final class ResponseSeekableBodyPlugin extends SeekableBodyPlugin
             if ($response->getBody()->isSeekable()) {
                 return $response;
             }
-
             return $response->withBody(new BufferedStream($response->getBody(), $this->useFileBuffer, $this->memoryBufferSize));
         });
     }

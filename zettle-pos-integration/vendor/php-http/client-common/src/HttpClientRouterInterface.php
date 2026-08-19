@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\HttpAsyncClient;
-use Http\Client\HttpClient;
-use Http\Message\RequestMatcher;
-use Psr\Http\Client\ClientInterface;
-
+use Syde\Vendor\Zettle\Http\Client\HttpAsyncClient;
+use Syde\Vendor\Zettle\Http\Client\HttpClient;
+use Syde\Vendor\Zettle\Http\Message\RequestMatcher;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 /**
  * Route a request to a specific client in the stack based using a RequestMatcher.
  *

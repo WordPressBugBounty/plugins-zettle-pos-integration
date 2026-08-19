@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * A plugin is a middleware to transform the request and/or the response.
  *

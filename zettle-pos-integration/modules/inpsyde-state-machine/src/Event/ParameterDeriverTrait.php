@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\StateMachine\Event;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
 use Closure;
 use InvalidArgumentException;
@@ -10,9 +9,9 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionObject;
 use RuntimeException;
-
 /**
  * Utility trait to derive the type of event an event listener is for.
  */
@@ -25,88 +24,79 @@ trait ParameterDeriverTrait
      *   The callable for which we want the parameter type.
      * @return string
      *   The class the parameter is type hinted on.
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    protected function getParameterType($callable): string
+    protected function getParameterType(callable $callable): string
     {
         // phpcs:enable
         // We can't type hint $callable as it could be an array, and arrays are not callable.
         // Sometimes. Bah, PHP.
-
         // This try-catch is only here to keep OCD linters happy about uncaught reflection exceptions.
         try {
-            switch (true) {
+            switch (\true) {
                 // See note on isClassCallable() for why this must be the first case.
-                case $this->isClassCallable($callable):
+                case is_array($callable) && $this->isClassCallable($callable):
                     $reflect = new ReflectionClass($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isFunctionCallable($callable):
-                case $this->isClosureCallable($callable):
-                    /** @psalm-suppress ArgumentTypeCoercion */
+                case is_string($callable) && $this->isFunctionCallable($callable):
+                case $callable instanceof Closure && $this->isClosureCallable($callable):
                     $reflect = new ReflectionFunction($callable);
                     $params = $reflect->getParameters();
                     break;
-                case $this->isObjectCallable($callable):
+                case is_array($callable) && $this->isObjectCallable($callable):
                     $reflect = new ReflectionObject($callable[0]);
-                    $params = $reflect->getMethod($callable[1])->getParameters();
+                    $params = $reflect->getMethod((string) $callable[1])->getParameters();
                     break;
-                case $this->isInvokable($callable):
+                case is_object($callable) && $this->isInvokable($callable):
                     $params = (new ReflectionMethod($callable, '__invoke'))->getParameters();
                     break;
                 default:
                     throw new InvalidArgumentException('Not a recognized type of callable');
             }
-
             $rType = $params[0]->getType();
-            if ($rType === null) {
+            if (!$rType instanceof ReflectionNamedType) {
                 throw new InvalidArgumentException('Listeners must declare an object type they can accept.');
             }
             $type = $rType->getName();
         } catch (ReflectionException $exception) {
             throw new RuntimeException('Type error registering listener.', 0, $exception);
+            // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
         }
-
         return $type;
     }
-
     /**
      * Determines if a callable represents a function.
      *
      * Or at least a reasonable approximation, since a function name may not be defined yet.
      *
      * @param callable $callable
-     * @return True if the callable represents a function, false otherwise.
+     * @return bool True if the callable represents a function, false otherwise.
      */
     protected function isFunctionCallable(callable $callable): bool
     {
         // We can't check for function_exists() because it may be included later by the time it matters.
         return is_string($callable);
     }
-
     /**
      * Determines if a callable represents a closure/anonymous function.
      *
      * @param callable $callable
-     * @return True if the callable represents a closure object, false otherwise.
+     * @return bool True if the callable represents a closure object, false otherwise.
      */
     protected function isClosureCallable(callable $callable): bool
     {
         return $callable instanceof Closure;
     }
-
     /**
      * Determines if a callable represents a method on an object.
      *
      * @param callable $callable
-     * @return True if the callable represents a method object, false otherwise.
+     * @return bool True if the callable represents a method object, false otherwise.
      */
     protected function isObjectCallable(callable $callable): bool
     {
         return is_array($callable) && is_object($callable[0]);
     }
-
     /**
      * Determines if a callable represents a static class method.
      *
@@ -121,22 +111,20 @@ trait ParameterDeriverTrait
      * the callable type hint but it would pass `is_callable()`.  Because PHP.
      *
      * @param callable $callable
-     * @return True if the callable represents a static method, false otherwise.
+     * @return bool True if the callable represents a static method, false otherwise.
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
      */
-    protected function isClassCallable($callable): bool
+    protected function isClassCallable(callable $callable): bool
     {
         // phpcs:enable
-
         return is_array($callable) && is_string($callable[0]) && class_exists($callable[0]);
     }
-
     /**
      * Determines if a callable is a class that has __invoke() method
      *
      * @param callable $callable
-     * @return True if the callable represents an invokable object, false otherwise.
+     * @return bool True if the callable represents an invokable object, false otherwise.
      */
     private function isInvokable(callable $callable): bool
     {

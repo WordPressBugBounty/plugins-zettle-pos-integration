@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue\Job;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
 /**
  * Class EphemeralJobRepository
@@ -13,12 +12,10 @@ namespace Inpsyde\Queue\Queue\Job;
  */
 class EphemeralJobRepository implements JobRepository
 {
-
     /**
      * @var JobRecord[]
      */
-    private $repository = [];
-
+    private array $repository = [];
     /**
      * @inheritDoc
      */
@@ -27,20 +24,16 @@ class EphemeralJobRepository implements JobRepository
         foreach ($jobRecords as $jobRecord) {
             $this->repository[spl_object_hash($jobRecord)] = $jobRecord;
         }
-
-        return true;
+        return \true;
     }
-
     /**
      * @inheritDoc
      */
     public function delete(JobRecord $jobRecord): bool
     {
         unset($this->repository[spl_object_hash($jobRecord)]);
-
-        return true;
+        return \true;
     }
-
     /**
      * @inheritDoc
      */
@@ -55,16 +48,14 @@ class EphemeralJobRepository implements JobRepository
             if ($i === $limit) {
                 break;
             }
-            if (!in_array($record->job()->type(), $types, true)) {
+            if (!in_array($record->job()->type(), $types, \true)) {
                 continue;
             }
             $result[] = $record;
             $i++;
         }
-
         return $result;
     }
-
     /**
      * @inheritDoc
      */
@@ -73,24 +64,18 @@ class EphemeralJobRepository implements JobRepository
         if (empty($types)) {
             return $this->count($this->repository);
         }
-
         $count = 0;
-
         foreach ($this->repository as $record) {
-            if (!in_array($record->job()->type(), $types, true)) {
+            if (!in_array($record->job()->type(), $types, \true)) {
                 continue;
             }
-
             $count++;
         }
-
         return $count;
     }
-
     public function flush(): bool
     {
         $this->repository = [];
-
-        return true;
+        return \true;
     }
 }

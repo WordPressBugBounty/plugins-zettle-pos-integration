@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 /**
  * Class EphemeralLocker
@@ -13,29 +12,23 @@ namespace Inpsyde\Queue\Queue;
  */
 class EphemeralLocker implements Locker
 {
-
-    private $isLocked = false;
-
+    private bool $isLocked = \false;
     /**
      * @inheritDoc
      */
     public function lock(): bool
     {
-        $this->isLocked = true;
-
-        return true;
+        $this->isLocked = \true;
+        return \true;
     }
-
     /**
      * @inheritDoc
      */
     public function unlock(): bool
     {
-        $this->isLocked = false;
-
-        return true;
+        $this->isLocked = \false;
+        return \true;
     }
-
     /**
      * @inheritDoc
      */

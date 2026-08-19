@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner;
 
-namespace Inpsyde\Queue\Queue\Runner;
-
-use Inpsyde\Queue\Processor\QueueProcessor;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 /**
  * Interface Runner
  *
@@ -16,7 +14,6 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 interface Runner
 {
-
     /**
      * Register a method to call QueueProcessor::process() at some point.
      *

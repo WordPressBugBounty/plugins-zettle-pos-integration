@@ -2,10 +2,8 @@
 
 namespace Composer\Installers;
 
-class ElggInstaller extends BaseInstaller
+class ElggInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'plugin' => 'mod/{$name}/',
-    );
+    protected $locations = array('plugin' => 'mod/{$name}/');
 }

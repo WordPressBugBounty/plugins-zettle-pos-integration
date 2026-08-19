@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Discovery\Exception;
+namespace Syde\Vendor\Zettle\Http\Discovery\Exception;
 
-use Http\Discovery\Exception;
-
+use Syde\Vendor\Zettle\Http\Discovery\Exception;
 /**
  * Thrown when a class fails to instantiate.
  *

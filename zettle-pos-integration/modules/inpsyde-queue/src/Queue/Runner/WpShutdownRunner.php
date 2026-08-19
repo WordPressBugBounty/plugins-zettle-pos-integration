@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue\Runner;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner;
 
 use Exception;
-use Inpsyde\Queue\Processor\QueueProcessor;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 /**
  * Class WpShutdownRunner
  *
@@ -21,9 +19,7 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 class WpShutdownRunner implements Runner
 {
-
-    private $called = false;
-
+    private bool $called = \false;
     /**
      * Hook the QueueProcessor into the shutdown action.
      * Ensures that the Runner is only being onvoked once even if the hook is called multiple times.
@@ -32,20 +28,16 @@ class WpShutdownRunner implements Runner
      */
     public function initialize(QueueProcessor $queueProcessor): void
     {
-        add_action(
-            'shutdown',
-            function () use ($queueProcessor) {
-                if ($this->called) {
-                    return;
-                }
-                $this->called = true;
-                try {
-                    $queueProcessor->process();
-                } catch (Exception $exception) {
-                    //silence
-                }
-            },
-            -100
-        );
+        add_action('shutdown', function () use ($queueProcessor): void {
+            if ($this->called) {
+                return;
+            }
+            $this->called = \true;
+            try {
+                $queueProcessor->process();
+            } catch (Exception $exception) {
+                //silence
+            }
+        }, -100);
     }
 }

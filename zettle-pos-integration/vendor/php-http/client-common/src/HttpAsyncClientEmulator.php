@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\Exception;
-use Http\Client\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Exception;
+use Syde\Vendor\Zettle\Http\Client\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Emulates an HTTP Async Client in an HTTP Client.
  *
@@ -20,7 +18,6 @@ trait HttpAsyncClientEmulator
      * @see HttpClient::sendRequest
      */
     abstract public function sendRequest(RequestInterface $request): ResponseInterface;
-
     /**
      * @see HttpAsyncClient::sendAsyncRequest
      */

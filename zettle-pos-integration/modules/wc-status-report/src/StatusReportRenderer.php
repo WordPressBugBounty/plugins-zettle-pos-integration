@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcStatusReport;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
 class StatusReportRenderer implements StatusReportRendererInterface
 {
@@ -16,27 +15,37 @@ class StatusReportRenderer implements StatusReportRendererInterface
         <table class="wc_status_table widefat" cellspacing="0">
             <thead>
             <tr>
-                <th colspan="3" data-export-label="<?= esc_attr($report->getTitle()) ?>"><h2><?= esc_html($report->getTitle()); ?></h2></th>
+                <th colspan="3" data-export-label="<?php 
+        echo esc_attr($report->getTitle());
+        ?>"><h2><?php 
+        echo esc_html($report->getTitle());
+        ?></h2></th>
             </tr>
             </thead>
             <tbody>
-            <?php
-            foreach ($report->getItems() as $item) {
-                // WC uses the 3rd column for export, so we need to add an empty 2nd column
-                ?>
+            <?php 
+        foreach ($report->getItems() as $item) {
+            // WC uses the 3rd column for export, so we need to add an empty 2nd column
+            ?>
                 <tr>
-                    <td data-export-label="<?= esc_attr($item->getExportedLabel()) ?>">
-                        <?= esc_html($item->getLabel()) ?>
+                    <td data-export-label="<?php 
+            echo esc_attr($item->getExportedLabel());
+            ?>">
+                        <?php 
+            echo esc_html($item->getLabel());
+            ?>
                     </td>
                     <td style="display: none;"></td>
-                    <td><?= esc_html((string) $item->getValue()) ?></td>
+                    <td><?php 
+            echo esc_html((string) $item->getValue());
+            ?></td>
                 </tr>
-                <?php
-            }
-            ?>
+                <?php 
+        }
+        ?>
             </tbody>
         </table>
-        <?php
-        return ob_get_clean();
+        <?php 
+        return (string) ob_get_clean();
     }
 }

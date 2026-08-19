@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Http;
 
-namespace Inpsyde\Http;
-
-use Dhii\Modular\Module\ModuleInterface;
-
-return static function (): ModuleInterface {
+return static function (): HttpClientModule {
     return new HttpClientModule();
 };

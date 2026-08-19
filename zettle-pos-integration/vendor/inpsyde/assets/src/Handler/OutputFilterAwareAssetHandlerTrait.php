@@ -1,41 +1,28 @@
 <?php
 
-/*
- * This file is part of the Assets package.
- *
- * (c) Inpsyde GmbH
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Inpsyde\Assets\Handler;
 
 use Inpsyde\Assets\Asset;
+use Inpsyde\Assets\FilterAwareAsset;
 use Inpsyde\Assets\OutputFilter\AssetOutputFilter;
-
 trait OutputFilterAwareAssetHandlerTrait
 {
     /**
      * @var array<string, callable|class-string<AssetOutputFilter>>
      */
-    protected $outputFilters = [];
-
+    protected array $outputFilters = [];
     /**
      * @param string $name
      * @param callable $filter
      *
      * @return OutputFilterAwareAssetHandler
      */
-    public function withOutputFilter(string $name, callable $filter): OutputFilterAwareAssetHandler
+    public function withOutputFilter(string $name, callable $filter): \Inpsyde\Assets\Handler\OutputFilterAwareAssetHandler
     {
         $this->outputFilters[$name] = $filter;
-
         return $this;
     }
-
     /**
      * @return array<string, callable|class-string<AssetOutputFilter>>
      */
@@ -43,7 +30,6 @@ trait OutputFilterAwareAssetHandlerTrait
     {
         return $this->outputFilters;
     }
-
     /**
      * @param Asset $asset
      *
@@ -53,33 +39,34 @@ trait OutputFilterAwareAssetHandlerTrait
     {
         $filters = $this->currentOutputFilters($asset);
         if (count($filters) === 0) {
-            return false;
+            return \false;
         }
-
-        add_filter(
-            $this->filterHook(),
-            static function (string $html, string $handle) use ($filters, $asset): string {
-                if ($handle !== $asset->handle()) {
-                    return $html;
-                }
-                foreach ($filters as $filter) {
-                    /** @psalm-suppress MixedFunctionCall */
-                    $html = (string) $filter($html, $asset);
-                }
-
+        add_filter($this->filterHook(), static function (string $html, string $handle) use ($filters, $asset): string {
+            if ($handle !== $asset->handle()) {
                 return $html;
-            },
-            10,
-            2
-        );
-
-        return true;
+            }
+            foreach ($filters as $filter) {
+                if (!is_callable($filter)) {
+                    continue;
+                }
+                $html = (string) $filter($html, $asset);
+            }
+            return $html;
+        }, 10, 2);
+        return \true;
     }
-
+    /**
+     * @param Asset $asset
+     *
+     * @return array<class-string<AssetOutputFilter>|callable>
+     */
     protected function currentOutputFilters(Asset $asset): array
     {
         $filters = [];
         $registeredFilters = $this->outputFilters();
+        if (!$asset instanceof FilterAwareAsset) {
+            return $filters;
+        }
         foreach ($asset->filters() as $filter) {
             if (is_callable($filter)) {
                 $filters[] = $filter;
@@ -89,10 +76,8 @@ trait OutputFilterAwareAssetHandlerTrait
                 $filters[] = $registeredFilters[$filter];
             }
         }
-
         return $filters;
     }
-
     /**
      * Defines the name of hook to filter the specific asset.
      *

@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Set query to default value if it does not exist.
  *
@@ -21,7 +19,6 @@ final class QueryDefaultsPlugin implements Plugin
      * @var array
      */
     private $queryParams = [];
-
     /**
      * @param array $queryParams Hashmap of query name to query value. Names and values must not be url encoded as
      *                           this plugin will encode them
@@ -30,18 +27,12 @@ final class QueryDefaultsPlugin implements Plugin
     {
         $this->queryParams = $queryParams;
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         $uri = $request->getUri();
-
         parse_str($uri->getQuery(), $query);
         $query += $this->queryParams;
-
-        $request = $request->withUri(
-            $uri->withQuery(http_build_query($query))
-        );
-
+        $request = $request->withUri($uri->withQuery(http_build_query($query)));
         return $next($request);
     }
 }

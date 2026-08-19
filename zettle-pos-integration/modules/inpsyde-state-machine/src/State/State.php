@@ -1,33 +1,23 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\State;
 
-namespace Inpsyde\StateMachine\State;
-
-use Inpsyde\StateMachine\Transition\TransitionInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 class State implements StateInterface
 {
-
-    protected $name;
-
-    protected $type;
-
+    protected string $name;
+    protected string $type;
     /**
      * @var TransitionInterface[]
      */
-    protected $transitions;
-
-    public function __construct(
-        string $name,
-        string $type = self::TYPE_NORMAL,
-        array $transitions = []
-    ) {
+    protected array $transitions;
+    public function __construct(string $name, string $type = self::TYPE_NORMAL, array $transitions = [])
+    {
         $this->name = $name;
         $this->type = $type;
         $this->transitions = $transitions;
     }
-
     /**
      * @return string
      */
@@ -35,23 +25,20 @@ class State implements StateInterface
     {
         return $this->name;
     }
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInitial(): bool
     {
         return $this->type === self::TYPE_INITIAL;
     }
-
     /**
-     * @return boolean
+     * @return bool
      */
     public function isFinal(): bool
     {
         return $this->type === self::TYPE_FINAL;
     }
-
     /**
      * Return the available transitions
      *
@@ -61,34 +48,17 @@ class State implements StateInterface
     {
         return $this->transitions;
     }
-
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return bool
-     */
     public function addTransition(TransitionInterface $transition): bool
     {
         $this->transitions[$transition->name()] = $transition;
-
-        return true;
+        return \true;
     }
-
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
-     */
-    public function can($transition): bool
+    public function can(TransitionInterface|string $transition): bool
     {
         if ($this->isFinal()) {
-            return false;
+            return \false;
         }
-        $name = ($transition instanceof TransitionInterface)
-            ? $transition->name()
-            : $transition;
-
+        $name = $transition instanceof TransitionInterface ? $transition->name() : $transition;
         return isset($this->transitions[$name]);
     }
 }

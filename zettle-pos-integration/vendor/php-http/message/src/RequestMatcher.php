@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Match a request.
  *

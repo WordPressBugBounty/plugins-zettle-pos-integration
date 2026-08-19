@@ -1,15 +1,13 @@
 <?php
 
-namespace Http\Message\UriFactory;
+namespace Syde\Vendor\Zettle\Http\Message\UriFactory;
 
-use Http\Message\UriFactory;
-use Psr\Http\Message\UriInterface;
-use Slim\Http\Uri;
-
+use Syde\Vendor\Zettle\Http\Message\UriFactory;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
+use Syde\Vendor\Zettle\Slim\Http\Uri;
 if (!interface_exists(UriFactory::class)) {
     throw new \LogicException('You cannot use "Http\Message\MessageFactory\SlimUriFactory" as the "php-http/message-factory" package is not installed. Try running "composer require php-http/message-factory". Note that this package is deprecated, use "psr/http-factory" instead');
 }
-
 /**
  * Creates Slim 3 URI.
  *
@@ -24,11 +22,9 @@ final class SlimUriFactory implements UriFactory
         if ($uri instanceof UriInterface) {
             return $uri;
         }
-
         if (is_string($uri)) {
             return Uri::createFromString($uri);
         }
-
         throw new \InvalidArgumentException('URI must be a string or UriInterface');
     }
 }

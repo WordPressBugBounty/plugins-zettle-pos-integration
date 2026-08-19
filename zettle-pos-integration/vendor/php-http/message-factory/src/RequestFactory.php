@@ -1,11 +1,10 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\UriInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
 /**
  * Factory for PSR-7 Request.
  *
@@ -26,11 +25,5 @@ interface RequestFactory
      *
      * @return RequestInterface
      */
-    public function createRequest(
-        $method,
-        $uri,
-        array $headers = [],
-        $body = null,
-        $protocolVersion = '1.1'
-    );
+    public function createRequest($method, $uri, array $headers = [], $body = null, $protocolVersion = '1.1');
 }

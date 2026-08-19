@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
 /**
  * Factory for PSR-7 Request and Response.

@@ -1,19 +1,16 @@
 <?php
 
-namespace Inpsyde\Queue\Queue\Job;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
-use DateTime;
-use Inpsyde\Queue\Exception\InvalidJobException;
-use stdClass;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
 interface JobRecordFactoryInterface
 {
-
     /**
-     * @param string $class
+     * @param string $type
      * @param ContextInterface $context
      * @throws InvalidJobException
      * @return JobRecord
      */
-    public function fromData(string $class, ContextInterface $context): JobRecord;
+    public function fromData(string $type, ContextInterface $context): JobRecord;
 }

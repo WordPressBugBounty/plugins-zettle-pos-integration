@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
-namespace Inpsyde\Debug;
-
-use Psr\Container\ContainerInterface;
-
-return [
-
-];
+return [];

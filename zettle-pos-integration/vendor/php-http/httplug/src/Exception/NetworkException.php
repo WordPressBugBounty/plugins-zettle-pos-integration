@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Client\Exception;
+namespace Syde\Vendor\Zettle\Http\Client\Exception;
 
-use Psr\Http\Client\NetworkExceptionInterface as PsrNetworkException;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\NetworkExceptionInterface as PsrNetworkException;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Thrown when the request cannot be completed because of network issues.
  *
@@ -15,14 +14,12 @@ use Psr\Http\Message\RequestInterface;
 class NetworkException extends TransferException implements PsrNetworkException
 {
     use RequestAwareTrait;
-
     /**
      * @param string $message
      */
     public function __construct($message, RequestInterface $request, ?\Exception $previous = null)
     {
         $this->setRequest($request);
-
         parent::__construct($message, 0, $previous);
     }
 }

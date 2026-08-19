@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\Common\Exception\BatchException;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Exception\BatchException;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * BatchClient allow to sends multiple request and retrieve a Batch Result.
  *

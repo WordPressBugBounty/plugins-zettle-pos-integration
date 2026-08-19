@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Log;
+namespace Syde\Vendor\Zettle\Psr\Log;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

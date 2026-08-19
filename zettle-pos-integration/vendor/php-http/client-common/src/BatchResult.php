@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Responses and exceptions returned from parallel request execution.
  *
@@ -19,18 +17,15 @@ final class BatchResult
      * @var \SplObjectStorage<RequestInterface, ResponseInterface>
      */
     private $responses;
-
     /**
      * @var \SplObjectStorage<RequestInterface, ClientExceptionInterface>
      */
     private $exceptions;
-
     public function __construct()
     {
         $this->responses = new \SplObjectStorage();
         $this->exceptions = new \SplObjectStorage();
     }
-
     /**
      * Checks if there are any successful responses at all.
      */
@@ -38,7 +33,6 @@ final class BatchResult
     {
         return $this->responses->count() > 0;
     }
-
     /**
      * Returns all successful responses.
      *
@@ -47,14 +41,11 @@ final class BatchResult
     public function getResponses(): array
     {
         $responses = [];
-
         foreach ($this->responses as $request) {
             $responses[] = $this->responses[$request];
         }
-
         return $responses;
     }
-
     /**
      * Checks if there is a successful response for a request.
      */
@@ -62,7 +53,6 @@ final class BatchResult
     {
         return $this->responses->contains($request);
     }
-
     /**
      * Returns the response for a successful request.
      *
@@ -76,7 +66,6 @@ final class BatchResult
             throw new \UnexpectedValueException('Request not found', $e->getCode(), $e);
         }
     }
-
     /**
      * Adds a response in an immutable way.
      *
@@ -86,10 +75,8 @@ final class BatchResult
     {
         $new = clone $this;
         $new->responses->attach($request, $response);
-
         return $new;
     }
-
     /**
      * Checks if there are any unsuccessful requests at all.
      */
@@ -97,7 +84,6 @@ final class BatchResult
     {
         return $this->exceptions->count() > 0;
     }
-
     /**
      * Returns all exceptions for the unsuccessful requests.
      *
@@ -106,14 +92,11 @@ final class BatchResult
     public function getExceptions(): array
     {
         $exceptions = [];
-
         foreach ($this->exceptions as $request) {
             $exceptions[] = $this->exceptions[$request];
         }
-
         return $exceptions;
     }
-
     /**
      * Checks if there is an exception for a request, meaning the request failed.
      */
@@ -121,7 +104,6 @@ final class BatchResult
     {
         return $this->exceptions->contains($request);
     }
-
     /**
      * Returns the exception for a failed request.
      *
@@ -135,7 +117,6 @@ final class BatchResult
             throw new \UnexpectedValueException('Request not found', $e->getCode(), $e);
         }
     }
-
     /**
      * Adds an exception in an immutable way.
      *
@@ -145,10 +126,8 @@ final class BatchResult
     {
         $new = clone $this;
         $new->exceptions->attach($request, $exception);
-
         return $new;
     }
-
     public function __clone()
     {
         $this->responses = clone $this->responses;

@@ -1,33 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcStatusReport;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
 class ReportItem implements ReportItemInterface
 {
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var string
-     */
-    protected $exportedLabel;
-
-    /**
-     * @var mixed
-     */
-    protected $value;
-
-    public function __construct(string $label, string $exportedLabel, $value)
+    protected string $label;
+    protected string $exportedLabel;
+    protected mixed $value;
+    public function __construct(string $label, string $exportedLabel, mixed $value)
     {
         $this->label = $label;
         $this->exportedLabel = $exportedLabel;
         $this->value = $value;
     }
-
     /**
      * @inheritDoc
      */
@@ -35,7 +21,6 @@ class ReportItem implements ReportItemInterface
     {
         return $this->label;
     }
-
     /**
      * @inheritDoc
      */
@@ -43,11 +28,10 @@ class ReportItem implements ReportItemInterface
     {
         return $this->exportedLabel;
     }
-
     /**
      * @inheritDoc
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

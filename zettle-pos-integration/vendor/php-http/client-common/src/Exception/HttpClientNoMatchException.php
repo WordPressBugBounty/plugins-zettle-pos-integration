@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Exception;
 
-namespace Http\Client\Common\Exception;
-
-use Http\Client\Exception\TransferException;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Exception\TransferException;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Thrown when a http client match in the HTTPClientRouter.
  *
@@ -18,14 +16,11 @@ final class HttpClientNoMatchException extends TransferException
      * @var RequestInterface
      */
     private $request;
-
     public function __construct(string $message, RequestInterface $request, ?\Exception $previous = null)
     {
         $this->request = $request;
-
         parent::__construct($message, 0, $previous);
     }
-
     public function getRequest(): RequestInterface
     {
         return $this->request;

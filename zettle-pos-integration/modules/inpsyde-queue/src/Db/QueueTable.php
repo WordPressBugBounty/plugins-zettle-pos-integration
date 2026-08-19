@@ -8,10 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Db;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Db;
 
 /**
  * Class QueueTable
@@ -19,16 +17,11 @@ namespace Inpsyde\Queue\Db;
  */
 class QueueTable implements Table
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-
+    private string $namespace;
     public function __construct(string $namespace)
     {
         $this->namespace = $namespace;
     }
-
     /**
      * @return string
      */
@@ -36,14 +29,12 @@ class QueueTable implements Table
     {
         return $this->namespace . '_queue';
     }
-
     /**
      * @return string
      */
     public function schema(): string
     {
-        return /** @lang SQL */
-            ' 
+        return ' 
         `ID` BIGINT(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
         `hash` VARCHAR(255) NOT NULL,
         `type` VARCHAR(255) NOT NULL,

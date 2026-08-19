@@ -8,10 +8,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue;
 
 /**
  * Interface Locker
@@ -23,12 +21,10 @@ interface Locker
      * @return bool
      */
     public function lock(): bool;
-
     /**
      * @return bool
      */
     public function unlock(): bool;
-
     /**
      * @return bool
      */

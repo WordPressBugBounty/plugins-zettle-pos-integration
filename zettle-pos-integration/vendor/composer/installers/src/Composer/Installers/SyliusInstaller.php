@@ -2,10 +2,8 @@
 
 namespace Composer\Installers;
 
-class SyliusInstaller extends BaseInstaller
+class SyliusInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'theme' => 'themes/{$name}/',
-    );
+    protected $locations = array('theme' => 'themes/{$name}/');
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
 /**
  * Cookie Jar holds a set of Cookies.
@@ -13,12 +13,10 @@ final class CookieJar implements \Countable, \IteratorAggregate
      * @var \SplObjectStorage<Cookie, mixed>
      */
     private $cookies;
-
     public function __construct()
     {
         $this->cookies = new \SplObjectStorage();
     }
-
     /**
      * Checks if there is a cookie.
      *
@@ -28,7 +26,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
     {
         return $this->cookies->contains($cookie);
     }
-
     /**
      * Adds a cookie.
      */
@@ -36,21 +33,17 @@ final class CookieJar implements \Countable, \IteratorAggregate
     {
         if (!$this->hasCookie($cookie)) {
             $cookies = $this->getMatchingCookies($cookie);
-
             foreach ($cookies as $matchingCookie) {
                 if ($cookie->getValue() !== $matchingCookie->getValue() || $cookie->getMaxAge() > $matchingCookie->getMaxAge()) {
                     $this->removeCookie($matchingCookie);
-
                     continue;
                 }
             }
-
             if ($cookie->hasValue()) {
                 $this->cookies->attach($cookie);
             }
         }
     }
-
     /**
      * Removes a cookie.
      */
@@ -58,7 +51,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
     {
         $this->cookies->detach($cookie);
     }
-
     /**
      * Returns the cookies.
      *
@@ -67,12 +59,10 @@ final class CookieJar implements \Countable, \IteratorAggregate
     public function getCookies()
     {
         $match = function ($matchCookie) {
-            return true;
+            return \true;
         };
-
         return $this->findMatchingCookies($match);
     }
-
     /**
      * Returns all matching cookies.
      *
@@ -83,10 +73,8 @@ final class CookieJar implements \Countable, \IteratorAggregate
         $match = function ($matchCookie) use ($cookie) {
             return $matchCookie->match($cookie);
         };
-
         return $this->findMatchingCookies($match);
     }
-
     /**
      * Finds matching cookies based on a callable.
      *
@@ -95,16 +83,13 @@ final class CookieJar implements \Countable, \IteratorAggregate
     private function findMatchingCookies(callable $match)
     {
         $cookies = [];
-
         foreach ($this->cookies as $cookie) {
             if ($match($cookie)) {
                 $cookies[] = $cookie;
             }
         }
-
         return $cookies;
     }
-
     /**
      * Checks if there are cookies.
      *
@@ -114,7 +99,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
     {
         return $this->cookies->count() > 0;
     }
-
     /**
      * Sets the cookies and removes any previous one.
      *
@@ -125,7 +109,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
         $this->clear();
         $this->addCookies($cookies);
     }
-
     /**
      * Adds some cookies.
      *
@@ -137,7 +120,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
             $this->addCookie($cookie);
         }
     }
-
     /**
      * Removes some cookies.
      *
@@ -149,7 +131,6 @@ final class CookieJar implements \Countable, \IteratorAggregate
             $this->removeCookie($cookie);
         }
     }
-
     /**
      * Removes cookies which match the given parameters.
      *
@@ -162,28 +143,21 @@ final class CookieJar implements \Countable, \IteratorAggregate
     public function removeMatchingCookies($name = null, $domain = null, $path = null)
     {
         $match = function ($cookie) use ($name, $domain, $path) {
-            $match = true;
-
+            $match = \true;
             if (isset($name)) {
-                $match = $match && ($cookie->getName() === $name);
+                $match = $match && $cookie->getName() === $name;
             }
-
             if (isset($domain)) {
                 $match = $match && $cookie->matchDomain($domain);
             }
-
             if (isset($path)) {
                 $match = $match && $cookie->matchPath($path);
             }
-
             return $match;
         };
-
         $cookies = $this->findMatchingCookies($match);
-
         $this->removeCookies($cookies);
     }
-
     /**
      * Removes all cookies.
      */
@@ -191,13 +165,11 @@ final class CookieJar implements \Countable, \IteratorAggregate
     {
         $this->cookies = new \SplObjectStorage();
     }
-
     #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->cookies->count();
     }
-
     #[\ReturnTypeWillChange]
     public function getIterator()
     {

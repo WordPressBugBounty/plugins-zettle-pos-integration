@@ -1,9 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
-namespace Inpsyde\WcStatusReport;
-
-return [
-
-];
+return [];

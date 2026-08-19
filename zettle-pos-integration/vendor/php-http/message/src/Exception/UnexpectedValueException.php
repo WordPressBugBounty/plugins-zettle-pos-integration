@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Message\Exception;
+namespace Syde\Vendor\Zettle\Http\Message\Exception;
 
-use Http\Message\Exception;
-
+use Syde\Vendor\Zettle\Http\Message\Exception;
 final class UnexpectedValueException extends \UnexpectedValueException implements Exception
 {
 }

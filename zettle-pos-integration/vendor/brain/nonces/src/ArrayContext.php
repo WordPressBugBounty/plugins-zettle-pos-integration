@@ -1,4 +1,6 @@
-<?php # -*- coding: utf-8 -*-
+<?php
+
+# -*- coding: utf-8 -*-
 /*
  * This file is part of the Nonces package.
  *
@@ -7,8 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Brain\Nonces;
+namespace Syde\Vendor\Zettle\Brain\Nonces;
 
 /**
  * Simple immutable nonce context implementation based on an arbitrary array storage, that can only
@@ -20,9 +21,7 @@ namespace Brain\Nonces;
  */
 final class ArrayContext implements NonceContextInterface
 {
-
     private $storage = [];
-
     /**
      * @param array $storage
      */
@@ -30,7 +29,6 @@ final class ArrayContext implements NonceContextInterface
     {
         $this->storage = $storage;
     }
-
     /**
      * @inheritdoc
      */
@@ -39,7 +37,6 @@ final class ArrayContext implements NonceContextInterface
     {
         return array_key_exists($offset, $this->storage);
     }
-
     /**
      * @inheritdoc
      */
@@ -48,7 +45,6 @@ final class ArrayContext implements NonceContextInterface
     {
         return $this->offsetExists($offset) ? $this->storage[$offset] : null;
     }
-
     /**
      * Disabled.
      *
@@ -60,11 +56,8 @@ final class ArrayContext implements NonceContextInterface
     #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        throw new \BadMethodCallException(
-            sprintf("Can't call %s, %s is read only.", __METHOD__, __CLASS__)
-        );
+        throw new \BadMethodCallException(sprintf("Can't call %s, %s is read only.", __METHOD__, __CLASS__));
     }
-
     /**
      * Disabled.
      *
@@ -75,8 +68,6 @@ final class ArrayContext implements NonceContextInterface
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
-        throw new \BadMethodCallException(
-            sprintf("Can't call %s, %s is read only.", __METHOD__, __CLASS__)
-        );
+        throw new \BadMethodCallException(sprintf("Can't call %s, %s is read only.", __METHOD__, __CLASS__));
     }
 }

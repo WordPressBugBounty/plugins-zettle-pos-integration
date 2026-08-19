@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
-namespace Inpsyde\Queue\Processor;
-
-use Inpsyde\Queue\Exception\QueueException;
-use Inpsyde\Queue\Exception\QueueLockedException;
-use Inpsyde\Queue\Queue\Job\JobRepository;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
 interface QueueProcessor
 {
     /**
@@ -16,7 +13,6 @@ interface QueueProcessor
      * @return JobRepository
      */
     public function repository(): JobRepository;
-
     /**
      * Return the amount of processed Jobs
      * @throws QueueLockedException

@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Message\Encoding;
+namespace Syde\Vendor\Zettle\Http\Message\Encoding;
 
 /**
  * Transform a regular stream into a chunked one.
@@ -13,16 +13,13 @@ class ChunkStream extends FilteredStream
     {
         return 'chunk';
     }
-
     protected function writeFilter(): string
     {
         return 'dechunk';
     }
-
     protected function fill(): void
     {
         parent::fill();
-
         if ($this->stream->eof()) {
             $this->buffer .= "0\r\n\r\n";
         }

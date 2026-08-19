@@ -1,21 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcStatusReport;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
 class StatusReport implements StatusReportInterface
 {
-    /**
-     * @var string
-     */
-    protected $title;
-
+    protected string $title;
     /**
      * @var iterable<ReportItem>
      */
-    protected $items;
-
+    protected iterable $items;
     /**
      * @param iterable<ReportItem> $items
      */
@@ -24,7 +18,6 @@ class StatusReport implements StatusReportInterface
         $this->title = $title;
         $this->items = $items;
     }
-
     /**
      * @inheritDoc
      */
@@ -32,7 +25,6 @@ class StatusReport implements StatusReportInterface
     {
         return $this->title;
     }
-
     /**
      * @inheritDoc
      */

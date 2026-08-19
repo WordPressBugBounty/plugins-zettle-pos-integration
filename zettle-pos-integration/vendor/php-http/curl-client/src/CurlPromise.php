@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Curl;
 
-namespace Http\Client\Curl;
-
-use Http\Promise\Promise;
-
+use Syde\Vendor\Zettle\Http\Promise\Promise;
 /**
  * Promise represents a response that may not be available yet, but will be resolved at some point
  * in future. It acts like a proxy to the actual response.
@@ -25,14 +23,12 @@ class CurlPromise implements Promise
      * @var PromiseCore
      */
     private $core;
-
     /**
      * Requests runner.
      *
      * @var MultiRunner
      */
     private $runner;
-
     /**
      * Create new promise.
      *
@@ -44,7 +40,6 @@ class CurlPromise implements Promise
         $this->core = $core;
         $this->runner = $runner;
     }
-
     /**
      * Add behavior for when the promise is resolved or rejected.
      *
@@ -67,10 +62,8 @@ class CurlPromise implements Promise
         if ($onRejected) {
             $this->core->addOnRejected($onRejected);
         }
-
         return new self($this->core, $this->runner);
     }
-
     /**
      * Get the state of the promise, one of PENDING, FULFILLED or REJECTED.
      *
@@ -80,7 +73,6 @@ class CurlPromise implements Promise
     {
         return $this->core->getState();
     }
-
     /**
      * Wait for the promise to be fulfilled or rejected.
      *
@@ -94,18 +86,15 @@ class CurlPromise implements Promise
      *
      * @throws \Http\Client\Exception The rejection reason
      */
-    public function wait($unwrap = true)
+    public function wait($unwrap = \true)
     {
         $this->runner->wait($this->core);
-
         if ($unwrap) {
             if ($this->core->getState() === self::REJECTED) {
                 throw $this->core->getException();
             }
-
             return $this->core->getResponse();
         }
-
         return null;
     }
 }

@@ -2,15 +2,10 @@
 
 namespace Composer\Installers;
 
-class TastyIgniterInstaller extends BaseInstaller
+class TastyIgniterInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = [
-        'module' => 'app/{$name}/',
-        'extension' => 'extensions/{$vendor}/{$name}/',
-        'theme' => 'themes/{$name}/',
-    ];
-
+    protected $locations = ['module' => 'app/{$name}/', 'extension' => 'extensions/{$vendor}/{$name}/', 'theme' => 'themes/{$name}/'];
     /**
      * Format package name.
      *
@@ -21,22 +16,17 @@ class TastyIgniterInstaller extends BaseInstaller
     public function inflectPackageVars(array $vars): array
     {
         $extra = $this->package->getExtra();
-
         if ($vars['type'] === 'tastyigniter-module') {
             return $this->inflectModuleVars($vars);
         }
-
         if ($vars['type'] === 'tastyigniter-extension') {
             return $this->inflectExtensionVars($vars, $extra);
         }
-
         if ($vars['type'] === 'tastyigniter-theme') {
             return $this->inflectThemeVars($vars, $extra);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -44,10 +34,8 @@ class TastyIgniterInstaller extends BaseInstaller
     protected function inflectModuleVars(array $vars): array
     {
         $vars['name'] = $this->pregReplace('/^ti-module-/', '', $vars['name']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @param array<string, mixed> $extra
@@ -57,16 +45,13 @@ class TastyIgniterInstaller extends BaseInstaller
     {
         if (!empty($extra['tastyigniter-extension']['code'])) {
             $parts = explode('.', $extra['tastyigniter-extension']['code']);
-            $vars['vendor'] = (string)$parts[0];
-            $vars['name'] = (string)($parts[1] ?? '');
+            $vars['vendor'] = (string) $parts[0];
+            $vars['name'] = (string) ($parts[1] ?? '');
         }
-
         $vars['vendor'] = $this->pregReplace('/[^a-z0-9_]/i', '', $vars['vendor']);
         $vars['name'] = $this->pregReplace('/^ti-ext-/', '', $vars['name']);
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @param array<string, mixed> $extra
@@ -77,9 +62,7 @@ class TastyIgniterInstaller extends BaseInstaller
         if (!empty($extra['tastyigniter-theme']['code'])) {
             $vars['name'] = $extra['tastyigniter-theme']['code'];
         }
-
         $vars['name'] = $this->pregReplace('/^ti-theme-/', '', $vars['name']);
-
         return $vars;
     }
 }

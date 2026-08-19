@@ -1,24 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Cli;
 
-namespace Inpsyde\Queue\Cli;
-
-use Inpsyde\Queue\Processor\QueueProcessor;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 class QueueCommand
 {
-
-    /**
-     * @var QueueProcessor
-     */
-    private $processor;
-
+    private QueueProcessor $processor;
     public function __construct(QueueProcessor $processor)
     {
         $this->processor = $processor;
     }
-
     /**
      * Processes current queue items
      *
@@ -36,11 +28,10 @@ class QueueCommand
      *
      * @when after_wp_load
      */
-    public function process(array $args, array $assocArgs)
+    public function process(array $args, array $assocArgs): void
     {
         $this->processor->process();
     }
-
     /**
      * Intended to run forever, checking for new jobs to run every 2 seconds
      *
@@ -58,9 +49,10 @@ class QueueCommand
      *
      * @when after_wp_load
      */
-    public function live(array $args, array $assocArgs)
+    public function live(array $args, array $assocArgs): void
     {
-        while (true) {
+        // @phpstan-ignore while.alwaysTrue
+        while (\true) {
             $this->processor->process();
             sleep(2);
         }

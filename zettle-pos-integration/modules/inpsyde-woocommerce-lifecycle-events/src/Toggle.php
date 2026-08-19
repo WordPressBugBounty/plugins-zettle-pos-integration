@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcEvents;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcEvents;
 
 /**
  * This class can be used to prevent dispatching events.
@@ -11,17 +10,14 @@ namespace Inpsyde\WcEvents;
  */
 class Toggle
 {
-
-    private $state = true;
-
+    private bool $state = \true;
     /**
      * Enables dispatching of event. This is the default state
      */
     public function enable(): void
     {
-        $this->state = true;
+        $this->state = \true;
     }
-
     /**
      * Returns true if events should be dispatched
      *
@@ -31,12 +27,11 @@ class Toggle
     {
         return $this->state;
     }
-
     /**
      * Prevents events from being dispatched
      */
     public function disable(): void
     {
-        $this->state = false;
+        $this->state = \false;
     }
 }

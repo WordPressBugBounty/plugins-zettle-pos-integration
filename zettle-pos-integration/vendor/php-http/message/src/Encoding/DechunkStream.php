@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Message\Encoding;
+namespace Syde\Vendor\Zettle\Http\Message\Encoding;
 
 /**
  * Decorate a stream which is chunked.
@@ -15,7 +15,6 @@ class DechunkStream extends FilteredStream
     {
         return 'dechunk';
     }
-
     protected function writeFilter(): string
     {
         return 'chunk';

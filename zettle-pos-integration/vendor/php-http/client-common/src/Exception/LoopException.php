@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Exception;
 
-namespace Http\Client\Common\Exception;
-
-use Http\Client\Exception\RequestException;
-
+use Syde\Vendor\Zettle\Http\Client\Exception\RequestException;
 /**
  * Thrown when the Plugin Client detects an endless loop.
  *

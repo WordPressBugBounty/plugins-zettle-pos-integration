@@ -1,54 +1,33 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader;
 
-namespace Inpsyde\StateMachine\Loader;
-
-use Inpsyde\StateMachine\Guard\GuardInterface;
-use Inpsyde\StateMachine\Initializer\InitializerInterface;
-use Inpsyde\StateMachine\State\StateInterface;
-use Inpsyde\StateMachine\StateMachineInterface;
-use Inpsyde\StateMachine\Transition\TransitionInterface;
-use Psr\Container\ContainerInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard\GuardInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Initializer\InitializerInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
+use Syde\Vendor\Zettle\Psr\Container\ContainerInterface;
 class ContainerLoader implements LoaderInterface
 {
-
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var InitializerInterface
-     */
-    private $initializer;
-
-    public function __construct(
-        string $namespace,
-        InitializerInterface $initializer,
-        ContainerInterface $container
-    ) {
+    private string $namespace;
+    private ContainerInterface $container;
+    private InitializerInterface $initializer;
+    public function __construct(string $namespace, InitializerInterface $initializer, ContainerInterface $container)
+    {
         $this->namespace = $namespace;
         $this->initializer = $initializer;
         $this->container = $container;
     }
-
     public function load(StateMachineInterface $stateMachine): StateMachineInterface
     {
         $this->loadStates($stateMachine);
         $this->loadTransitions($stateMachine);
         $this->loadGuards($stateMachine);
-
         return $stateMachine;
     }
-
-    private function loadStates(StateMachineInterface $stateMachine)
+    private function loadStates(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.states";
         if (!$this->container->has($key)) {
@@ -62,8 +41,7 @@ class ContainerLoader implements LoaderInterface
         }
         $this->initializer->initialize($stateMachine, ...$states);
     }
-
-    private function loadTransitions(StateMachineInterface $stateMachine)
+    private function loadTransitions(StateMachineInterface $stateMachine): void
     {
         $key = "{$this->namespace}.transitions";
         if (!$this->container->has($key)) {
@@ -76,12 +54,9 @@ class ContainerLoader implements LoaderInterface
             $stateMachine->addTransition($state);
         }
     }
-
-    private function loadGuards(StateMachineInterface $stateMachine)
+    private function loadGuards(StateMachineInterface $stateMachine): void
     {
-        $guards = [
-            $this->container->get("inpsyde.state-machine.guards.container-aware"),
-        ];
+        $guards = [$this->container->get("inpsyde.state-machine.guards.container-aware")];
         $key = "{$this->namespace}.guards";
         if ($this->container->has($key)) {
             $guards = $this->container->get($key);

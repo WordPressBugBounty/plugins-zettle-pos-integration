@@ -1,9 +1,8 @@
 <?php
 
-namespace Http\Client;
+namespace Syde\Vendor\Zettle\Http\Client;
 
-use Psr\Http\Client\ClientInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 /**
  * {@inheritdoc}
  *

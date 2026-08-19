@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
 /**
  * Factory for PSR-7 Response.
  *
@@ -27,11 +26,5 @@ interface ResponseFactory
      *
      * @return ResponseInterface
      */
-    public function createResponse(
-        $statusCode = 200,
-        $reasonPhrase = null,
-        array $headers = [],
-        $body = null,
-        $protocolVersion = '1.1'
-    );
+    public function createResponse($statusCode = 200, $reasonPhrase = null, array $headers = [], $body = null, $protocolVersion = '1.1');
 }

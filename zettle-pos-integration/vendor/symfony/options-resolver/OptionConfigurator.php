@@ -8,23 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace Syde\Vendor\Zettle\Symfony\Component\OptionsResolver;
 
-namespace Symfony\Component\OptionsResolver;
-
-use Symfony\Component\OptionsResolver\Exception\AccessException;
-
+use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\Exception\AccessException;
 final class OptionConfigurator
 {
-    private $name;
-    private $resolver;
-
-    public function __construct(string $name, OptionsResolver $resolver)
+    public function __construct(private string $name, private OptionsResolver $resolver)
     {
-        $this->name = $name;
-        $this->resolver = $resolver;
         $this->resolver->setDefined($name);
     }
-
     /**
      * Adds allowed types for this option.
      *
@@ -32,13 +24,11 @@ final class OptionConfigurator
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function allowedTypes(string ...$types): self
+    public function allowedTypes(string ...$types): static
     {
         $this->resolver->setAllowedTypes($this->name, $types);
-
         return $this;
     }
-
     /**
      * Sets allowed values for this option.
      *
@@ -48,29 +38,23 @@ final class OptionConfigurator
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function allowedValues(...$values): self
+    public function allowedValues(mixed ...$values): static
     {
         $this->resolver->setAllowedValues($this->name, $values);
-
         return $this;
     }
-
     /**
      * Sets the default value for this option.
-     *
-     * @param mixed $value The default value of the option
      *
      * @return $this
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function default($value): self
+    public function default(mixed $value): static
     {
         $this->resolver->setDefault($this->name, $value);
-
         return $this;
     }
-
     /**
      * Defines an option configurator with the given name.
      */
@@ -78,7 +62,6 @@ final class OptionConfigurator
     {
         return $this->resolver->define($option);
     }
-
     /**
      * Marks this option as deprecated.
      *
@@ -88,13 +71,11 @@ final class OptionConfigurator
      *
      * @return $this
      */
-    public function deprecated(string $package, string $version, $message = 'The option "%name%" is deprecated.'): self
+    public function deprecated(string $package, string $version, string|\Closure $message = 'The option "%name%" is deprecated.'): static
     {
         $this->resolver->setDeprecated($this->name, $package, $version, $message);
-
         return $this;
     }
-
     /**
      * Sets the normalizer for this option.
      *
@@ -102,13 +83,11 @@ final class OptionConfigurator
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function normalize(\Closure $normalizer): self
+    public function normalize(\Closure $normalizer): static
     {
         $this->resolver->setNormalizer($this->name, $normalizer);
-
         return $this;
     }
-
     /**
      * Marks this option as required.
      *
@@ -116,13 +95,11 @@ final class OptionConfigurator
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function required(): self
+    public function required(): static
     {
         $this->resolver->setRequired($this->name);
-
         return $this;
     }
-
     /**
      * Sets an info message for an option.
      *
@@ -130,10 +107,31 @@ final class OptionConfigurator
      *
      * @throws AccessException If called from a lazy option or normalizer
      */
-    public function info(string $info): self
+    public function info(string $info): static
     {
         $this->resolver->setInfo($this->name, $info);
-
+        return $this;
+    }
+    /**
+     * Sets whether ignore undefined options.
+     *
+     * @return $this
+     */
+    public function ignoreUndefined(bool $ignore = \true): static
+    {
+        $this->resolver->setIgnoreUndefined($ignore);
+        return $this;
+    }
+    /**
+     * Defines nested options.
+     *
+     * @param \Closure(OptionsResolver $resolver, Options $parent): void $nested
+     *
+     * @return $this
+     */
+    public function options(\Closure $nested): static
+    {
+        $this->resolver->setOptions($this->name, $nested);
         return $this;
     }
 }

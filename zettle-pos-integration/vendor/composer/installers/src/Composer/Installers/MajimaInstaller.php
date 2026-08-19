@@ -6,13 +6,10 @@ namespace Composer\Installers;
  * Plugin/theme installer for majima
  * @author David Neustadt
  */
-class MajimaInstaller extends BaseInstaller
+class MajimaInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'plugin' => 'plugins/{$name}/',
-    );
-
+    protected $locations = array('plugin' => 'plugins/{$name}/');
     /**
      * Transforms the names
      *
@@ -23,7 +20,6 @@ class MajimaInstaller extends BaseInstaller
     {
         return $this->correctPluginName($vars);
     }
-
     /**
      * Change hyphenated names to camelcase
      *
@@ -35,11 +31,9 @@ class MajimaInstaller extends BaseInstaller
         $camelCasedName = preg_replace_callback('/(-[a-z])/', function ($matches) {
             return strtoupper($matches[0][1]);
         }, $vars['name']);
-
         if (null === $camelCasedName) {
-            throw new \RuntimeException('Failed to run preg_replace_callback: '.preg_last_error());
+            throw new \RuntimeException('Failed to run preg_replace_callback: ' . preg_last_error());
         }
-
         $vars['name'] = ucfirst($camelCasedName);
         return $vars;
     }

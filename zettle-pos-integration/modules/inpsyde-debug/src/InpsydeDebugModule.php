@@ -1,32 +1,18 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
-namespace Inpsyde\Debug;
-
-use Dhii\Container\ServiceProvider;
-use Dhii\Modular\Module\ModuleInterface;
-use Interop\Container\ServiceProviderInterface;
-use Psr\Container\ContainerInterface;
-
-class InpsydeDebugModule implements ModuleInterface
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ModuleClassNameIdTrait;
+use Syde\Vendor\Zettle\Inpsyde\Modularity\Module\ServiceModule;
+class InpsydeDebugModule implements ServiceModule
 {
-
+    use ModuleClassNameIdTrait;
     /**
      * @inheritDoc
      */
-    public function setup(): ServiceProviderInterface
+    public function services(): array
     {
-        return new ServiceProvider(
-            require __DIR__ . '/../services.php',
-            require __DIR__ . '/../extensions.php'
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function run(ContainerInterface $container): void
-    {
+        return require __DIR__ . '/../services.php';
     }
 }

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Zettle;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Syde\PayPal\PointOfSale;
 
 use Error;
-
 /**
  * @method string name()
  * @method string pluginUri()
@@ -21,78 +19,29 @@ use Error;
  */
 class PluginProperties
 {
-
-    private const HEADER_PROPERTIES = [
-        'name' => 'Name',
-        'pluginUri' => 'PluginURI',
-        'version' => 'Version',
-        'description' => 'Description',
-        'author' => 'Author',
-        'authorUri' => 'AuthorURI',
-        'textDomain' => 'TextDomain',
-        'domainPath' => 'DomainPath',
-        'network' => 'Network',
-        'requiresWp' => 'RequiresWP',
-        'requiresPhp' => 'RequiresPHP',
-    ];
-
-    /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
-     * @var string
-     */
-    private $baseUrl;
-
-    /**
-     * @var string
-     */
-    private $basename;
-
-    /**
-     * @var array
-     */
-    private $data;
-
-    /**
-     * @var bool
-     */
-    private $debug;
-
-    /**
-     * @var string
-     */
-    private $shortName;
-
-    /**
-     * @var int|null
-     */
-    private $lastUpdateTimestamp;
-
+    private const HEADER_PROPERTIES = ['name' => 'Name', 'pluginUri' => 'PluginURI', 'version' => 'Version', 'description' => 'Description', 'author' => 'Author', 'authorUri' => 'AuthorURI', 'textDomain' => 'TextDomain', 'domainPath' => 'DomainPath', 'network' => 'Network', 'requiresWp' => 'RequiresWP', 'requiresPhp' => 'RequiresPHP'];
+    private string $basePath;
+    private string $baseUrl;
+    private string $basename;
+    private array $data;
+    private bool $debug;
+    private ?int $lastUpdateTimestamp = null;
     /**
      * @param string $pluginFile
-     * @param string $shortName
      */
-    public function __construct(string $pluginFile, string $shortName)
+    public function __construct(string $pluginFile)
     {
         $this->basePath = plugin_dir_path($pluginFile);
         $this->baseUrl = plugins_url('/', $pluginFile);
         $this->basename = plugin_basename($pluginFile);
-
         if (!function_exists('get_plugin_data')) {
-            /** @psalm-suppress MissingFile */
-            require_once  ABSPATH . 'wp-admin/includes/plugin.php';
+            require_once \ABSPATH . 'wp-admin/includes/plugin.php';
+            // @phpstan-ignore requireOnce.fileNotFound
         }
-
-        $this->data = get_plugin_data($pluginFile, false, false);
-        $this->debug = defined('WP_DEBUG') && WP_DEBUG;
-        $this->shortName = $shortName;
-
+        $this->data = get_plugin_data($pluginFile, \false, \false);
+        $this->debug = defined('WP_DEBUG') && \WP_DEBUG;
         $this->lastUpdateTimestamp = filemtime($pluginFile) ?: null;
     }
-
     /**
      * @param string $name
      * @param array $arguments
@@ -102,14 +51,11 @@ class PluginProperties
     public function __call(string $name, array $arguments): string
     {
         $key = self::HEADER_PROPERTIES[$name] ?? null;
-
         if (!$key) {
-            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, $name));
+            throw new Error(sprintf('Call to undefined method %s::%s().', __CLASS__, esc_html($name)));
         }
-
-        return (string)($this->data[$key] ?? '');
+        return (string) ($this->data[$key] ?? '');
     }
-
     /**
      * @return string
      */
@@ -117,7 +63,6 @@ class PluginProperties
     {
         return $this->basePath;
     }
-
     /**
      * @return string
      */
@@ -125,7 +70,6 @@ class PluginProperties
     {
         return $this->baseUrl;
     }
-
     /**
      * @return string
      */
@@ -133,7 +77,6 @@ class PluginProperties
     {
         return $this->basename;
     }
-
     /**
      * @return bool
      */
@@ -141,31 +84,20 @@ class PluginProperties
     {
         return $this->debug;
     }
-
     /**
      * @return void
      */
     public function forceDebug(): void
     {
-        $this->debug = true;
+        $this->debug = \true;
     }
-
     /**
      * @return void
      */
     public function forceNoDebug(): void
     {
-        $this->debug = false;
+        $this->debug = \false;
     }
-
-    /**
-     * @return string
-     */
-    public function shortName(): string
-    {
-        return $this->shortName;
-    }
-
     public function lastUpdateTimestamp(): ?int
     {
         return $this->lastUpdateTimestamp;

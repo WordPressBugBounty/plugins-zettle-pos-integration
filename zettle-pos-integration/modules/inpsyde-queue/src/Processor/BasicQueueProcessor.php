@@ -1,26 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
-namespace Inpsyde\Queue\Processor;
-
-use Inpsyde\Queue\Exception\InvalidJobException;
-use Inpsyde\Queue\Exception\QueueLockedException;
-use Inpsyde\Queue\Logger\LoggerProviderInterface;
-use Inpsyde\Queue\Queue\Job\Context;
-use Inpsyde\Queue\Queue\Job\ContextInterface;
-use Inpsyde\Queue\Queue\Job\Job;
-use Inpsyde\Queue\Queue\Job\JobRecord;
-use Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
-use Inpsyde\Queue\Queue\Job\JobRepository;
-use Inpsyde\Queue\Exception\QueueRuntimeException;
-use Inpsyde\Queue\ExceptionLoggingTrait;
-use Inpsyde\Queue\Queue\Locker;
-use Inpsyde\Queue\Queue\QueueWalker;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\InvalidJobException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueLockedException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\Context;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRecord;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRecordFactoryInterface;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job\JobRepository;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Queue\QueueWalker;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 use Throwable;
-
 /**
  * Class NetworkQueueProcessor
  *
@@ -31,63 +25,32 @@ use Throwable;
  */
 class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
 {
-    /**
-     * @var JobRepository
-     */
-    private $jobRepository;
-
-    /**
-     * @var QueueWalker
-     */
-    private $walker;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var JobRecordFactoryInterface
-     */
-    private $recordFactory;
-
+    private JobRepository $jobRepository;
+    private QueueWalker $walker;
+    private LoggerInterface $logger;
+    private JobRecordFactoryInterface $recordFactory;
     /**
      * @var callable
      */
     private $exceptionHandler;
-
-    /**
-     * @var int
-     */
-    private $maxRetriesCount;
-
-    public function __construct(
-        JobRepository $jobRepository,
-        JobRecordFactoryInterface $recordFactory,
-        QueueWalker $walker,
-        LoggerInterface $logger,
-        int $maxRetriesCount,
-        ?callable $exceptionHandler = null
-    ) {
-
+    private int $maxRetriesCount;
+    public function __construct(JobRepository $jobRepository, JobRecordFactoryInterface $recordFactory, QueueWalker $walker, LoggerInterface $logger, int $maxRetriesCount, ?callable $exceptionHandler = null)
+    {
         $this->jobRepository = $jobRepository;
         $this->recordFactory = $recordFactory;
         $this->walker = $walker;
         $this->logger = $logger;
         $this->maxRetriesCount = $maxRetriesCount;
-        $this->exceptionHandler = $exceptionHandler ?? static function () {
+        $this->exceptionHandler = $exceptionHandler ?? static function (): void {
         };
     }
-
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
-
     /**
      * @inheritDoc
      */
@@ -95,7 +58,6 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
     {
         return $this->logger;
     }
-
     /**
      * @inheritDoc
      */
@@ -103,7 +65,6 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
     {
         return $this->jobRepository;
     }
-
     /**
      * Lock the queue, walk over all available jobs, unlock again
      *
@@ -114,7 +75,6 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
     {
         return $this->walker->walk([$this, 'processSingleJob']);
     }
-
     /**
      * @param JobRecord $jobRecord
      *
@@ -123,62 +83,28 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
      */
     public function processSingleJob(JobRecord $jobRecord): bool
     {
-        $executed = false;
-
+        $executed = \false;
         $job = $jobRecord->job();
         $context = $jobRecord->context();
-
         try {
             $executed = $job->execute($context, $this->jobRepository, $this->logger);
-            $this->logger->debug(
-                sprintf(
-                    "Executed Job '%s' with ID %d.",
-                    $job->type(),
-                    $context->id()
-                ),
-                (array) $context->args()
-            );
+            $this->logger->debug(sprintf("Executed Job '%s' with ID %d.", $job->type(), $context->id()), (array) $context->args());
         } catch (QueueRuntimeException $exception) {
-            ($this->exceptionHandler)(
-                new QueueRuntimeException(
-                    sprintf(
-                        "Failed to execute Job '%s' with ID %d",
-                        $job->type(),
-                        $context->id()
-                    ),
-                    $exception->getCode(),
-                    $exception
-                )
-            );
+            ($this->exceptionHandler)(new QueueRuntimeException(sprintf("Failed to execute Job '%s' with ID %d", $job->type(), $context->id()), $exception->getCode(), $exception));
         } catch (Throwable $exception) {
             /**
              * @psalm-suppress PossiblyInvalidArgument
              * getCode type
              */
-            ($this->exceptionHandler)(
-                new QueueRuntimeException(
-                    sprintf(
-                        "Unexpected error in %s. The job will now be deleted without retrying",
-                        $job->type()
-                    ),
-                    $exception->getCode(),
-                    $exception
-                ),
-                $this->logger,
-                LogLevel::ERROR
-            );
-            $executed = true;
+            ($this->exceptionHandler)(new QueueRuntimeException(sprintf("Unexpected error in %s. The job will now be deleted without retrying", $job->type()), $exception->getCode(), $exception), $this->logger, LogLevel::ERROR);
+            $executed = \true;
         }
-
         $this->jobRepository->delete($jobRecord);
-
         if (!$executed) {
             $this->maybeRetry($jobRecord);
         }
-
         return $executed;
     }
-
     /**
      * @param JobRecord $record
      *
@@ -187,45 +113,24 @@ class BasicQueueProcessor implements QueueProcessor, LoggerProviderInterface
      */
     private function createRetry(JobRecord $record): JobRecord
     {
-        return $this->recordFactory->fromData(
-            $record->job()->type(),
-            Context::fromArray(
-                (array) $record->context()->args(),
-                $record->context()->forSite(),
-                $record->context()->retryCount() + 1
-            )
-        );
+        return $this->recordFactory->fromData($record->job()->type(), Context::fromArray((array) $record->context()->args(), $record->context()->forSite(), $record->context()->retryCount() + 1));
     }
-
     private function maybeRetry(JobRecord $record): bool
     {
         $maxRetries = $this->maxRetriesCount;
-
         if ($record->context()->retryCount() < $maxRetries) {
             try {
                 $newRecord = $this->createRetry($record);
                 $this->jobRepository->add($newRecord);
             } catch (InvalidJobException $exception) {
                 ($this->exceptionHandler)($exception);
-
-                return false;
+                return \false;
             }
-
             $fails = $record->context()->retryCount() + 1;
-
-            $this->logger->notice(
-                "Job '{$record->job()->type()}' with ID {$record->context()->id()}
-                failed {$fails}/{$maxRetries} times and will run again"
-            );
-
-            return true;
+            $this->logger->notice("Job '{$record->job()->type()}' with ID {$record->context()->id()}\n                failed {$fails}/{$maxRetries} times and will run again");
+            return \true;
         }
-
-        $this->logger->notice(
-            "Job '{$record->job()->type()}' with ID {$record->context()->id()}
-             has failed {$maxRetries} times and will NOT run again"
-        );
-
-        return false;
+        $this->logger->notice("Job '{$record->job()->type()}' with ID {$record->context()->id()}\n             has failed {$maxRetries} times and will NOT run again");
+        return \false;
     }
 }

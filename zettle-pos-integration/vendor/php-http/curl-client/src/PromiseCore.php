@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Curl;
 
-namespace Http\Client\Curl;
-
-use Http\Client\Exception;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Exception;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Shared promises core.
  *
@@ -23,49 +21,42 @@ class PromiseCore
      * @var RequestInterface
      */
     private $request;
-
     /**
      * cURL handle.
      *
      * @var resource
      */
     private $handle;
-
     /**
      * Response builder.
      *
      * @var ResponseBuilder
      */
     private $responseBuilder;
-
     /**
      * Promise state.
      *
      * @var string
      */
     private $state;
-
     /**
      * Exception.
      *
      * @var Exception|null
      */
     private $exception = null;
-
     /**
      * Functions to call when a response will be available.
      *
      * @var callable[]
      */
     private $onFulfilled = [];
-
     /**
      * Functions to call when an error happens.
      *
      * @var callable[]
      */
     private $onRejected = [];
-
     /**
      * Create shared core.
      *
@@ -75,44 +66,23 @@ class PromiseCore
      *
      * @throws \InvalidArgumentException If $handle is not a cURL resource.
      */
-    public function __construct(
-        RequestInterface $request,
-        $handle,
-        ResponseBuilder $responseBuilder
-    ) {
-        if (PHP_MAJOR_VERSION === 7) {
+    public function __construct(RequestInterface $request, $handle, ResponseBuilder $responseBuilder)
+    {
+        if (\PHP_MAJOR_VERSION === 7) {
             if (!is_resource($handle)) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        'Parameter $handle expected to be a cURL resource, %s given',
-                        gettype($handle)
-                    )
-                );
+                throw new \InvalidArgumentException(sprintf('Parameter $handle expected to be a cURL resource, %s given', gettype($handle)));
             } elseif (get_resource_type($handle) !== 'curl') {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        'Parameter $handle expected to be a cURL resource, %s resource given',
-                        get_resource_type($handle)
-                    )
-                );
+                throw new \InvalidArgumentException(sprintf('Parameter $handle expected to be a cURL resource, %s resource given', get_resource_type($handle)));
             }
         }
-
-        if (PHP_MAJOR_VERSION > 7 && !$handle instanceof \CurlHandle) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Parameter $handle expected to be a cURL resource, %s given',
-                    get_debug_type($handle)
-                )
-            );
+        if (\PHP_MAJOR_VERSION > 7 && !$handle instanceof \CurlHandle) {
+            throw new \InvalidArgumentException(sprintf('Parameter $handle expected to be a cURL resource, %s given', get_debug_type($handle)));
         }
-
         $this->request = $request;
         $this->handle = $handle;
         $this->responseBuilder = $responseBuilder;
         $this->state = Promise::PENDING;
     }
-
     /**
      * Add on fulfilled callback.
      *
@@ -129,7 +99,6 @@ class PromiseCore
             }
         }
     }
-
     /**
      * Add on rejected callback.
      *
@@ -143,7 +112,6 @@ class PromiseCore
             $this->exception = call_user_func($callback, $this->exception);
         }
     }
-
     /**
      * Return cURL handle.
      *
@@ -153,7 +121,6 @@ class PromiseCore
     {
         return $this->handle;
     }
-
     /**
      * Get the state of the promise, one of PENDING, FULFILLED or REJECTED.
      *
@@ -163,7 +130,6 @@ class PromiseCore
     {
         return $this->state;
     }
-
     /**
      * Return request.
      *
@@ -173,7 +139,6 @@ class PromiseCore
     {
         return $this->request;
     }
-
     /**
      * Return the value of the promise (fulfilled).
      *
@@ -183,7 +148,6 @@ class PromiseCore
     {
         return $this->responseBuilder->getResponse();
     }
-
     /**
      * Get the reason why the promise was rejected.
      *
@@ -199,10 +163,8 @@ class PromiseCore
         if (null === $this->exception) {
             throw new \LogicException('Promise is not rejected');
         }
-
         return $this->exception;
     }
-
     /**
      * Fulfill promise.
      */
@@ -215,20 +177,16 @@ class PromiseCore
         } catch (\RuntimeException $e) {
             $exception = new Exception\TransferException($e->getMessage(), $e->getCode(), $e);
             $this->reject($exception);
-
             return;
         }
-
         while (count($this->onFulfilled) > 0) {
             $callback = array_shift($this->onFulfilled);
             $response = call_user_func($callback, $response);
         }
-
         if ($response instanceof ResponseInterface) {
             $this->responseBuilder->setResponse($response);
         }
     }
-
     /**
      * Reject promise.
      *
@@ -238,7 +196,6 @@ class PromiseCore
     {
         $this->exception = $exception;
         $this->state = Promise::REJECTED;
-
         while (count($this->onRejected) > 0) {
             $callback = array_shift($this->onRejected);
             try {

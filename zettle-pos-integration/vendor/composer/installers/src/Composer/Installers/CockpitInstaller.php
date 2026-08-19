@@ -2,13 +2,10 @@
 
 namespace Composer\Installers;
 
-class CockpitInstaller extends BaseInstaller
+class CockpitInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'cockpit/modules/addons/{$name}/',
-    );
-
+    protected $locations = array('module' => 'cockpit/modules/addons/{$name}/');
     /**
      * Format module name.
      *
@@ -19,10 +16,8 @@ class CockpitInstaller extends BaseInstaller
         if ($vars['type'] == 'cockpit-module') {
             return $this->inflectModuleVars($vars);
         }
-
         return $vars;
     }
-
     /**
      * @param array<string, string> $vars
      * @return array<string, string>
@@ -30,7 +25,6 @@ class CockpitInstaller extends BaseInstaller
     public function inflectModuleVars(array $vars): array
     {
         $vars['name'] = ucfirst($this->pregReplace('/cockpit-/i', '', $vars['name']));
-
         return $vars;
     }
 }

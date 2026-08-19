@@ -1,20 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-namespace Inpsyde\StateMachine\Event;
-
-use Dhii\Events\Event\IsPropagationStoppedCapableInterface;
-use Inpsyde\StateMachine\StateMachineInterface;
-
-interface StateChange extends IsPropagationStoppedCapableInterface
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\StoppableEventInterface;
+interface StateChange extends StoppableEventInterface
 {
-
-    public function prepare(StateMachineInterface $stateMachine);
-
+    public function prepare(StateMachineInterface $stateMachine): void;
     public function currentState(): string;
-
     public function transitionTo(string $state): bool;
-
     public function targetState(): string;
 }

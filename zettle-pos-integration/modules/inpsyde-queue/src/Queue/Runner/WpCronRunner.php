@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner;
 
-namespace Inpsyde\Queue\Queue\Runner;
-
-use Inpsyde\Queue\Processor\QueueProcessor;
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 use Throwable;
-
 /**
  * Class WpCronRunner
  *
@@ -16,12 +14,7 @@ use Throwable;
  */
 class WpCronRunner implements Runner
 {
-
-    /**
-     * @var string
-     */
-    private $namespace;
-
+    private string $namespace;
     /**
      * WpCronRunner constructor.
      *
@@ -31,7 +24,6 @@ class WpCronRunner implements Runner
     {
         $this->namespace = $namespace;
     }
-
     /**
      * Schedules a wp-cron event that always fires.
      *
@@ -40,17 +32,13 @@ class WpCronRunner implements Runner
     public function initialize(QueueProcessor $queueProcessor): void
     {
         $hook = "{$this->namespace}.queue.cron";
-
-        add_action(
-            $hook,
-            static function () use ($queueProcessor) {
-                try {
-                    $queueProcessor->process();
-                } catch (Throwable $exception) {
-                    //silence
-                }
+        add_action($hook, static function () use ($queueProcessor) {
+            try {
+                $queueProcessor->process();
+            } catch (Throwable $exception) {
+                //silence
             }
-        );
+        });
         /**
          * Recurring events leave zombie data in the system if the plugin is deactivated
          * without a thorough cleanup task.

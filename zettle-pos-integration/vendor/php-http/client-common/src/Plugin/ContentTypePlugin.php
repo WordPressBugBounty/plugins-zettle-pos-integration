@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
+use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Allow to set the correct content type header on the request automatically only if it is not set.
  *
@@ -26,14 +24,12 @@ final class ContentTypePlugin implements Plugin
      * false    detect the content type (default value)
      */
     private $skipDetection;
-
     /**
      * Determine the size stream limit for which the detection as to be skipped (default to 16Mb).
      *
      * @var int
      */
     private $sizeLimit;
-
     /**
      * @param array{'skip_detection'?: bool, 'size_limit'?: int} $config
      *
@@ -44,76 +40,56 @@ final class ContentTypePlugin implements Plugin
     public function __construct(array $config = [])
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefaults([
-            'skip_detection' => false,
-            'size_limit' => 16000000,
-        ]);
+        $resolver->setDefaults(['skip_detection' => \false, 'size_limit' => 16000000]);
         $resolver->setAllowedTypes('skip_detection', 'bool');
         $resolver->setAllowedTypes('size_limit', 'int');
-
         $options = $resolver->resolve($config);
-
         $this->skipDetection = $options['skip_detection'];
         $this->sizeLimit = $options['size_limit'];
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         if (!$request->hasHeader('Content-Type')) {
             $stream = $request->getBody();
             $streamSize = $stream->getSize();
-
             if (!$stream->isSeekable()) {
                 return $next($request);
             }
-
             if (0 === $streamSize) {
                 return $next($request);
             }
-
             if ($this->skipDetection && (null === $streamSize || $streamSize >= $this->sizeLimit)) {
                 return $next($request);
             }
-
             if ($this->isJson($stream)) {
                 $request = $request->withHeader('Content-Type', 'application/json');
-
                 return $next($request);
             }
-
             if ($this->isXml($stream)) {
                 $request = $request->withHeader('Content-Type', 'application/xml');
-
                 return $next($request);
             }
         }
-
         return $next($request);
     }
-
     private function isJson(StreamInterface $stream): bool
     {
         if (!function_exists('json_decode')) {
-            return false;
+            return \false;
         }
         $stream->rewind();
-
         json_decode($stream->getContents());
-
-        return JSON_ERROR_NONE === json_last_error();
+        return \JSON_ERROR_NONE === json_last_error();
     }
-
     private function isXml(StreamInterface $stream): bool
     {
         if (!function_exists('simplexml_load_string')) {
-            return false;
+            return \false;
         }
         $stream->rewind();
-
-        $previousValue = libxml_use_internal_errors(true);
+        $previousValue = libxml_use_internal_errors(\true);
         $isXml = simplexml_load_string($stream->getContents());
         libxml_use_internal_errors($previousValue);
-
-        return false !== $isXml;
+        return \false !== $isXml;
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
-namespace Http\Discovery\Strategy;
+namespace Syde\Vendor\Zettle\Http\Discovery\Strategy;
 
-use Http\Discovery\ClassDiscovery;
-use Http\Discovery\Exception\PuliUnavailableException;
-use Puli\Discovery\Api\Discovery;
-use Puli\GeneratedPuliFactory;
-
+use Syde\Vendor\Zettle\Http\Discovery\ClassDiscovery;
+use Syde\Vendor\Zettle\Http\Discovery\Exception\PuliUnavailableException;
+use Syde\Vendor\Zettle\Puli\Discovery\Api\Discovery;
+use Syde\Vendor\Zettle\Puli\GeneratedPuliFactory;
 /**
  * Find candidates using Puli.
  *
@@ -23,12 +22,10 @@ class PuliBetaStrategy implements DiscoveryStrategy
      * @var GeneratedPuliFactory
      */
     protected static $puliFactory;
-
     /**
      * @var Discovery
      */
     protected static $puliDiscovery;
-
     /**
      * @return GeneratedPuliFactory
      *
@@ -37,22 +34,17 @@ class PuliBetaStrategy implements DiscoveryStrategy
     private static function getPuliFactory()
     {
         if (null === self::$puliFactory) {
-            if (!defined('PULI_FACTORY_CLASS')) {
+            if (!defined('Syde\Vendor\Zettle\PULI_FACTORY_CLASS')) {
                 throw new PuliUnavailableException('Puli Factory is not available');
             }
-
             $puliFactoryClass = PULI_FACTORY_CLASS;
-
             if (!ClassDiscovery::safeClassExists($puliFactoryClass)) {
                 throw new PuliUnavailableException('Puli Factory class does not exist');
             }
-
             self::$puliFactory = new $puliFactoryClass();
         }
-
         return self::$puliFactory;
     }
-
     /**
      * Returns the Puli discovery layer.
      *
@@ -65,26 +57,21 @@ class PuliBetaStrategy implements DiscoveryStrategy
         if (!isset(self::$puliDiscovery)) {
             $factory = self::getPuliFactory();
             $repository = $factory->createRepository();
-
             self::$puliDiscovery = $factory->createDiscovery($repository);
         }
-
         return self::$puliDiscovery;
     }
-
     public static function getCandidates($type)
     {
         $returnData = [];
         $bindings = self::getPuliDiscovery()->findBindings($type);
-
         foreach ($bindings as $binding) {
-            $condition = true;
+            $condition = \true;
             if ($binding->hasParameterValue('depends')) {
                 $condition = $binding->getParameterValue('depends');
             }
             $returnData[] = ['class' => $binding->getClassName(), 'condition' => $condition];
         }
-
         return $returnData;
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace Http\Discovery;
+namespace Syde\Vendor\Zettle\Http\Discovery;
 
-use Http\Discovery\Exception\DiscoveryFailedException;
-use Http\Discovery\Exception\NotFoundException as RealNotFoundException;
-use Psr\Http\Client\ClientInterface;
-
+use Syde\Vendor\Zettle\Http\Discovery\Exception\DiscoveryFailedException;
+use Syde\Vendor\Zettle\Http\Discovery\Exception\NotFoundException as RealNotFoundException;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
 /**
  * Finds a PSR-18 HTTP Client.
  *
@@ -27,7 +26,6 @@ final class Psr18ClientDiscovery extends ClassDiscovery
         } catch (DiscoveryFailedException $e) {
             throw new RealNotFoundException('No PSR-18 clients found. Make sure to install a package providing "psr/http-client-implementation". Example: "php-http/guzzle7-adapter".', 0, $e);
         }
-
         return static::instantiateClass($client);
     }
 }

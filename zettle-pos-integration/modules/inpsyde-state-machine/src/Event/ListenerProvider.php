@@ -1,43 +1,30 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-namespace Inpsyde\StateMachine\Event;
-
-use Dhii\Events\Event\IsPropagationStoppedCapableInterface;
-use Dhii\Events\Listener\ListenerProviderInterface;
-use Traversable;
-
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
+use Syde\Vendor\Zettle\Psr\EventDispatcher\StoppableEventInterface;
 class ListenerProvider implements ListenerProviderInterface
 {
     use ParameterDeriverTrait;
-
-    private $listeners;
-
+    /** @var array<callable> */
+    private array $listeners;
     public function __construct(callable ...$listeners)
     {
         $this->listeners = $listeners;
     }
-
-    public function addListener(callable $listener)
+    public function addListener(callable $listener): void
     {
         $this->listeners[] = $listener;
     }
-
-    /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     *
-     * @return Traversable
-     */
-    public function getListenersForEvent($event): Traversable
+    public function getListenersForEvent(object $event): iterable
     {
         $eventType = get_class($event);
         $extends = class_parents($event);
         $implements = class_implements($event);
         foreach ($this->listeners as $listener) {
-            if ($event instanceof IsPropagationStoppedCapableInterface && $event->isPropagationStopped()) {
+            if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
                 break;
             }
             $type = $this->getParameterType($listener);
@@ -54,7 +41,6 @@ class ListenerProvider implements ListenerProviderInterface
                 continue;
             }
         }
-
         return yield from [];
     }
 }

@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\Common\Exception\HttpClientNoMatchException;
-use Http\Client\HttpAsyncClient;
-use Http\Message\RequestMatcher;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Exception\HttpClientNoMatchException;
+use Syde\Vendor\Zettle\Http\Client\HttpAsyncClient;
+use Syde\Vendor\Zettle\Http\Message\RequestMatcher;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * @author Joel Wurtz <joel.wurtz@gmail.com>
  */
@@ -20,17 +18,14 @@ final class HttpClientRouter implements HttpClientRouterInterface
      * @var (array{matcher: RequestMatcher, client: FlexibleHttpClient})[]
      */
     private $clients = [];
-
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         return $this->chooseHttpClient($request)->sendRequest($request);
     }
-
     public function sendAsyncRequest(RequestInterface $request)
     {
         return $this->chooseHttpClient($request)->sendAsyncRequest($request);
     }
-
     /**
      * Add a client to the router.
      *
@@ -39,17 +34,10 @@ final class HttpClientRouter implements HttpClientRouterInterface
     public function addClient($client, RequestMatcher $requestMatcher): void
     {
         if (!$client instanceof ClientInterface && !$client instanceof HttpAsyncClient) {
-            throw new \TypeError(
-                sprintf('%s::addClient(): Argument #1 ($client) must be of type %s|%s, %s given', self::class, ClientInterface::class, HttpAsyncClient::class, get_debug_type($client))
-            );
+            throw new \TypeError(sprintf('%s::addClient(): Argument #1 ($client) must be of type %s|%s, %s given', self::class, ClientInterface::class, HttpAsyncClient::class, get_debug_type($client)));
         }
-
-        $this->clients[] = [
-            'matcher' => $requestMatcher,
-            'client' => new FlexibleHttpClient($client),
-        ];
+        $this->clients[] = ['matcher' => $requestMatcher, 'client' => new FlexibleHttpClient($client)];
     }
-
     /**
      * Choose an HTTP client given a specific request.
      */
@@ -60,7 +48,6 @@ final class HttpClientRouter implements HttpClientRouterInterface
                 return $client['client'];
             }
         }
-
         throw new HttpClientNoMatchException('No client found for the specified request', $request);
     }
 }

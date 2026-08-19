@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Message\Authentication;
+namespace Syde\Vendor\Zettle\Http\Message\Authentication;
 
-use Http\Message\Authentication;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Authentication;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Authenticate a PSR-7 Request by adding parameters to its query.
  *
@@ -19,26 +18,19 @@ final class QueryParam implements Authentication
      * @var array
      */
     private $params = [];
-
     public function __construct(array $params)
     {
         $this->params = $params;
     }
-
     public function authenticate(RequestInterface $request)
     {
         $uri = $request->getUri();
         $query = $uri->getQuery();
         $params = [];
-
         parse_str($query, $params);
-
         $params = array_merge($params, $this->params);
-
         $query = http_build_query($params, '', '&');
-
         $uri = $uri->withQuery($query);
-
         return $request->withUri($uri);
     }
 }

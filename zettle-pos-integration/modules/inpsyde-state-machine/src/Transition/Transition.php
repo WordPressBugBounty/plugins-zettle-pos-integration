@@ -1,27 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\StateMachine\Transition;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition;
 
 class Transition implements TransitionInterface
 {
-
-    /**
-     * @var array
-     */
-    protected $from;
-
-    /**
-     * @var string
-     */
-    protected $to;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
+    protected array $from;
+    protected string $to;
+    protected string $name;
     /**
      * Transition constructor.
      *
@@ -29,16 +15,12 @@ class Transition implements TransitionInterface
      * @param array $from
      * @param string $to
      */
-    public function __construct(
-        string $name,
-        array $from,
-        string $to
-    ) {
+    public function __construct(string $name, array $from, string $to)
+    {
         $this->name = $name;
         $this->from = $from;
         $this->to = $to;
     }
-
     /**
      * @return string
      */
@@ -46,7 +28,6 @@ class Transition implements TransitionInterface
     {
         return $this->name;
     }
-
     /**
      * @return array
      */
@@ -54,7 +35,6 @@ class Transition implements TransitionInterface
     {
         return $this->from;
     }
-
     /**
      * Get State Name
      *
@@ -64,12 +44,10 @@ class Transition implements TransitionInterface
     {
         return $this->to;
     }
-
     public function beforeTransitionEventName(): string
     {
         return "pre-transition.{$this->name()}";
     }
-
     public function afterTransitionEventName(): string
     {
         return "post-transition.{$this->name()}";

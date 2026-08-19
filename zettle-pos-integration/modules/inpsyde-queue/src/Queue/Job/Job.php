@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
-namespace Inpsyde\Queue\Queue\Job;
-
-use Inpsyde\Queue\Exception\QueueRuntimeException;
-use Psr\Log\LoggerInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Exception\QueueRuntimeException;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 /**
  * Interface QueueJob
  *
@@ -17,7 +15,6 @@ use Psr\Log\LoggerInterface;
  */
 interface Job
 {
-
     /**
      * Executes the specific job.
      *
@@ -29,19 +26,13 @@ interface Job
      *
      * @throws QueueRuntimeException
      */
-    public function execute(
-        ContextInterface $context,
-        JobRepository $repository,
-        LoggerInterface $logger
-    ): bool;
-
+    public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool;
     /**
      * If true, the repository will not add a job with the same hash() to the database twice.
      *
      * @return bool
      */
     public function isUnique(): bool;
-
     /**
      * The type is needed to restore the specific QueueJob from the database in the QueueJobFactory.
      *

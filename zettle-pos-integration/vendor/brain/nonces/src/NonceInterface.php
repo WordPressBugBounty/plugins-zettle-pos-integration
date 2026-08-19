@@ -1,4 +1,6 @@
-<?php # -*- coding: utf-8 -*-
+<?php
+
+# -*- coding: utf-8 -*-
 /*
  * This file is part of the Brain Nonces package.
  *
@@ -7,8 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Brain\Nonces;
+namespace Syde\Vendor\Zettle\Brain\Nonces;
 
 /**
  * Interface for all nonce implementations.
@@ -25,14 +26,12 @@ interface NonceInterface
      * @return string
      */
     public function action();
-
     /**
      * Returns the nonce value as string.
      *
      * @return string
      */
     public function __toString();
-
     /**
      * Validates the nonce against an optionally given context.
      *
@@ -41,8 +40,8 @@ interface NonceInterface
      * Custom implementation of context interface can provide different values to be used for
      * validation.
      *
-     * @param NonceContextInterface $context
+     * @param NonceContextInterface|null $context
      * @return bool
      */
-    public function validate(NonceContextInterface $context = null);
+    public function validate(?NonceContextInterface $context = null);
 }

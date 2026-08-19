@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Discovery;
+namespace Syde\Vendor\Zettle\Http\Discovery;
 
-use Http\Client\HttpClient;
-use Http\Discovery\Exception\DiscoveryFailedException;
-
+use Syde\Vendor\Zettle\Http\Client\HttpClient;
+use Syde\Vendor\Zettle\Http\Discovery\Exception\DiscoveryFailedException;
 /**
  * Finds an HTTP Client.
  *
@@ -28,7 +27,6 @@ final class HttpClientDiscovery extends ClassDiscovery
         } catch (DiscoveryFailedException $e) {
             throw new NotFoundException('No HTTPlug clients found. Make sure to install a package providing "php-http/client-implementation". Example: "php-http/guzzle6-adapter".', 0, $e);
         }
-
         return static::instantiateClass($client);
     }
 }

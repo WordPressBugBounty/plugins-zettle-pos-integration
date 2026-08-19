@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcEvents;
 
-namespace Inpsyde\WcEvents;
-
-use Dhii\Modular\Module\ModuleInterface;
-
-return static function (): ModuleInterface {
+return static function (): WcEventsModule {
     return new WcEventsModule();
 };

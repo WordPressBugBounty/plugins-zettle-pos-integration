@@ -1,32 +1,23 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner;
 
-namespace Inpsyde\Queue\Queue\Runner;
-
-use Inpsyde\Queue\Processor\QueueProcessor;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 /**
  * A Runner that initializes a WpShutdownRunner during heartbeat requests
  */
 class WpHeartbeatRunner implements Runner
 {
-
-    /**
-     * @var WpShutdownRunner
-     */
-    private $shutdownRunner;
-
+    private WpShutdownRunner $shutdownRunner;
     public function __construct(WpShutdownRunner $shutdownRunner)
     {
         $this->shutdownRunner = $shutdownRunner;
     }
-
     public function initialize(QueueProcessor $queueProcessor): void
     {
-        $hook = function ($response) use ($queueProcessor) {
+        $hook = function (array $response) use ($queueProcessor): array {
             $this->shutdownRunner->initialize($queueProcessor);
-
             return $response;
         };
         add_filter('heartbeat_send', $hook);

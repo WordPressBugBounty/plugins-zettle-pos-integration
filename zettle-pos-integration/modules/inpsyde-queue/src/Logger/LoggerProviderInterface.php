@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Logger;
 
-namespace Inpsyde\Queue\Logger;
-
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
-
+use Syde\Vendor\Zettle\Psr\Log\LoggerAwareInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 interface LoggerProviderInterface extends LoggerAwareInterface
 {
     /**

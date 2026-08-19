@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\StateMachine\Guard;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard;
 
 interface GuardInterface
 {
-
     /**
      * @param string $transition
      *
@@ -15,6 +13,5 @@ interface GuardInterface
      * @return bool
      */
     public function handles(string $transition, string $fromState): bool;
-
     public function passes(string $transition, string $fromState): bool;
 }

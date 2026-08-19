@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\HttpAsyncClient;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\HttpAsyncClient;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Decorates an HTTP Async Client.
  *
@@ -18,7 +16,6 @@ trait HttpAsyncClientDecorator
      * @var HttpAsyncClient
      */
     protected $httpAsyncClient;
-
     /**
      * @see HttpAsyncClient::sendAsyncRequest
      */

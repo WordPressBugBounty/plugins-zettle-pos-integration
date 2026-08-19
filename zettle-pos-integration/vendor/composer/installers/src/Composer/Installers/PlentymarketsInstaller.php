@@ -2,13 +2,10 @@
 
 namespace Composer\Installers;
 
-class PlentymarketsInstaller extends BaseInstaller
+class PlentymarketsInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'plugin'   => '{$name}/'
-    );
-
+    protected $locations = array('plugin' => '{$name}/');
     /**
      * Remove hyphen, "plugin" and format to camelcase
      */
@@ -22,7 +19,6 @@ class PlentymarketsInstaller extends BaseInstaller
             }
         }
         $vars['name'] = implode('', $nameBits);
-
         return $vars;
     }
 }

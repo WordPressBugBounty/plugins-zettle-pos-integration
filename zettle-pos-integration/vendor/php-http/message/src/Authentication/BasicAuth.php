@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Message\Authentication;
+namespace Syde\Vendor\Zettle\Http\Message\Authentication;
 
-use Http\Message\Authentication;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Authentication;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Authenticate a PSR-7 Request using Basic Auth.
  *
@@ -16,12 +15,10 @@ final class BasicAuth implements Authentication
      * @var string
      */
     private $username;
-
     /**
      * @var string
      */
     private $password;
-
     /**
      * @param string $username
      * @param string $password
@@ -31,11 +28,9 @@ final class BasicAuth implements Authentication
         $this->username = $username;
         $this->password = $password;
     }
-
     public function authenticate(RequestInterface $request)
     {
         $header = sprintf('Basic %s', base64_encode(sprintf('%s:%s', $this->username, $this->password)));
-
         return $request->withHeader('Authorization', $header);
     }
 }

@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
-namespace Inpsyde\Debug;
-
-use Dhii\Modular\Module\ModuleInterface;
-use Inpsyde\Debug\InpsydeDebugModule;
-
-return static function (): ModuleInterface {
+return static function (): InpsydeDebugModule {
     return new InpsydeDebugModule();
 };

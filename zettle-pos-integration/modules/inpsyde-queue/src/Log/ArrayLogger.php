@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Log;
 
-namespace Inpsyde\Queue\Log;
-
-use Psr\Log\LoggerInterface;
-use Psr\Log\LoggerTrait;
-use Psr\Log\LogLevel;
-
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerTrait;
 /**
  * Class ArrayLogger
  *
@@ -22,44 +19,26 @@ use Psr\Log\LogLevel;
 class ArrayLogger implements LoggerInterface
 {
     use LoggerTrait;
-
-    /**
-     * @var array
-     */
-    private $storage = [];
-
-    /**
-     * @var LoggerInterface|null
-     */
-    private $childLogger;
-
-    public function __construct(LoggerInterface $childLogger = null)
+    private array $storage = [];
+    private ?LoggerInterface $childLogger = null;
+    public function __construct(?LoggerInterface $childLogger = null)
     {
         $this->childLogger = $childLogger;
     }
-
     /**
      * @inheritDoc
      */
     public function log($level, $message, array $context = [])
     {
-        $this->storage[$level][] = [
-            'message' => $message,
-            'context' => $context,
-        ];
+        $this->storage[$level][] = ['message' => $message, 'context' => $context];
         if ($this->childLogger) {
             $this->childLogger->log($level, $message, $context);
         }
     }
-
     /**
      * Return the logs of a specific LogLevel, or all logs if no parameter is given
-     *
-     * @param string|null $logLevel
-     *
-     * @return array
      */
-    public function logs(string $logLevel = null): array
+    public function logs(?string $logLevel = null): array
     {
         if (!$logLevel) {
             return $this->storage;
@@ -67,7 +46,6 @@ class ArrayLogger implements LoggerInterface
         if (!isset($this->storage[$logLevel])) {
             return [];
         }
-
         return $this->storage[$logLevel];
     }
 }

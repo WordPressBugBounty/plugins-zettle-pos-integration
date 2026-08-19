@@ -1,8 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde;
 
 class WpContext implements \JsonSerializable
 {
@@ -17,48 +16,31 @@ class WpContext implements \JsonSerializable
     public const REST = 'rest';
     public const XML_RPC = 'xml-rpc';
     public const WP_ACTIVATE = 'wp-activate';
-
-    private const ALL = [
-        self::AJAX,
-        self::BACKOFFICE,
-        self::CLI,
-        self::CORE,
-        self::CRON,
-        self::FRONTOFFICE,
-        self::INSTALLING,
-        self::LOGIN,
-        self::REST,
-        self::XML_RPC,
-        self::WP_ACTIVATE,
-    ];
-
+    private const ALL = [self::AJAX, self::BACKOFFICE, self::CLI, self::CORE, self::CRON, self::FRONTOFFICE, self::INSTALLING, self::LOGIN, self::REST, self::XML_RPC, self::WP_ACTIVATE];
     /**
      * @var array
      */
     private $data;
-
     /**
      * @var array<string, callable>
      */
     private $actionCallbacks = [];
-
     /**
      * @return WpContext
      */
     final public static function new(): WpContext
     {
-        return new self(array_fill_keys(self::ALL, false));
+        return new self(array_fill_keys(self::ALL, \false));
     }
-
     /**
      * @return WpContext
      */
     final public static function determine(): WpContext
     {
         /** @psalm-suppress RedundantCondition */
-        $installing = defined('WP_INSTALLING') && WP_INSTALLING;
+        $installing = defined('WP_INSTALLING') && \WP_INSTALLING;
         /** @psalm-suppress RedundantCondition */
-        $xmlRpc = defined('XMLRPC_REQUEST') && XMLRPC_REQUEST;
+        $xmlRpc = defined('XMLRPC_REQUEST') && \XMLRPC_REQUEST;
         $isCore = defined('ABSPATH');
         $isCli = defined('WP_CLI');
         $notInstalling = $isCore && !$installing;
@@ -66,57 +48,34 @@ class WpContext implements \JsonSerializable
         $isAdmin = $notInstalling && is_admin() && !$isAjax;
         $isCron = $notInstalling && wp_doing_cron();
         $isWpActivate = $installing && is_multisite() && self::isWpActivateRequest();
-
         $undetermined = $notInstalling && !$isAdmin && !$isCron && !$isCli && !$xmlRpc && !$isAjax;
-
         $isRest = $undetermined && static::isRestRequest();
         $isLogin = $undetermined && !$isRest && static::isLoginRequest();
-
         // When nothing else matches, we assume it is a front-office request.
         $isFront = $undetermined && !$isRest && !$isLogin;
-
         /*
          * Note that when core is installing **only** `INSTALLING` will be true, not even `CORE`.
          * This is done to do as less as possible during installation, when most of WP does not act
          * as expected.
          */
-
-        $instance = new self(
-            [
-                self::AJAX => $isAjax,
-                self::BACKOFFICE => $isAdmin,
-                self::CLI => $isCli,
-                self::CORE => ($isCore || $xmlRpc) && (!$installing || $isWpActivate),
-                self::CRON => $isCron,
-                self::FRONTOFFICE => $isFront,
-                self::INSTALLING => $installing && !$isWpActivate,
-                self::LOGIN => $isLogin,
-                self::REST => $isRest,
-                self::XML_RPC => $xmlRpc && !$installing,
-                self::WP_ACTIVATE => $isWpActivate,
-            ]
-        );
-
+        $instance = new self([self::AJAX => $isAjax, self::BACKOFFICE => $isAdmin, self::CLI => $isCli, self::CORE => ($isCore || $xmlRpc) && (!$installing || $isWpActivate), self::CRON => $isCron, self::FRONTOFFICE => $isFront, self::INSTALLING => $installing && !$isWpActivate, self::LOGIN => $isLogin, self::REST => $isRest, self::XML_RPC => $xmlRpc && !$installing, self::WP_ACTIVATE => $isWpActivate]);
         $instance->addActionHooks();
-
         return $instance;
     }
-
     /**
      * @return bool
      */
     private static function isRestRequest(): bool
     {
         /** @psalm-suppress RedundantCondition */
-        $isRestRequest = defined('REST_REQUEST') && REST_REQUEST;
-        if ($isRestRequest || !empty($_GET['rest_route'])) { // phpcs:ignore
-            return true;
+        $isRestRequest = defined('REST_REQUEST') && \REST_REQUEST;
+        if ($isRestRequest || !empty($_GET['rest_route'])) {
+            // phpcs:ignore
+            return \true;
         }
-
         if (!get_option('permalink_structure')) {
-            return false;
+            return \false;
         }
-
         /*
          * This is needed because, if called early, global $wp_rewrite is not defined but required
          * by get_rest_url(). WP will reuse what we set here, or in worst case will replace, but no
@@ -125,13 +84,10 @@ class WpContext implements \JsonSerializable
         if (empty($GLOBALS['wp_rewrite'])) {
             $GLOBALS['wp_rewrite'] = new \WP_Rewrite();
         }
-
-        $currentPath = trim((string)parse_url((string)add_query_arg([]), PHP_URL_PATH), '/') . '/';
-        $restPath = trim((string)parse_url((string)get_rest_url(), PHP_URL_PATH), '/') . '/';
-
+        $currentPath = trim((string) parse_url((string) add_query_arg([]), \PHP_URL_PATH), '/') . '/';
+        $restPath = trim((string) parse_url((string) get_rest_url(), \PHP_URL_PATH), '/') . '/';
         return strpos($currentPath, $restPath) === 0;
     }
-
     /**
      * @return bool
      */
@@ -142,13 +98,12 @@ class WpContext implements \JsonSerializable
          * @link https://make.wordpress.org/core/2022/09/11/new-is_login-function-for-determining-if-a-page-is-the-login-screen/
          */
         if (function_exists('is_login')) {
-            return is_login() !== false;
+            return is_login() !== \false;
         }
-
-        if (!empty($_REQUEST['interim-login'])) { // phpcs:ignore
-            return true;
+        if (!empty($_REQUEST['interim-login'])) {
+            // phpcs:ignore
+            return \true;
         }
-
         /**
          * Fallback and 1:1 copy from is_login() in case, the function is
          * not available for WP < 6.1.
@@ -157,10 +112,8 @@ class WpContext implements \JsonSerializable
          * phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
          */
         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-
-        return false !== stripos(wp_login_url(), $scriptName);
+        return \false !== stripos(wp_login_url(), $scriptName);
     }
-
     /**
      * @return bool
      */
@@ -168,7 +121,6 @@ class WpContext implements \JsonSerializable
     {
         return static::isPageNow('wp-activate.php', network_site_url('wp-activate.php'));
     }
-
     /**
      * @param string $page
      * @param string $url
@@ -176,17 +128,14 @@ class WpContext implements \JsonSerializable
      */
     private static function isPageNow(string $page, string $url): bool
     {
-        $pageNow = (string)($GLOBALS['pagenow'] ?? '');
-        if ($pageNow && (basename($pageNow) === $page)) {
-            return true;
+        $pageNow = (string) ($GLOBALS['pagenow'] ?? '');
+        if ($pageNow && basename($pageNow) === $page) {
+            return \true;
         }
-
-        $currentPath = (string)parse_url(add_query_arg([]), PHP_URL_PATH);
-        $targetPath = (string)parse_url($url, PHP_URL_PATH);
-
+        $currentPath = (string) parse_url(add_query_arg([]), \PHP_URL_PATH);
+        $targetPath = (string) parse_url($url, \PHP_URL_PATH);
         return trim($currentPath, '/') === trim($targetPath, '/');
     }
-
     /**
      * @param array $data
      */
@@ -194,40 +143,32 @@ class WpContext implements \JsonSerializable
     {
         $this->data = $data;
     }
-
     /**
      * @param string $context
      * @return WpContext
      */
     final public function force(string $context): WpContext
     {
-        if (!in_array($context, self::ALL, true)) {
+        if (!in_array($context, self::ALL, \true)) {
             throw new \LogicException("'{$context}' is not a valid context.");
         }
-
         $this->removeActionHooks();
-
-        $data = array_fill_keys(self::ALL, false);
-        $data[$context] = true;
-        if (!in_array($context, [self::INSTALLING, self::CLI, self::CORE], true)) {
-            $data[self::CORE] = true;
+        $data = array_fill_keys(self::ALL, \false);
+        $data[$context] = \true;
+        if (!in_array($context, [self::INSTALLING, self::CLI, self::CORE], \true)) {
+            $data[self::CORE] = \true;
         }
-
         $this->data = $data;
-
         return $this;
     }
-
     /**
      * @return WpContext
      */
     final public function withCli(): WpContext
     {
-        $this->data[self::CLI] = true;
-
+        $this->data[self::CLI] = \true;
         return $this;
     }
-
     /**
      * @param string $context
      * @param string ...$contexts
@@ -236,16 +177,13 @@ class WpContext implements \JsonSerializable
     final public function is(string $context, string ...$contexts): bool
     {
         array_unshift($contexts, $context);
-
         foreach ($contexts as $context) {
-            if (($this->data[$context] ?? null)) {
-                return true;
+            if ($this->data[$context] ?? null) {
+                return \true;
             }
         }
-
-        return false;
+        return \false;
     }
-
     /**
      * @return bool
      */
@@ -253,7 +191,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::CORE);
     }
-
     /**
      * @return bool
      */
@@ -261,7 +198,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::FRONTOFFICE);
     }
-
     /**
      * @return bool
      */
@@ -269,7 +205,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::BACKOFFICE);
     }
-
     /**
      * @return bool
      */
@@ -277,7 +212,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::AJAX);
     }
-
     /**
      * @return bool
      */
@@ -285,7 +219,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::LOGIN);
     }
-
     /**
      * @return bool
      */
@@ -293,7 +226,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::REST);
     }
-
     /**
      * @return bool
      */
@@ -301,7 +233,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::CRON);
     }
-
     /**
      * @return bool
      */
@@ -309,7 +240,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::CLI);
     }
-
     /**
      * @return bool
      */
@@ -317,7 +247,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::XML_RPC);
     }
-
     /**
      * @return bool
      */
@@ -325,7 +254,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::INSTALLING);
     }
-
     /**
      * @return bool
      */
@@ -333,7 +261,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->is(self::WP_ACTIVATE);
     }
-
     /**
      * @return array
      */
@@ -341,7 +268,6 @@ class WpContext implements \JsonSerializable
     {
         return $this->data;
     }
-
     /**
      * When context is determined very early we do our best to understand some context like
      * login, rest and front-office even if WordPress normally would require a later hook.
@@ -352,30 +278,22 @@ class WpContext implements \JsonSerializable
      */
     private function addActionHooks(): void
     {
-        $this->actionCallbacks = [
-            'login_init' => function (): void {
-                $this->resetAndForce(self::LOGIN);
-            },
-            'rest_api_init' => function (): void {
-                $this->resetAndForce(self::REST);
-            },
-            'activate_header' => function (): void {
-                $this->resetAndForce(self::WP_ACTIVATE);
-            },
-            'template_redirect' => function (): void {
-                $this->resetAndForce(self::FRONTOFFICE);
-            },
-            'current_screen' => function (\WP_Screen $screen): void {
-                $screen->in_admin() and $this->resetAndForce(self::BACKOFFICE);
-            },
-        ];
-
+        $this->actionCallbacks = ['login_init' => function (): void {
+            $this->resetAndForce(self::LOGIN);
+        }, 'rest_api_init' => function (): void {
+            $this->resetAndForce(self::REST);
+        }, 'activate_header' => function (): void {
+            $this->resetAndForce(self::WP_ACTIVATE);
+        }, 'template_redirect' => function (): void {
+            $this->resetAndForce(self::FRONTOFFICE);
+        }, 'current_screen' => function (\WP_Screen $screen): void {
+            $screen->in_admin() and $this->resetAndForce(self::BACKOFFICE);
+        }];
         foreach ($this->actionCallbacks as $action => $callback) {
             /** @psalm-suppress MixedArgument */
-            add_action($action, $callback, PHP_INT_MIN);
+            add_action($action, $callback, \PHP_INT_MIN);
         }
     }
-
     /**
      * When "force" is called on an instance created via `determine()` we need to remove added hooks
      * or what we are forcing might be overridden.
@@ -386,11 +304,10 @@ class WpContext implements \JsonSerializable
     {
         foreach ($this->actionCallbacks as $action => $callback) {
             /** @psalm-suppress MixedArgument */
-            remove_action($action, $callback, PHP_INT_MIN);
+            remove_action($action, $callback, \PHP_INT_MIN);
         }
         $this->actionCallbacks = [];
     }
-
     /**
      * @param string $context
      * @return void

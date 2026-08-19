@@ -1,42 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Debug;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
 use Throwable;
-
 class TypeDelegatingFormatter implements ExceptionFormatter
 {
-
-    /**
-     * @var ExceptionFormatter
-     */
-    private $fallback;
-
-    /**
-     * @var array
-     */
-    private $formatters;
-
+    private ExceptionFormatter $fallback;
+    private array $formatters;
     public function __construct(ExceptionFormatter $fallback, array $formatters)
     {
         $this->fallback = $fallback;
         $this->formatters = $formatters;
     }
-
     public function format(Throwable $exception): string
     {
         $formatter = $this->findFormatterByType($exception) ?? $this->fallback;
         $result = $formatter->format($exception);
         $previous = $exception->getPrevious();
         if ($previous) {
-            $result .= PHP_EOL . '# Previous:' . PHP_EOL . $this->format($previous);
+            $result .= \PHP_EOL . '# Previous:' . \PHP_EOL . $this->format($previous);
         }
-
         return $result;
     }
-
     private function findFormatterByType(Throwable $exception): ?ExceptionFormatter
     {
         /**
@@ -62,7 +48,6 @@ class TypeDelegatingFormatter implements ExceptionFormatter
                 return $this->formatters[$classParent];
             }
         }
-
         return null;
     }
 }

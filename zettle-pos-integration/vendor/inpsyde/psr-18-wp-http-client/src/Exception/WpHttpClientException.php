@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Wp\HttpClient\Exception;
 
-namespace Inpsyde\Wp\HttpClient\Exception;
-
-use Psr\Http\Client\ClientExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
 use RuntimeException;
-
 /**
  * General Http Client exception.
  *
@@ -14,5 +12,4 @@ use RuntimeException;
  */
 class WpHttpClientException extends RuntimeException implements ClientExceptionInterface
 {
-
 }

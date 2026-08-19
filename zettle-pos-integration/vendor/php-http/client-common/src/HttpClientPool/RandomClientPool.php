@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\HttpClientPool;
 
-namespace Http\Client\Common\HttpClientPool;
-
-use Http\Client\Common\Exception\HttpClientNotFoundException;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Exception\HttpClientNotFoundException;
 /**
  * RandomClientPool will choose a random enabled client in the pool.
  *
@@ -18,11 +16,9 @@ final class RandomClientPool extends HttpClientPool
         $clientPool = array_filter($this->clientPool, function (HttpClientPoolItem $clientPoolItem) {
             return !$clientPoolItem->isDisabled();
         });
-
         if (0 === count($clientPool)) {
             throw new HttpClientNotFoundException('Cannot choose a http client as there is no one present in the pool');
         }
-
         return $clientPool[array_rand($clientPool)];
     }
 }

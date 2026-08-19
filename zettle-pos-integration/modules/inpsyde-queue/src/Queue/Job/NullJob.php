@@ -8,15 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Job;
 
-declare(strict_types=1);
-
-namespace Inpsyde\Queue\Queue\Job;
-
-use DateTime;
-use Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use stdClass;
-
 /**
  * Class NullJob
  *
@@ -24,26 +20,20 @@ use stdClass;
  */
 class NullJob implements Job
 {
-
     /**
      * @return bool
      */
-    public function execute(
-        ContextInterface $context,
-        JobRepository $repository,
-        LoggerInterface $logger
-    ): bool {
-        return true;
+    public function execute(ContextInterface $context, JobRepository $repository, LoggerInterface $logger): bool
+    {
+        return \true;
     }
-
     /**
      * @return bool
      */
     public function isUnique(): bool
     {
-        return false;
+        return \false;
     }
-
     /**
      * @return stdClass
      */
@@ -51,7 +41,6 @@ class NullJob implements Job
     {
         return new stdClass();
     }
-
     /**
      * @return string
      */

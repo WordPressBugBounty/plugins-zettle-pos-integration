@@ -8,11 +8,9 @@ namespace Composer\Installers;
  * @package Composer\Installers
  * @author  Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>
  */
-class DolibarrInstaller extends BaseInstaller
+class DolibarrInstaller extends \Composer\Installers\BaseInstaller
 {
     //TODO: Add support for scripts and themes
     /** @var array<string, string> */
-    protected $locations = array(
-        'module' => 'htdocs/custom/{$name}/',
-    );
+    protected $locations = array('module' => 'htdocs/custom/{$name}/');
 }

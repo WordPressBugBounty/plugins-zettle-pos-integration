@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Queue\Runner;
 
-namespace Inpsyde\Queue\Queue\Runner;
-
-use Inpsyde\Queue\Processor\QueueProcessor;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Processor\QueueProcessor;
 /**
  * Class DelegatingRunner
  *
@@ -15,12 +13,10 @@ use Inpsyde\Queue\Processor\QueueProcessor;
  */
 class AggregateRunner implements Runner
 {
-
     /**
      * @var Runner[]
      */
-    private $runners;
-
+    private array $runners;
     /**
      * AggregateRunner constructor.
      *
@@ -30,7 +26,6 @@ class AggregateRunner implements Runner
     {
         $this->runners = $runners;
     }
-
     /**
      * Initializes all child runners
      * @param QueueProcessor $queueProcessor

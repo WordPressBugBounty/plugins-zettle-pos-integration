@@ -1,12 +1,11 @@
 <?php
 
-namespace Http\Message\Formatter;
+namespace Syde\Vendor\Zettle\Http\Message\Formatter;
 
-use Http\Message\Formatter;
-use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Message\Formatter;
+use Syde\Vendor\Zettle\Psr\Http\Message\MessageInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * A formatter that prints the complete HTTP message.
  *
@@ -20,12 +19,10 @@ class FullHttpMessageFormatter implements Formatter
      * @var int|null
      */
     private $maxBodyLength;
-
     /**
      * @var string
      */
     private $binaryDetectionRegex;
-
     /**
      * @param int|null $maxBodyLength
      * @param string   $binaryDetectionRegex By default, this is all non-printable ASCII characters and <DEL> except for \t, \r, \n
@@ -35,39 +32,22 @@ class FullHttpMessageFormatter implements Formatter
         $this->maxBodyLength = $maxBodyLength;
         $this->binaryDetectionRegex = $binaryDetectionRegex;
     }
-
     public function formatRequest(RequestInterface $request)
     {
-        $message = sprintf(
-            "%s %s HTTP/%s\n",
-            $request->getMethod(),
-            $request->getRequestTarget(),
-            $request->getProtocolVersion()
-        );
-
+        $message = sprintf("%s %s HTTP/%s\n", $request->getMethod(), $request->getRequestTarget(), $request->getProtocolVersion());
         foreach ($request->getHeaders() as $name => $values) {
-            $message .= $name.': '.implode(', ', $values)."\n";
+            $message .= $name . ': ' . implode(', ', $values) . "\n";
         }
-
         return $this->addBody($request, $message);
     }
-
     public function formatResponse(ResponseInterface $response)
     {
-        $message = sprintf(
-            "HTTP/%s %s %s\n",
-            $response->getProtocolVersion(),
-            $response->getStatusCode(),
-            $response->getReasonPhrase()
-        );
-
+        $message = sprintf("HTTP/%s %s %s\n", $response->getProtocolVersion(), $response->getStatusCode(), $response->getReasonPhrase());
         foreach ($response->getHeaders() as $name => $values) {
-            $message .= $name.': '.implode(', ', $values)."\n";
+            $message .= $name . ': ' . implode(', ', $values) . "\n";
         }
-
         return $this->addBody($response, $message);
     }
-
     /**
      * Formats a response in context of its request.
      *
@@ -77,7 +57,6 @@ class FullHttpMessageFormatter implements Formatter
     {
         return $this->formatResponse($response);
     }
-
     /**
      * Add the message body if the stream is seekable.
      *
@@ -93,18 +72,14 @@ class FullHttpMessageFormatter implements Formatter
             // Do not read the stream
             return $message;
         }
-
         $data = $stream->__toString();
         $stream->rewind();
-
         if (preg_match($this->binaryDetectionRegex, $data)) {
-            return $message.'[binary stream omitted]';
+            return $message . '[binary stream omitted]';
         }
-
         if (null === $this->maxBodyLength) {
-            return $message.$data;
+            return $message . $data;
         }
-
-        return $message.mb_substr($data, 0, $this->maxBodyLength);
+        return $message . mb_substr($data, 0, $this->maxBodyLength);
     }
 }

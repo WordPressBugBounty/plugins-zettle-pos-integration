@@ -1,64 +1,34 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine;
 
-namespace Inpsyde\StateMachine;
-
-use Inpsyde\StateMachine\Exceptions\DenyTransitionException;
-use Inpsyde\StateMachine\Guard\GuardInterface;
-use Inpsyde\StateMachine\State\StateInterface;
-use Inpsyde\StateMachine\Transition\TransitionInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Exceptions\DenyTransitionException;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Guard\GuardInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\State\StateInterface;
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\Transition\TransitionInterface;
 interface StateMachineInterface
 {
-
-    /**
-     * @param string $initialStateName
-     */
-    public function initialize(string $initialStateName);
-
-    /**
-     * @param $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     *
-     * @return mixed
-     */
-    public function handle($event);
-
-    /**
-     * @param TransitionInterface $transition
-     *
-     * @return mixed
-     */
+    public function initialize(string $initialStateName): void;
+    public function handle(object $event): void;
     public function addTransition(TransitionInterface $transition): StateMachineInterface;
-
     public function addState(StateInterface $state): StateMachineInterface;
-
     public function addGuard(GuardInterface $state): StateMachineInterface;
-
     /**
-     * @param $transition
-     *
-     * @return StateMachineInterface
      * @throws DenyTransitionException
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
      */
-    public function apply($transition): StateMachineInterface;
-
+    public function apply(string|TransitionInterface $transition): StateMachineInterface;
     /**
      * @param string|TransitionInterface $transition
      *
-     * @return boolean
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration
+     * @return bool
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
     public function can($transition): bool;
-
     public function currentState(): StateInterface;
-
     /**
      * @return TransitionInterface[]
      */
     public function availableTransitions(): array;
-
     public function initialState(): ?StateInterface;
 }

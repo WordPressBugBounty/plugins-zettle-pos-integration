@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Client\Exception;
-use Http\Client\HttpClient;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Exception;
+use Syde\Vendor\Zettle\Http\Client\HttpClient;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\StreamInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
 /**
  * Convenience HTTP client that integrates the MessageFactory in order to send
  * requests in the following form:.
@@ -34,7 +32,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function get($uri, array $headers = []): ResponseInterface;
-
     /**
      * Sends an HEAD request.
      *
@@ -43,7 +40,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function head($uri, array $headers = []): ResponseInterface;
-
     /**
      * Sends a TRACE request.
      *
@@ -52,7 +48,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function trace($uri, array $headers = []): ResponseInterface;
-
     /**
      * Sends a POST request.
      *
@@ -62,7 +57,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function post($uri, array $headers = [], $body = null): ResponseInterface;
-
     /**
      * Sends a PUT request.
      *
@@ -72,7 +66,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function put($uri, array $headers = [], $body = null): ResponseInterface;
-
     /**
      * Sends a PATCH request.
      *
@@ -82,7 +75,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function patch($uri, array $headers = [], $body = null): ResponseInterface;
-
     /**
      * Sends a DELETE request.
      *
@@ -92,7 +84,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function delete($uri, array $headers = [], $body = null): ResponseInterface;
-
     /**
      * Sends an OPTIONS request.
      *
@@ -102,7 +93,6 @@ interface HttpMethodsClientInterface extends HttpClient
      * @throws Exception
      */
     public function options($uri, array $headers = [], $body = null): ResponseInterface;
-
     /**
      * Sends a request with any HTTP method.
      *

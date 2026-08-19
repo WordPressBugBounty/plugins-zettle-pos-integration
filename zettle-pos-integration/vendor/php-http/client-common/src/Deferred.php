@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common;
 
-namespace Http\Client\Common;
-
-use Http\Promise\Promise;
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Client\ClientExceptionInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * A deferred allow to return a promise which has not been resolved yet.
  */
@@ -17,32 +15,26 @@ final class Deferred implements Promise
      * @var ResponseInterface|null
      */
     private $value;
-
     /**
      * @var ClientExceptionInterface|null
      */
     private $failure;
-
     /**
      * @var string
      */
     private $state;
-
     /**
      * @var callable
      */
     private $waitCallback;
-
     /**
      * @var callable[]
      */
     private $onFulfilledCallbacks;
-
     /**
      * @var callable[]
      */
     private $onRejectedCallbacks;
-
     public function __construct(callable $waitCallback)
     {
         $this->waitCallback = $waitCallback;
@@ -50,11 +42,9 @@ final class Deferred implements Promise
         $this->onFulfilledCallbacks = [];
         $this->onRejectedCallbacks = [];
     }
-
     public function then(?callable $onFulfilled = null, ?callable $onRejected = null): Promise
     {
         $deferred = new self($this->waitCallback);
-
         $this->onFulfilledCallbacks[] = function (ResponseInterface $response) use ($onFulfilled, $deferred) {
             try {
                 if (null !== $onFulfilled) {
@@ -65,13 +55,11 @@ final class Deferred implements Promise
                 $deferred->reject($exception);
             }
         };
-
         $this->onRejectedCallbacks[] = function (ClientExceptionInterface $exception) use ($onRejected, $deferred) {
             try {
                 if (null !== $onRejected) {
                     $response = $onRejected($exception);
                     $deferred->resolve($response);
-
                     return;
                 }
                 $deferred->reject($exception);
@@ -79,15 +67,12 @@ final class Deferred implements Promise
                 $deferred->reject($newException);
             }
         };
-
         return $deferred;
     }
-
     public function getState(): string
     {
         return $this->state;
     }
-
     /**
      * Resolve this deferred with a Response.
      */
@@ -96,15 +81,12 @@ final class Deferred implements Promise
         if (Promise::PENDING !== $this->state) {
             return;
         }
-
         $this->value = $response;
         $this->state = Promise::FULFILLED;
-
         foreach ($this->onFulfilledCallbacks as $onFulfilledCallback) {
             $onFulfilledCallback($response);
         }
     }
-
     /**
      * Reject this deferred with an Exception.
      */
@@ -113,34 +95,27 @@ final class Deferred implements Promise
         if (Promise::PENDING !== $this->state) {
             return;
         }
-
         $this->failure = $exception;
         $this->state = Promise::REJECTED;
-
         foreach ($this->onRejectedCallbacks as $onRejectedCallback) {
             $onRejectedCallback($exception);
         }
     }
-
-    public function wait($unwrap = true)
+    public function wait($unwrap = \true)
     {
         if (Promise::PENDING === $this->state) {
             $callback = $this->waitCallback;
             $callback();
         }
-
         if (!$unwrap) {
             return null;
         }
-
         if (Promise::FULFILLED === $this->state) {
             return $this->value;
         }
-
         if (null === $this->failure) {
             throw new \RuntimeException('Internal Error: Promise is not fulfilled but has no exception stored');
         }
-
         throw $this->failure;
     }
 }

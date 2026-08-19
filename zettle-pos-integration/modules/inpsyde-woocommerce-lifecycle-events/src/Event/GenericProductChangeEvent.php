@@ -1,27 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\WcEvents\Event;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcEvents\Event;
 
 use WC_Product;
-
 /**
  * Represents a change event that is assembled by passing both states via constructor injection
  */
 class GenericProductChangeEvent implements ProductChangeEvent
 {
-
-    /**
-     * @var WC_Product
-     */
-    private $new;
-
-    /**
-     * @var WC_Product
-     */
-    private $old;
-
+    private WC_Product $new;
+    private WC_Product $old;
     /**
      * GenericProductChangeEvent constructor.
      *
@@ -33,7 +22,6 @@ class GenericProductChangeEvent implements ProductChangeEvent
         $this->new = $new;
         $this->old = $old;
     }
-
     /**
      * {@inheritDoc}
      */
@@ -41,7 +29,6 @@ class GenericProductChangeEvent implements ProductChangeEvent
     {
         return $this->new;
     }
-
     /**
      * {@inheritDoc}
      */

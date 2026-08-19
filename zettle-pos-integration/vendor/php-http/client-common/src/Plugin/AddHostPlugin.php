@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
+use Syde\Vendor\Zettle\Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Add schema, host and port to a request. Can be set to overwrite the schema and host if desired.
  *
@@ -21,12 +19,10 @@ final class AddHostPlugin implements Plugin
      * @var UriInterface
      */
     private $host;
-
     /**
      * @var bool
      */
     private $replace;
-
     /**
      * @param array{'replace'?: bool} $config
      *
@@ -38,36 +34,23 @@ final class AddHostPlugin implements Plugin
         if ('' === $host->getHost()) {
             throw new \LogicException('Host can not be empty');
         }
-
         $this->host = $host;
-
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $options = $resolver->resolve($config);
-
         $this->replace = $options['replace'];
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         if ($this->replace || '' === $request->getUri()->getHost()) {
-            $uri = $request->getUri()
-                ->withHost($this->host->getHost())
-                ->withScheme($this->host->getScheme())
-                ->withPort($this->host->getPort())
-            ;
-
+            $uri = $request->getUri()->withHost($this->host->getHost())->withScheme($this->host->getScheme())->withPort($this->host->getPort());
             $request = $request->withUri($uri);
         }
-
         return $next($request);
     }
-
     private function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'replace' => false,
-        ]);
+        $resolver->setDefaults(['replace' => \false]);
         $resolver->setAllowedTypes('replace', 'bool');
     }
 }

@@ -1,23 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Inpsyde\Debug;
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Debug;
 
 use Throwable;
-
 class FallbackFormatter implements ExceptionFormatter
 {
-    /**
-     * @var bool
-     */
-    private $isDebug;
-
+    private bool $isDebug;
     public function __construct(bool $isDebug)
     {
         $this->isDebug = $isDebug;
     }
-
     /**
      * Produces a recursive exception trace.
      * If WP_DEBUG is active, the full trace is used, otherwise a shorter on will be produced
@@ -28,11 +21,8 @@ class FallbackFormatter implements ExceptionFormatter
      */
     public function format(Throwable $exception): string
     {
-        return $this->isDebug
-            ? $this->formatFullExceptionTrace($exception)
-            : $this->formatShortExceptionTrace($exception);
+        return $this->isDebug ? $this->formatFullExceptionTrace($exception) : $this->formatShortExceptionTrace($exception);
     }
-
     /**
      * Recursively formats the exception and all its ascendant into a short error message
      *
@@ -42,15 +32,8 @@ class FallbackFormatter implements ExceptionFormatter
      */
     private function formatShortExceptionTrace(Throwable $exception): string
     {
-        return sprintf(
-            '%1$s: %2$s in %3$s:%4$d',
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine()
-        );
+        return sprintf('%1$s: %2$s in %3$s:%4$d', get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine());
     }
-
     /**
      * Returns the full exception trace by string casting
      *
@@ -60,11 +43,6 @@ class FallbackFormatter implements ExceptionFormatter
      */
     private function formatFullExceptionTrace(Throwable $exception): string
     {
-        return sprintf(
-            '%1$s%2$s%3$s',
-            $this->formatShortExceptionTrace($exception),
-            PHP_EOL,
-            $exception->getTraceAsString()
-        );
+        return sprintf('%1$s%2$s%3$s', $this->formatShortExceptionTrace($exception), \PHP_EOL, $exception->getTraceAsString());
     }
 }

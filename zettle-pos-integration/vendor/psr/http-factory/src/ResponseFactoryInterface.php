@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Http\Message;
+namespace Syde\Vendor\Zettle\Psr\Http\Message;
 
 interface ResponseFactoryInterface
 {

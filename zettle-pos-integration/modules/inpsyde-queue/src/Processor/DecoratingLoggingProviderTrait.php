@@ -1,23 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Processor;
 
-namespace Inpsyde\Queue\Processor;
-
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-
+use Syde\Vendor\Zettle\Inpsyde\Queue\Logger\LoggerProviderInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerAwareInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\NullLogger;
 trait DecoratingLoggingProviderTrait
 {
-
     abstract protected function inner(): QueueProcessor;
-
     /**
      * @inheritDoc
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoSetter
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $inner = $this->inner();
         if (!$inner instanceof LoggerAwareInterface) {
@@ -25,17 +21,15 @@ trait DecoratingLoggingProviderTrait
         }
         $inner->setLogger($logger);
     }
-
     /**
      * @inheritDoc
      */
     public function logger(): LoggerInterface
     {
         $inner = $this->inner();
-        if (!$inner instanceof LoggerAwareInterface) {
+        if (!$inner instanceof LoggerProviderInterface) {
             return new NullLogger();
         }
-
         return $inner->logger();
     }
 }

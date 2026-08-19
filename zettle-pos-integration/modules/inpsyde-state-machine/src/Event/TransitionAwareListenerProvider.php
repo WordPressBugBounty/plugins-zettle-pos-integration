@@ -1,41 +1,26 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Event;
 
-namespace Inpsyde\StateMachine\Event;
-
-use Dhii\Events\Listener\ListenerProviderInterface;
-use Traversable;
-
+use Syde\Vendor\Zettle\Psr\EventDispatcher\ListenerProviderInterface;
 class TransitionAwareListenerProvider implements ListenerProviderInterface
 {
-
     /**
      * @var ListenerProvider[]
      */
-    private $listeners = [];
-
-    /**
-     * @param string $state
-     * @param $listener
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     */
-    public function listen(string $state, $listener)
+    private array $listeners = [];
+    public function listen(string $state, callable $listener): void
     {
         if (!isset($this->listeners[$state])) {
             $this->listeners[$state] = new ListenerProvider();
         }
         $this->listeners[$state]->addListener($listener);
     }
-
     /**
-     * @param object $event
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.InvalidGeneratorManyReturns
-     * @return Traversable
+     * phpcs:disable Syde.Functions.ReturnTypeDeclaration
      */
-    public function getListenersForEvent($event): Traversable
+    public function getListenersForEvent(object $event): iterable
     {
         if (!($event instanceof PostTransition || $event instanceof PreTransition)) {
             return yield from [];
@@ -44,7 +29,6 @@ class TransitionAwareListenerProvider implements ListenerProviderInterface
         if (!isset($this->listeners[$state])) {
             return yield from [];
         }
-
         yield from $this->listeners[$state]->getListenersForEvent($event);
     }
 }

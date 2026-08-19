@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Exception;
 
-namespace Http\Client\Common\Exception;
-
-use Http\Client\Common\BatchResult;
-use Http\Client\Exception\TransferException;
-
+use Syde\Vendor\Zettle\Http\Client\Common\BatchResult;
+use Syde\Vendor\Zettle\Http\Client\Exception\TransferException;
 /**
  * This exception is thrown when HttpClient::sendRequests led to at least one failure.
  *
@@ -20,13 +18,11 @@ final class BatchException extends TransferException
      * @var BatchResult
      */
     private $result;
-
     public function __construct(BatchResult $result)
     {
         $this->result = $result;
         parent::__construct();
     }
-
     /**
      * Returns the BatchResult that contains all responses and exceptions.
      */

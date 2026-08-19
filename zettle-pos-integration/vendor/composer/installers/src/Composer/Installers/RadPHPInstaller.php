@@ -2,13 +2,10 @@
 
 namespace Composer\Installers;
 
-class RadPHPInstaller extends BaseInstaller
+class RadPHPInstaller extends \Composer\Installers\BaseInstaller
 {
     /** @var array<string, string> */
-    protected $locations = array(
-        'bundle' => 'src/{$name}/'
-    );
-
+    protected $locations = array('bundle' => 'src/{$name}/');
     /**
      * Format package name to CamelCase
      */
@@ -16,7 +13,7 @@ class RadPHPInstaller extends BaseInstaller
     {
         $nameParts = explode('/', $vars['name']);
         foreach ($nameParts as &$value) {
-            $value = strtolower($this->pregReplace('/(?<=\\w)([A-Z])/', '_\\1', $value));
+            $value = strtolower($this->pregReplace('/(?<=\w)([A-Z])/', 'Syde\Vendor\Zettle\_\1', $value));
             $value = str_replace(array('-', '_'), ' ', $value);
             $value = str_replace(' ', '', ucwords($value));
         }

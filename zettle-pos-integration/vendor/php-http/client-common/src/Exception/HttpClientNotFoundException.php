@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Exception;
 
-namespace Http\Client\Common\Exception;
-
-use Http\Client\Exception\TransferException;
-
+use Syde\Vendor\Zettle\Http\Client\Exception\TransferException;
 /**
  * Thrown when a http client cannot be chosen in a pool.
  *

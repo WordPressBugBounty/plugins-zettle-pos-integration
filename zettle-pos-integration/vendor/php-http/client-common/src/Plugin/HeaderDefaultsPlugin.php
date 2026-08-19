@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Http\Client\Common\Plugin;
 
-namespace Http\Client\Common\Plugin;
-
-use Http\Client\Common\Plugin;
-use Http\Promise\Promise;
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Http\Client\Common\Plugin;
+use Syde\Vendor\Zettle\Http\Promise\Promise;
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Set header to default value if it does not exist.
  *
@@ -21,7 +19,6 @@ final class HeaderDefaultsPlugin implements Plugin
      * @var array
      */
     private $headers = [];
-
     /**
      * @param array $headers Hashmap of header name to header value
      */
@@ -29,7 +26,6 @@ final class HeaderDefaultsPlugin implements Plugin
     {
         $this->headers = $headers;
     }
-
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         foreach ($this->headers as $header => $headerValue) {
@@ -37,7 +33,6 @@ final class HeaderDefaultsPlugin implements Plugin
                 $request = $request->withHeader($header, $headerValue);
             }
         }
-
         return $next($request);
     }
 }

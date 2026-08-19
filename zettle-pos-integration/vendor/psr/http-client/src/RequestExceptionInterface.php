@@ -1,9 +1,8 @@
 <?php
 
-namespace Psr\Http\Client;
+namespace Syde\Vendor\Zettle\Psr\Http\Client;
 
-use Psr\Http\Message\RequestInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
 /**
  * Exception for when a request failed.
  *

@@ -1,10 +1,9 @@
 <?php
 
-namespace Http\Message;
+namespace Syde\Vendor\Zettle\Http\Message;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
+use Syde\Vendor\Zettle\Psr\Http\Message\RequestInterface;
+use Syde\Vendor\Zettle\Psr\Http\Message\ResponseInterface;
 /**
  * Formats a request and/or a response as a string.
  *
@@ -23,7 +22,6 @@ interface Formatter
      * @return string
      */
     public function formatRequest(RequestInterface $request);
-
     /**
      * @deprecated since 1.13, use formatResponseForRequest() instead
      *

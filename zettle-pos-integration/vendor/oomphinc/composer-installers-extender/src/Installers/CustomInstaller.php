@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types = 1);
-
+declare (strict_types=1);
 namespace OomphInc\ComposerInstallersExtender\Installers;
 
 use Composer\Installers\BaseInstaller;
-
 /**
  * Provides a custom installer class for custom installer types.
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Discovery\Exception;
+namespace Syde\Vendor\Zettle\Http\Discovery\Exception;
 
 /**
  * Thrown when we can't use Puli for discovery.

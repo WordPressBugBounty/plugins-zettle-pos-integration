@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\StateMachine\Loader;
 
-namespace Inpsyde\StateMachine\Loader;
-
-use Inpsyde\StateMachine\StateMachineInterface;
-
+use Syde\Vendor\Zettle\Inpsyde\StateMachine\StateMachineInterface;
 interface LoaderInterface
 {
-
     public function load(StateMachineInterface $stateMachine): StateMachineInterface;
 }

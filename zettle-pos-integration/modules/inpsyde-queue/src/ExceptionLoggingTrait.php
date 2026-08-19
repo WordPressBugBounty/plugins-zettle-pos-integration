@@ -1,16 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue;
 
-namespace Inpsyde\Queue;
-
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LogLevel;
 use Throwable;
-
 trait ExceptionLoggingTrait
 {
-
     /**
      * Produces an exception trace and passes that to the Logger.
      * if WP_DEBUG is active, the full trace is used, otherwise a shorter on will be produced
@@ -19,21 +16,11 @@ trait ExceptionLoggingTrait
      * @param LoggerInterface $logger
      * @param string $logLevel
      */
-    protected function logException(
-        Throwable $exception,
-        LoggerInterface $logger,
-        string $logLevel = LogLevel::WARNING
-    ) {
-
-        $isDebug = defined('WP_DEBUG') && WP_DEBUG;
-        $logger->log(
-            $logLevel,
-            $isDebug
-                ? $this->formatFullExceptionTrace($exception)
-                : $this->formatShortExceptionTrace($exception)
-        );
+    protected function logException(Throwable $exception, LoggerInterface $logger, string $logLevel = LogLevel::WARNING): void
+    {
+        $isDebug = defined('WP_DEBUG') && \WP_DEBUG;
+        $logger->log($logLevel, $isDebug ? $this->formatFullExceptionTrace($exception) : $this->formatShortExceptionTrace($exception));
     }
-
     /**
      * Recursively formats the exception and all its ascendant into a short error message
      *
@@ -43,21 +30,13 @@ trait ExceptionLoggingTrait
      */
     private function formatShortExceptionTrace(Throwable $exception): string
     {
-        $output = sprintf(
-            '%1$s: %2$s in %3$s:%4$d',
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine()
-        );
+        $output = sprintf('%1$s: %2$s in %3$s:%4$d', get_class($exception), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         $innerException = $exception->getPrevious();
         if (!$innerException) {
             return $output;
         }
-
-        return $this->formatShortExceptionTrace($innerException) . PHP_EOL . "Next $output";
+        return $this->formatShortExceptionTrace($innerException) . \PHP_EOL . "Next {$output}";
     }
-
     /**
      * Returns the full exception trace by string casting
      *

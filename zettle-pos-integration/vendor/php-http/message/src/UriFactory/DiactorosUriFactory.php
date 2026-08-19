@@ -1,16 +1,14 @@
 <?php
 
-namespace Http\Message\UriFactory;
+namespace Syde\Vendor\Zettle\Http\Message\UriFactory;
 
-use Http\Message\UriFactory;
-use Laminas\Diactoros\Uri as LaminasUri;
-use Psr\Http\Message\UriInterface;
-use Zend\Diactoros\Uri as ZendUri;
-
+use Syde\Vendor\Zettle\Http\Message\UriFactory;
+use Syde\Vendor\Zettle\Laminas\Diactoros\Uri as LaminasUri;
+use Syde\Vendor\Zettle\Psr\Http\Message\UriInterface;
+use Syde\Vendor\Zettle\Zend\Diactoros\Uri as ZendUri;
 if (!interface_exists(UriFactory::class)) {
     throw new \LogicException('You cannot use "Http\Message\MessageFactory\DiactorosUriFactory" as the "php-http/message-factory" package is not installed. Try running "composer require php-http/message-factory". Note that this package is deprecated, use "psr/http-factory" instead');
 }
-
 /**
  * Creates Diactoros URI.
  *
@@ -28,10 +26,8 @@ final class DiactorosUriFactory implements UriFactory
             if (class_exists(LaminasUri::class)) {
                 return new LaminasUri($uri);
             }
-
             return new ZendUri($uri);
         }
-
         throw new \InvalidArgumentException('URI must be a string or UriInterface');
     }
 }

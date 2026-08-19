@@ -1,52 +1,45 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\Queue\Log;
 
-namespace Inpsyde\Queue\Log;
-
-use Psr\Log\LoggerInterface;
+use Syde\Vendor\Zettle\Psr\Log\LoggerInterface;
 use WP_CLI;
 use WP_CLI\ExitException;
-
 class WpCliLogger implements LoggerInterface
 {
-
     /**
      * @inheritDoc
      */
     public function emergency($message, array $context = [])
     {
-        WP_CLI::error($message, false);
+        WP_CLI::error($message, \false);
     }
-
     /**
      * @inheritDoc
      */
     public function alert($message, array $context = [])
     {
-        WP_CLI::error($message, false);
+        WP_CLI::error($message, \false);
     }
-
     /**
      * @inheritDoc
      */
     public function critical($message, array $context = [])
     {
-        WP_CLI::error($message, false);
+        WP_CLI::error($message, \false);
     }
-
     /**
      * @inheritDoc
      */
     public function error($message, array $context = [])
     {
         try {
-            WP_CLI::error($message, false);
+            WP_CLI::error($message, \false);
         } catch (ExitException $exception) {
             WP_CLI::warning($message);
         }
     }
-
     /**
      * @inheritDoc
      */
@@ -54,7 +47,6 @@ class WpCliLogger implements LoggerInterface
     {
         WP_CLI::warning($message);
     }
-
     /**
      * @inheritDoc
      */
@@ -62,7 +54,6 @@ class WpCliLogger implements LoggerInterface
     {
         WP_CLI::log($message);
     }
-
     /**
      * @inheritDoc
      */
@@ -70,7 +61,6 @@ class WpCliLogger implements LoggerInterface
     {
         WP_CLI::log($message);
     }
-
     /**
      * @inheritDoc
      */
@@ -78,7 +68,6 @@ class WpCliLogger implements LoggerInterface
     {
         WP_CLI::debug($message);
     }
-
     /**
      * @inheritDoc
      */

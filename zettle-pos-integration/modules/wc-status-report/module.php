@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Syde\Vendor\Zettle\Inpsyde\WcStatusReport;
 
-namespace Inpsyde\WcStatusReport;
-
-use Dhii\Modular\Module\ModuleInterface;
-
-return static function (): ModuleInterface {
+return static function (): WcStatusReportModule {
     return new WcStatusReportModule();
 };
